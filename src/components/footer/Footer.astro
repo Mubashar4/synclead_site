@@ -1,0 +1,511 @@
+---
+/**
+ * Footer.astro — Global footer with trajectory engine. Design system v2 (WD-032).
+ *
+ * Includes the client script for the trajectory engine: an animated SVG routing
+ * from left to right, morphing an envelope into a booked calendar (WD-032).
+ */
+import Logo from '@/components/ui/Logo.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer id="footer">
+  <div class="deck" id="deck">
+    <!-- SVG Trajectory engine -->
+    <svg id="trajSvg" role="img" aria-label="An envelope launches from the bottom left, trails a gradient line from violet to blue, becomes a booked calendar with a checkmark at the peak of the arc, and exits the right edge.">
+      <defs>
+        <linearGradient id="grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0">
+          <stop offset="0" stop-color="#9D8BFF"/><stop offset=".45" stop-color="#7FA0FF"/><stop offset="1" stop-color="#41C8FF"/>
+        </linearGradient>
+        <radialGradient id="haloG"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+      </defs>
+      <path id="ghostPath"/>
+      <g id="particles"></g>
+      <path id="glowA"/><path id="glowB"/><path id="corePath"/>
+      <g id="waypoints"></g>
+      <g id="head" style="opacity:0">
+        <circle r="22" fill="#fff" fill-opacity=".08"/>
+        <circle id="headDot" r="9" fill="#9D8BFF" fill-opacity=".45"/>
+        <circle r="3.2" fill="#fff" fill-opacity=".9"/>
+      </g>
+      <g id="icon" style="opacity:0">
+        <circle r="30" fill="url(#haloG)"/>
+        <g id="iconRot" fill="none" stroke="#9D8BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <g id="iconScale">
+            <path id="iBody" d="M-17,-12 L17,-12 L17,12 L-17,12 Z" fill="#04070D" fill-opacity=".85"/>
+            <path id="iFlap" d="M-17,-12 L0,3 L17,-12"/>
+            <g id="iCalX" opacity="0"><path d="M-13,-7 L13,-7"/><path d="M-5,-12 L-5,-3"/><path d="M5,-12 L5,-3"/></g>
+          </g>
+        </g>
+      </g>
+      <g id="fx"></g>
+    </svg>
+
+    <div class="slogan-wrap">
+      <p class="promise">The SyncLead promise</p>
+      <h2 class="slogan">For revenue teams that measure success in
+        <span class="key meet" id="wMeet">meetings</span>, not
+        <span class="key sent" id="wSent">sent&nbsp;counts</span>.
+      </h2>
+    </div>
+
+    <button class="replay" id="replay" aria-label="Replay the trajectory animation">
+      <span class="rbtn"><svg viewBox="0 0 24 24"><path d="M3 3v5h5"/><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/></svg></span>
+      <span class="rlab">Replay trajectory</span>
+    </button>
+  </div>
+
+  <div class="container cols">
+    <div class="brand" data-reveal>
+      <Logo variant="full" surface="dark" height={24} href="/" class="mb-5" />
+      <p>Meeting-native outreach. Keep your domains warm, your sending clean, and your pipeline booked solid.</p>
+      <div class="socials mt-6">
+        <a
+          class="soc"
+          href="https://x.com/syncleadio"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="SyncLead on X"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 24.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+        <a
+          class="soc"
+          href="https://www.linkedin.com/company/synclead/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="SyncLead on LinkedIn"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="col" data-reveal data-d="1">
+      <h3>Product</h3>
+      <ul>
+        <li><a href="/#infrastructure">Infrastructure</a></li>
+        <li><a href="/#campaigns-scheduling">Core Loop</a></li>
+        <li><a href="/#ai">AI Intent</a></li>
+        <li><a href="/roadmap">Roadmap</a></li>
+        <li><a href="/pricing">Pricing</a></li>
+      </ul>
+    </div>
+    <div class="col" data-reveal data-d="2">
+      <h3>Company</h3>
+      <ul>
+        {/* Founding Teams hidden per founder directive */}
+        <li><a href="mailto:contact@synclead.io">Contact</a></li>
+        <li><a href="/careers">Careers</a></li>
+        <li><a href="/press">Press Kit</a></li>
+      </ul>
+    </div>
+    <div class="col" data-reveal data-d="3">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="/terms">Terms of Service</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/acceptable-use">Acceptable Use Policy</a></li>
+        <li><a href="/refund">Refund Policy</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container legal-bar" data-reveal>
+    <p class="reg">SYNCLEAD LTD · Company No. 15903993 · 20 Wenlock Road, London, England, N1 7GU</p>
+    <p><a href="mailto:contact@synclead.io">contact@synclead.io</a><span class="mx-3 text-ink-3">·</span><a href="mailto:privacy@synclead.io">privacy@synclead.io</a></p>
+    <p class="status"><span class="dot" aria-hidden="true"></span>Onboarding founding teams</p>
+    <p>© {year} SyncLead Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  footer { background: #04070D; position: relative; }
+
+  /* Deck / Trajectory Engine */
+  .deck { position: relative; height: clamp(240px, 32vh, 330px); overflow: hidden; }
+  .deck::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(151, 166, 199, 0.09) 1px, transparent 1.3px); background-size: 26px 26px;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3));
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3));
+  }
+  .deck::after { content: ''; position: absolute; inset: 0; background-image: var(--noise); opacity: 0.05; pointer-events: none; }
+
+  #trajSvg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #ghostPath {
+    stroke: url(#grad); stroke-width: 1.8; fill: none; stroke-linecap: round;
+    stroke-dasharray: 0.1 8; opacity: 0.3; animation: routeDrift 26s linear infinite;
+  }
+  #glowA, #glowB, #corePath { fill: none; stroke: url(#grad); stroke-linecap: round; opacity: 0; }
+  #glowA { stroke-width: 7; } #glowB { stroke-width: 3.2; } #corePath { stroke-width: 1.8; }
+  @keyframes routeDrift { to { stroke-dashoffset: -160; } }
+
+  :global(#trajSvg text) { font-family: var(--f-mono); font-size: 9.5px; font-weight: 500; letter-spacing: 0.16em; fill: #5A677E; }
+  :global(.wp .mk) { fill: #04070D; stroke: #4E596E; stroke-width: 1.3; transition: stroke 0.5s; }
+  :global(.wp .mk-x) { fill: none; }
+  :global(.wp text) { transition: fill 0.5s; }
+  :global(.wp.lit .mk) { stroke: var(--color-sky); }
+  :global(.wp[data-role="start"].lit .mk) { stroke: var(--color-violet); }
+  :global(.wp.lit text) { fill: #B6BFD3; }
+
+  .slogan-wrap {
+    position: absolute; bottom: 30px; left: 50%; transform: translate(-50%, 16px);
+    width: min(92%, 700px); text-align: center;
+    opacity: 0; transition: opacity 0.9s ease, transform 0.9s var(--ease); z-index: 2;
+  }
+  .deck.in .slogan-wrap { opacity: 1; transform: translate(-50%, 0); }
+  .promise { font: 500 10px var(--f-mono); letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 14px; }
+  .slogan { font: italic 400 clamp(21px, 3.2vw, 34px)/1.35 var(--f-serif); color: var(--ink); }
+
+  .key { position: relative; color: #7E889C; transition: color 0.5s ease; white-space: nowrap; }
+  .key::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -0.1em;
+    height: 1.5px; background-color: currentColor;
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform 0.55s var(--ease) 0.1s;
+  }
+  .key.sent.lit { color: var(--color-violet); }
+  .key.meet.lit { color: var(--color-sky); }
+  .key.lit::after { transform: scaleX(1); }
+
+  .replay {
+    position: absolute; right: 26px; bottom: 22px; display: flex; align-items: center; gap: 10px;
+    background: none; border: 0; color: var(--ink-3); z-index: 2;
+  }
+  .rbtn {
+    width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%;
+    display: grid; place-items: center; transition: border-color 0.25s, color 0.25s;
+  }
+  .rbtn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.6s var(--ease); }
+  .rlab { font: 500 10px var(--f-mono); letter-spacing: 0.2em; text-transform: uppercase; transition: color 0.25s; }
+  .replay:hover .rbtn { border-color: var(--line-2); color: var(--ink-2); }
+  .replay:hover .rlab { color: var(--ink-2); }
+  .replay:hover .rbtn svg { transform: rotate(-300deg); }
+
+  /* Columns */
+  .cols { display: grid; grid-template-columns: 1.7fr 1fr 1fr 1fr; gap: 56px; padding-top: 64px; padding-bottom: 56px; }
+  .brand > p { font: 400 14.5px/1.7 var(--f-ui); color: var(--ink-2); max-width: 300px; }
+  .socials { display: flex; gap: 12px; }
+  .soc {
+    width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%;
+    display: grid; place-items: center; color: var(--ink-3);
+    transition: color 0.25s, border-color 0.25s, transform 0.25s;
+  }
+  .soc:hover { color: var(--ink); border-color: var(--line-2); transform: translateY(-2px); }
+  .soc svg { width: 14px; height: 14px; fill: currentColor; }
+
+  .col h3 { font: 500 10.5px var(--f-mono); letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 18px; }
+  .col ul { list-style: none; }
+  .col a {
+    display: block; color: var(--ink-2); text-decoration: none; font: 400 14.5px var(--f-ui);
+    padding: 6.5px 0; position: relative; transition: color 0.22s, transform 0.28s var(--ease);
+  }
+  .col a::after {
+    content: ''; position: absolute; left: 0; bottom: 6px; width: 100%; height: 1px;
+    background: var(--color-sky); transform: scaleX(0); transform-origin: left; transition: transform 0.3s var(--ease);
+  }
+  .col a:hover { color: #fff; transform: translateX(4px); }
+  .col a:hover::after { transform: scaleX(1); }
+
+  /* Legal Bar */
+  .legal-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 14px 30px; flex-wrap: wrap;
+    border-top: 1px solid var(--line); padding: 26px 0 34px; font: 400 12.5px/1.6 var(--f-ui); color: var(--ink-3);
+  }
+  .legal-bar a { color: var(--ink-2); text-decoration: none; }
+  .legal-bar a:hover { color: var(--color-sky); }
+  .reg { font: 500 11px var(--f-mono); letter-spacing: 0.04em; }
+  .status { display: inline-flex; align-items: center; gap: 9px; font: 500 10.5px var(--f-mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); }
+  .status .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-ok); animation: beat 2.6s ease infinite; }
+
+  @media (max-width: 880px) { .cols { grid-template-columns: 1fr 1fr; gap: 40px; } .brand { grid-column: 1 / -1; } }
+  @media (max-width: 720px) { .deck { height: 250px; } .slogan-wrap { bottom: 44px; } .replay { right: 14px; bottom: 14px; } .rlab { display: none; } }
+  @media (max-width: 560px) { .cols { grid-template-columns: 1fr; } .legal-bar { flex-direction: column; align-items: flex-start; } }
+</style>
+
+<script>
+  /**
+   * Footer trajectory engine.
+   * Envelope launches bottom-left, trails a violet→sky gradient, morphs into a
+   * calendar+check at the apex, coasts off right.
+   */
+  (() => {
+    'use strict';
+    const $ = (s: string) => document.querySelector(s) as any;
+    const NS = 'http://www.w3.org/2000/svg';
+    const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+    const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
+    const eoc = (k: number) => 1 - Math.pow(1 - k, 3);
+    const eic = (k: number) => k * k * k;
+    const eio = (k: number) => k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+
+    const deckEl = $('#deck'); if (!deckEl) return;
+    const svgEl = $('#trajSvg'), ghostEl = $('#ghostPath'), glowA = $('#glowA'), glowB = $('#glowB'),
+      coreEl = $('#corePath'), gradEl = $('#grad'), partG = $('#particles'), fxG = $('#fx'), wpG = $('#waypoints'),
+      headEl = $('#head'), headDot = $('#headDot'), iconEl = $('#icon'), iconRot = $('#iconRot'),
+      iconScaleEl = $('#iconScale'), iBody = $('#iBody'), iFlap = $('#iFlap'), iCalX = $('#iCalX'),
+      wSent = $('#wSent'), wMeet = $('#wMeet'), replayBtn = $('#replay');
+
+    const V = [157, 139, 255]; const Wt = [242, 245, 255]; const B = [65, 200, 255];
+    const mixA = (a: number[], b: number[], k: number) => [lerp(a[0], b[0], k), lerp(a[1], b[1], k), lerp(a[2], b[2], k)];
+    const css = (c: number[]) => `rgb(${c[0] | 0},${c[1] | 0},${c[2] | 0})`;
+    const iconColor = (m: number) => m <= 0 ? css(V) : m < 0.5 ? css(mixA(V, Wt, m * 2)) : css(mixA(Wt, B, (m - 0.5) * 2));
+    const trailColor = (s: number) => css(mixA(V, B, clamp(s, 0, 1)));
+
+    const PRE = 420; const DUR = 2950; const SETTLE = 1100;
+    const CORE_O = 0.95; const GA = 0.16; const GB = 0.42;
+
+    let Wp = 0; let Hp = 0; let S = {x:0, y:0}; let A = {x:0, y:0}; let E = {x:0, y:0};
+    let total = 0; let apexLen = 0; let apexFrac = 0.42; let exitPt = {x: 0, y: 0}; let scaleF = 1;
+    let running = false; let raf: number | null = null; let t0 = 0; let prevNow = 0; let lastRun = 0;
+    let autoTimer: any = null; let visible = false; let everRan = false;
+    let litSent = false; let litMeet = false; let apexDone = false; let apexT = 0; let lastDust = 0;
+    let wpEls: any = {};
+
+    interface Particle { el: any; on: boolean; x: number; y: number; vx: number; vy: number; life: number; max: number; r0: number; col: string; }
+    const parts: Particle[] = [];
+    for (let i = 0; i < 56; i++) {
+      const c = document.createElementNS(NS, 'circle');
+      c.setAttribute('r', '0'); c.setAttribute('fill-opacity', '0');
+      partG.appendChild(c);
+      parts.push({ el: c, on: false, x: 0, y: 0, vx: 0, vy: 0, life: 0, max: 1, r0: 1, col: '#fff' });
+    }
+
+    function spawnPart(x: number, y: number, col: string, vx: number, vy: number, life: number, r0: number) {
+      const p = parts.find(q => !q.on); if (!p) return;
+      p.on = true; p.x = x; p.y = y; p.vx = vx; p.vy = vy; p.life = 0; p.max = life; p.r0 = r0; p.col = col;
+    }
+
+    function updateParts(dt: number) {
+      const s = dt / 1000;
+      for (const p of parts) {
+        if (!p.on) continue;
+        p.life += dt;
+        if (p.life >= p.max) { p.on = false; p.el.setAttribute('fill-opacity', '0'); continue; }
+        const k = p.life / p.max;
+        p.vy += 16 * s; p.x += p.vx * s; p.y += p.vy * s;
+        p.el.setAttribute('cx', p.x.toFixed(1)); p.el.setAttribute('cy', p.y.toFixed(1));
+        p.el.setAttribute('r', Math.max(0.2, p.r0 * (1 - k * 0.75)).toFixed(2));
+        p.el.setAttribute('fill', p.col);
+        p.el.setAttribute('fill-opacity', (0.6 * (1 - k)).toFixed(3));
+      }
+    }
+
+    interface FxObj { el: any; x: number; y: number; col: string; maxR: number; dur: number; t: number; }
+    const fxs: FxObj[] = [];
+    function ringFx(x: number, y: number, col: string, maxR: number, dur: number, delay: number) {
+      const el = document.createElementNS(NS, 'circle'); fxG.appendChild(el);
+      fxs.push({ el, x, y, col, maxR, dur, t: -delay });
+    }
+
+    function updateFx(dt: number) {
+      for (let i = fxs.length - 1; i >= 0; i--) {
+        const f = fxs[i]; f.t += dt; if (f.t < 0) continue;
+        const k = clamp(f.t / f.dur, 0, 1);
+        if (k >= 1) { f.el.remove(); fxs.splice(i, 1); continue; }
+        f.el.setAttribute('cx', String(f.x)); f.el.setAttribute('cy', String(f.y));
+        f.el.setAttribute('r', (4 + f.maxR * eoc(k)).toFixed(1));
+        f.el.setAttribute('fill', 'none');
+        f.el.setAttribute('stroke', f.col);
+        f.el.setAttribute('stroke-width', (2.2 * (1 - k)).toFixed(2));
+        f.el.setAttribute('stroke-opacity', (0.5 * (1 - k)).toFixed(3));
+      }
+    }
+
+    const ptAt = (l: number) => coreEl.getPointAtLength(l);
+    function angleAt(l: number) {
+      const a = ptAt(Math.max(0, l - 1.5)); const b = ptAt(Math.min(total, l + 1.5));
+      return Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+    }
+
+    function build() {
+      Wp = deckEl.clientWidth; Hp = deckEl.clientHeight;
+      svgEl.setAttribute('viewBox', `0 0 ${Wp} ${Hp}`);
+      S = { x: Math.max(42, Wp * 0.035), y: Hp - 40 };
+      A = { x: Wp * 0.44, y: Math.max(56, Hp * 0.185) };
+      E = { x: Wp + 70, y: Hp * (Wp < 640 ? 0.47 : 0.52) };
+      const d = `M ${S.x} ${S.y} C ${S.x + Wp * 0.13} ${S.y - Hp * 0.75}, ${A.x - Wp * 0.17} ${A.y}, ${A.x} ${A.y} C ${A.x + Wp * 0.16} ${A.y}, ${E.x - Wp * 0.23} ${E.y - Hp * 0.15}, ${E.x} ${E.y}`;
+      [ghostEl, glowA, glowB, coreEl].forEach(p => p.setAttribute('d', d));
+      gradEl.setAttribute('x1', String(S.x)); gradEl.setAttribute('y1', String(S.y));
+      gradEl.setAttribute('x2', String(Wp));  gradEl.setAttribute('y2', String(E.y));
+      total = coreEl.getTotalLength();
+      let best = 1e9;
+      for (let i = 0; i <= 220; i++) { const p = ptAt(i / 220 * total); if (p.y < best) { best = p.y; apexLen = i / 220 * total; } }
+      apexFrac = apexLen / total;
+      exitPt = { x: Wp - 20, y: E.y };
+      for (let i = 0; i <= 220; i++) { const p = ptAt(i / 220 * total); if (p.x >= Wp - 20) { exitPt = { x: Wp - 20, y: p.y }; break; } }
+      scaleF = clamp(Wp / 1050, 0.66, 1);
+      buildWaypoints();
+    }
+
+    function mkWp(x: number, y: number, role: string, label: string, lx: number, ly: number, anchor: string) {
+      const g = document.createElementNS(NS, 'g');
+      g.setAttribute('class', 'wp'); g.setAttribute('data-role', role);
+      g.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+      let mk = '';
+      if (role === 'start') mk = '<rect class="mk" x="-3" y="-3" width="6" height="6" transform="rotate(45)"/>';
+      else if (role === 'apex') mk = '<circle class="mk" r="3.4"/>';
+      else mk = '<path class="mk mk-x" d="M-6,-5 L-1,0 L-6,5 M2,-5 L7,0 L2,5"/>';
+      g.innerHTML = mk + `<text x="${(lx - x).toFixed(1)}" y="${(ly - y).toFixed(1)}" text-anchor="${anchor}">${label}</text>`;
+      wpG.appendChild(g); return g;
+    }
+
+    function buildWaypoints() {
+      wpG.innerHTML = '';
+      wpEls = {
+        start: mkWp(S.x, S.y, 'start', 'SENT · INBOX', S.x + 2, S.y + 20, 'start'),
+        apex:  mkWp(A.x, A.y, 'apex', 'BOOKED · MEETING', A.x, A.y - 16, 'middle'),
+        end:   mkWp(exitPt.x, exitPt.y, 'end', 'SYNCED · CALENDAR', exitPt.x - 8, exitPt.y - 14, 'end')
+      };
+    }
+
+    function setIcon(x: number, y: number, ang: number, m: number, sc: number) {
+      iconEl.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+      const rf = 1 - 0.85 * eio(m);
+      iconRot.setAttribute('transform', `rotate(${(ang * rf).toFixed(2)})`);
+      iconScaleEl.setAttribute('transform', `scale(${sc.toFixed(3)})`);
+      const e = eio(m);
+      const x0 = lerp(-17, -13, e); const x1 = lerp(17, 13, e); const yt = lerp(-12, -7, e);
+      iBody.setAttribute('d', `M${x0.toFixed(2)},${yt.toFixed(2)} L${x1.toFixed(2)},${yt.toFixed(2)} L${x1.toFixed(2)},12 L${x0.toFixed(2)},12 Z`);
+      iFlap.setAttribute('d', `M${lerp(-17, -6, e).toFixed(2)},${lerp(-12, 1, e).toFixed(2)} L${lerp(0, -1, e).toFixed(2)},${lerp(3, 7, e).toFixed(2)} L${lerp(17, 8, e).toFixed(2)},${lerp(-12, -3, e).toFixed(2)}`);
+      iCalX.setAttribute('opacity', String(clamp((m - 0.55) / 0.45, 0, 1).toFixed(3)));
+      iconRot.setAttribute('stroke', iconColor(m));
+    }
+
+    function setDash(len: number) {
+      if (len < 1) return;
+      const dd = `${len.toFixed(1)} ${(total - len + 6).toFixed(1)}`;
+      coreEl.setAttribute('stroke-dasharray', dd);
+      glowA.setAttribute('stroke-dasharray', dd);
+      glowB.setAttribute('stroke-dasharray', dd);
+      coreEl.style.opacity = String(CORE_O); glowA.style.opacity = String(GA); glowB.style.opacity = String(GB);
+    }
+
+    function setHead(p: any, s: number) {
+      headEl.setAttribute('transform', `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);
+      headEl.style.opacity = '1';
+      headDot.setAttribute('fill', trailColor(s));
+    }
+
+    function spawnDust(len: number, s: number, ang: number) {
+      const p = ptAt(Math.max(0, len - 8)); const rad = ang * Math.PI / 180; const back = 26 + Math.random() * 26;
+      spawnPart(p.x + (Math.random() * 9 - 4.5), p.y + (Math.random() * 9 - 4.5), trailColor(s),
+        -Math.cos(rad) * back + (Math.random() * 44 - 22), -Math.sin(rad) * back + (Math.random() * 44 - 22),
+        420 + Math.random() * 520, 0.7 + Math.random() * 1.6);
+    }
+
+    function apexFX(p: any) {
+      ringFx(p.x, p.y, '#41C8FF', 58, 760, 0);
+      ringFx(p.x, p.y, '#41C8FF', 34, 660, 150);
+      for (let i = 0; i < 12; i++) {
+        const a = Math.random() * 6.283; const v = 50 + Math.random() * 90;
+        spawnPart(p.x, p.y, '#7FD9FF', Math.cos(a) * v, Math.sin(a) * v - 18, 480 + Math.random() * 420, 0.9 + Math.random() * 1.3);
+      }
+    }
+
+    function speedMap(u: number) {
+      const tA = 0.56; const fA = apexFrac;
+      return u < tA ? fA * (1 - Math.pow(1 - u / tA, 3)) : fA + (1 - fA) * Math.pow((u - tA) / (1 - tA), 3);
+    }
+
+    function reset() {
+      const dd = `0 ${total + 10}`;
+      [coreEl, glowA, glowB].forEach(p => p.setAttribute('stroke-dasharray', dd));
+      coreEl.style.opacity = '0'; glowA.style.opacity = '0'; glowB.style.opacity = '0';
+      headEl.style.opacity = '0'; iconEl.style.opacity = '0';
+      wSent.classList.remove('lit'); wMeet.classList.remove('lit');
+      Object.values(wpEls).forEach((g: any) => g.classList.remove('lit'));
+      litSent = false; litMeet = false; apexDone = false; apexT = 0; lastDust = 0;
+      parts.forEach(p => { p.on = false; p.el.setAttribute('fill-opacity', '0'); });
+      fxG.innerHTML = ''; fxs.length = 0;
+    }
+
+    function stopLoop() { if (raf) cancelAnimationFrame(raf); raf = null; prevNow = 0; }
+
+    function run() {
+      if (RM) return;
+      const now = performance.now();
+      if (now - lastRun < 750) return;
+      lastRun = now;
+      clearTimeout(autoTimer); stopLoop();
+      reset();
+      running = true; t0 = now; prevNow = 0;
+      raf = requestAnimationFrame(frame);
+    }
+
+    function frame(now: number) {
+      raf = requestAnimationFrame(frame);
+      const dt = Math.min(48, now - (prevNow || now)); prevNow = now;
+      const t = now - t0;
+      if (t < PRE) {
+        const k = clamp(t / PRE, 0, 1); const pull = eoc(clamp(k / 0.55, 0, 1));
+        setIcon(S.x - 5 * pull, S.y + 5 * pull, angleAt(1), 0, scaleF * (0.86 + 0.14 * eoc(k)));
+        iconEl.style.opacity = String(clamp(k * 2.2, 0, 1).toFixed(2));
+        if (t > 160) wpEls.start && wpEls.start.classList.add('lit');
+      } else if (t < PRE + DUR) {
+        const u = clamp((t - PRE) / DUR, 0, 1); const s = speedMap(u); const len = s * total;
+        const p = ptAt(len); const ang = angleAt(len);
+        const m = clamp((len - (apexLen - 0.055 * total)) / (0.11 * total), 0, 1);
+        let sc = scaleF;
+        if (apexT && now - apexT < 400) { const kk = (now - apexT) / 400; sc *= 1 + 0.16 * Math.sin(kk * Math.PI) * (1 - kk * 0.4); }
+        setIcon(p.x, p.y, ang, m, sc);
+        setDash(len); setHead(p, s);
+        if (now - lastDust > 26) { lastDust = now; spawnDust(len, s, ang); }
+        if (!litSent && s > 0.16) { litSent = true; wSent.classList.add('lit'); }
+        if (!litMeet && m > 0.8) { litMeet = true; wMeet.classList.add('lit'); wpEls.apex && wpEls.apex.classList.add('lit'); }
+        if (!apexDone && m >= 1) { apexDone = true; apexT = now; apexFX(p); }
+        if (s > 0.88) wpEls.end && wpEls.end.classList.add('lit');
+      } else if (t < PRE + DUR + SETTLE) {
+        const k = clamp((t - PRE - DUR) / SETTLE, 0, 1); const fo = 1 - eic(k);
+        coreEl.style.opacity = String((CORE_O * fo).toFixed(3));
+        glowA.style.opacity = String((GA * fo).toFixed(3));
+        glowB.style.opacity = String((GB * fo).toFixed(3));
+        headEl.style.opacity = '0'; iconEl.style.opacity = '0';
+      } else {
+        stopLoop(); running = false;
+        coreEl.style.opacity = '0'; glowA.style.opacity = '0'; glowB.style.opacity = '0';
+        autoTimer = setTimeout(() => { if (visible) run(); }, 5600);
+      }
+      updateParts(dt); updateFx(dt);
+    }
+
+    function staticState() {
+      reset();
+      setIcon(A.x, A.y, 0, 1, scaleF);
+      iconEl.style.opacity = '1';
+      wSent.classList.add('lit'); wMeet.classList.add('lit');
+      Object.values(wpEls).forEach((g: any) => g.classList.add('lit'));
+    }
+
+    replayBtn.addEventListener('click', (e: Event) => { e.stopPropagation(); run(); });
+    deckEl.addEventListener('click', (e: Event) => { if ((e.target as Element).closest('button,a')) return; run(); });
+
+    new IntersectionObserver(es => {
+      const en = es[0]; visible = en.isIntersecting;
+      if (visible) {
+        deckEl.classList.add('in');
+        clearTimeout(autoTimer);
+        if (!everRan) { everRan = true; autoTimer = setTimeout(() => { if (visible) run(); }, 420); }
+        else if (!running) { autoTimer = setTimeout(() => { if (visible && !running) run(); }, 900); }
+      } else {
+        clearTimeout(autoTimer);
+        if (running) { stopLoop(); running = false; reset(); }
+      }
+    }, { threshold: 0.3 }).observe(deckEl);
+
+    let rT: any;
+    addEventListener('resize', () => {
+      clearTimeout(rT);
+      rT = setTimeout(() => { build(); if (RM) staticState(); else if (running) run(); }, 160);
+    });
+
+    build();
+    if (RM) staticState();
+  })();
+</script>

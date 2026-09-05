@@ -1,0 +1,586 @@
+---
+/**
+ * CampaignsSchedulingSection.astro — Campaigns & Scheduling (The Core Loop).
+ * WD-033. Split-screen layout:
+ * Left side: Campaign sequence timeline showing automated bump email triggered by "ghosted" status.
+ * Right side: Frictionless scheduling interface seamlessly locking in the time.
+ */
+---
+
+<section class="sec sec-dark seam" id="campaigns-scheduling">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">The Core Loop</p>
+      <h2 class="h2">Campaigns engineered for the <em>primary inbox.</em></h2>
+    </div>
+
+    <!-- Callout -->
+    <div class="core-callout" data-reveal data-d="1">
+      <h3>If they reply, it books. If they ghost, it recovers.</h3>
+      <p>Stop losing deals to friction. We consolidate the outreach and the calendar, automatically chasing down no-shows until the meeting happens.</p>
+    </div>
+
+    <!-- Split-screen UI Layout -->
+    <div class="split-ui-grid" data-reveal data-d="2">
+      <!-- LEFT SIDE: Sequence Timeline with Ghosted Recovery -->
+      <div class="bframe split-pane">
+        <div class="chrome">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url">app.synclead.io/sequences/active</span>
+          <span class="chrome-tag">RECOVERY ARMED</span>
+        </div>
+        <div class="pnl">
+          <div class="pane-header">
+            <div>
+              <span class="pane-title">Enterprise Outreach Sequence</span>
+              <span class="pane-sub">Lead: jordan.reyes@meridian.io</span>
+            </div>
+            <span class="status-badge live">MONITORING</span>
+          </div>
+
+          <!-- Timeline Steps -->
+          <div class="seq-timeline">
+            <!-- Step 1 -->
+            <div class="seq-node past">
+              <div class="node-marker">
+                <span class="marker-dot"></span>
+                <span class="marker-line"></span>
+              </div>
+              <div class="node-card">
+                <div class="node-top">
+                  <span class="node-num">STEP 01</span>
+                  <span class="node-type">Email · Direct Pitch</span>
+                  <span class="node-time">Oct 12 · 09:14 AM</span>
+                </div>
+                <div class="node-subj">Quick thought on Meridian's deliverability stack</div>
+                <div class="node-status sent">Delivered to Primary Inbox</div>
+              </div>
+            </div>
+
+            <!-- Step 2 (Ghosted Trigger) -->
+            <div class="seq-node ghosted">
+              <div class="node-marker">
+                <span class="marker-dot warn"></span>
+                <span class="marker-line warn"></span>
+              </div>
+              <div class="node-card warn-card">
+                <div class="node-top">
+                  <span class="node-num">STEP 02</span>
+                  <span class="node-type">Automated Wait · 72 Hours</span>
+                  <span class="node-time">Oct 15 · 09:14 AM</span>
+                </div>
+                <div class="ghost-alert">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="text-warn"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  <span>Status: <strong>No Reply (Ghosted)</strong></span>
+                </div>
+                <div class="trigger-banner">
+                  <span class="trigger-pulse"></span>
+                  <span>TRIGGER: Automated Bump Email (Smart Spintax) Dispatched</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 (Recovered) -->
+            <div class="seq-node recovered">
+              <div class="node-marker">
+                <span class="marker-dot sky"></span>
+              </div>
+              <div class="node-card sky-card">
+                <div class="node-top">
+                  <span class="node-num">AUTONOMOUS RECOVERY</span>
+                  <span class="node-time">Oct 15 · 11:20 AM</span>
+                </div>
+                <div class="reply-bubble">
+                  <span class="bubble-tag">PROSPECT REPLIED</span>
+                  <p>“Sorry for the delay Jordan, lost in inbox. Let's do Thursday 2:30pm.”</p>
+                </div>
+                <div class="recovery-action">
+                  <span class="rec-check">✓</span>
+                  <span>Sequence stopped instantly · Calendar handoff triggered</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: Frictionless Scheduling Interface -->
+      <div class="bframe split-pane">
+        <div class="chrome">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url">app.synclead.io/book/team-round-robin</span>
+          <span class="chrome-tag sky">SYNCED LIVE</span>
+        </div>
+        <div class="pnl">
+          <div class="pane-header">
+            <div>
+              <span class="pane-title">Frictionless Meeting Booking</span>
+              <span class="pane-sub">Round-Robin: Marcus Vance (AE)</span>
+            </div>
+            <span class="status-badge ready">CALENDAR SYNCED</span>
+          </div>
+
+          <!-- Scheduling Interface -->
+          <div class="sched-mock">
+            <div class="sched-intro">
+              <div class="sched-avatar-group">
+                <span class="s-ava a1"></span>
+                <span class="s-ava a2"></span>
+                <span class="s-ava a3"></span>
+              </div>
+              <div class="sched-info">
+                <h4>Outbound Architecture Walkthrough</h4>
+                <p>30 Min · Two-Way Sync with Google & Microsoft 365</p>
+              </div>
+            </div>
+
+            <!-- Timezone + Slot Selection -->
+            <div class="tz-bar">
+              <span class="tz-label">TIMEZONE</span>
+              <span class="tz-val">America/New_York (EST) · 14:30 EDT</span>
+            </div>
+
+            <!-- Weekdays Row -->
+            <div class="sched-week">
+              <div class="sw-day">
+                <span>MON</span>
+                <b>12</b>
+              </div>
+              <div class="sw-day">
+                <span>TUE</span>
+                <b>13</b>
+              </div>
+              <div class="sw-day">
+                <span>WED</span>
+                <b>14</b>
+              </div>
+              <div class="sw-day sel">
+                <span>THU</span>
+                <b>15</b>
+                <i class="sel-dot"></i>
+              </div>
+              <div class="sw-day">
+                <span>FRI</span>
+                <b>16</b>
+              </div>
+            </div>
+
+            <!-- Slot Choice Grid -->
+            <div class="sched-slots">
+              <div class="s-slot">11:00 AM</div>
+              <div class="s-slot">01:00 PM</div>
+              <div class="s-slot locked">
+                <div class="locked-header">
+                  <span class="slot-hour">02:30 PM (EST)</span>
+                  <span class="locked-badge">SEAMLESSLY LOCKED</span>
+                </div>
+                <span class="locked-sub">Auto-matched to Jordan's reply · Zero friction</span>
+              </div>
+              <div class="s-slot">03:30 PM</div>
+            </div>
+
+            <!-- Protection Callout -->
+            <div class="sched-guard">
+              <div class="guard-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#3DD68C" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="guard-text">
+                <strong>Automated No-Show Recovery Active</strong>
+                <span>Multi-channel reminders sent 24h and 1h prior. If ghosted, re-booking loop activates.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .core-callout {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 56px;
+  }
+  .core-callout h3 {
+    font: 600 clamp(20px, 2.5vw, 26px)/1.35 var(--f-ui);
+    color: var(--color-sky);
+  }
+  .core-callout p {
+    font: 400 var(--text-lead-size)/var(--text-lead-lh) var(--f-ui);
+    color: var(--ink-2);
+    margin-top: 12px;
+    max-width: 660px;
+    margin-inline: auto;
+  }
+
+  /* Split UI Grid */
+  .split-ui-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .split-pane {
+    display: flex;
+    flex-direction: column;
+    background: rgba(10, 15, 29, 0.96);
+    border: 1px solid rgba(151, 166, 199, 0.16);
+    box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
+  }
+
+  .chrome-tag {
+    font: 600 8.5px var(--f-mono);
+    letter-spacing: 0.16em;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(245, 183, 78, 0.12);
+    border: 1px solid rgba(245, 183, 78, 0.3);
+    color: var(--color-warn);
+  }
+  .chrome-tag.sky {
+    background: rgba(65, 200, 255, 0.12);
+    border-color: rgba(65, 200, 255, 0.35);
+    color: var(--color-sky);
+  }
+
+  .pane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(151, 166, 199, 0.1);
+    margin-bottom: 16px;
+  }
+  .pane-title {
+    display: block;
+    font: 600 14.5px var(--f-ui);
+    color: var(--ink);
+  }
+  .pane-sub {
+    display: block;
+    font: 500 11px var(--f-mono);
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+
+  .status-badge {
+    font: 600 9px var(--f-mono);
+    letter-spacing: 0.14em;
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+  .status-badge.live {
+    background: rgba(65, 200, 255, 0.12);
+    border: 1px solid rgba(65, 200, 255, 0.3);
+    color: var(--color-sky);
+  }
+  .status-badge.ready {
+    background: rgba(61, 214, 140, 0.12);
+    border: 1px solid rgba(61, 214, 140, 0.3);
+    color: var(--color-ok);
+  }
+
+  /* Timeline */
+  .seq-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .seq-node {
+    display: flex;
+    gap: 14px;
+    position: relative;
+  }
+  .node-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 14px;
+    flex: none;
+  }
+  .marker-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ink-3);
+    border: 2px solid var(--bg-1);
+    box-shadow: 0 0 0 2px rgba(151, 166, 199, 0.3);
+    z-index: 2;
+  }
+  .marker-dot.warn {
+    background: var(--color-warn);
+    box-shadow: 0 0 0 2px rgba(245, 183, 78, 0.4);
+  }
+  .marker-dot.sky {
+    background: var(--color-sky);
+    box-shadow: 0 0 0 2px rgba(65, 200, 255, 0.5);
+  }
+  .marker-line {
+    flex: 1;
+    width: 2px;
+    background: rgba(151, 166, 199, 0.15);
+    margin: 4px 0 -4px;
+  }
+  .marker-line.warn {
+    background: rgba(245, 183, 78, 0.35);
+  }
+
+  .node-card {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(151, 166, 199, 0.08);
+    border-radius: 10px;
+    padding: 11px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .warn-card {
+    background: rgba(245, 183, 78, 0.04);
+    border-color: rgba(245, 183, 78, 0.28);
+  }
+  .sky-card {
+    background: rgba(65, 200, 255, 0.05);
+    border-color: rgba(65, 200, 255, 0.32);
+  }
+
+  .node-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font: 600 9px var(--f-mono);
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+  .node-num {
+    color: var(--ink-2);
+  }
+  .node-time {
+    color: var(--ink-3);
+  }
+
+  .node-subj {
+    font: 500 13px var(--f-ui);
+    color: var(--ink);
+  }
+  .node-status.sent {
+    font: 600 9.5px var(--f-mono);
+    color: var(--color-ok);
+  }
+
+  .ghost-alert {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: 500 12px var(--f-ui);
+    color: var(--color-warn);
+  }
+  .trigger-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: 600 10.5px var(--f-mono);
+    color: var(--ink);
+    background: rgba(245, 183, 78, 0.1);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(245, 183, 78, 0.25);
+  }
+  .trigger-pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-warn);
+    animation: beat 2s infinite;
+  }
+
+  .reply-bubble {
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 2px solid var(--color-sky);
+    padding: 6px 10px;
+    border-radius: 0 6px 6px 0;
+  }
+  .bubble-tag {
+    font: 700 8.5px var(--f-mono);
+    letter-spacing: 0.14em;
+    color: var(--color-sky);
+    display: block;
+    margin-bottom: 2px;
+  }
+  .reply-bubble p {
+    font: italic 400 12.5px var(--f-ui);
+    color: #fff;
+  }
+
+  .recovery-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: 600 10.5px var(--f-mono);
+    color: var(--color-ok);
+    margin-top: 2px;
+  }
+  .rec-check {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(61, 214, 140, 0.15);
+    border: 1px solid rgba(61, 214, 140, 0.35);
+    display: grid;
+    place-items: center;
+    font-size: 9px;
+  }
+
+  /* Right Pane: Scheduling */
+  .sched-intro {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .sched-avatar-group {
+    display: flex;
+  }
+  .s-ava {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #0E1626;
+  }
+  .s-ava.a1 { background: linear-gradient(135deg, #41C8FF, #0E86C8); }
+  .s-ava.a2 { background: linear-gradient(135deg, #9D8BFF, #6C58E8); margin-left: -8px; }
+  .s-ava.a3 { background: linear-gradient(135deg, #3DD68C, #18A058); margin-left: -8px; }
+
+  .sched-info h4 {
+    font: 600 14px var(--f-ui);
+    color: #fff;
+  }
+  .sched-info p {
+    font: 400 11.5px var(--f-ui);
+    color: var(--ink-2);
+  }
+
+  .tz-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 7px;
+    background: rgba(151, 166, 199, 0.05);
+    font: 500 10.5px var(--f-mono);
+    margin-bottom: 12px;
+  }
+  .tz-label { color: var(--ink-3); }
+  .tz-val { color: var(--ink-2); }
+
+  .sched-week {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .sw-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 0;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(151, 166, 199, 0.08);
+    font: 600 8.5px var(--f-mono);
+    color: var(--ink-3);
+  }
+  .sw-day b {
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .sw-day.sel {
+    background: rgba(65, 200, 255, 0.1);
+    border-color: rgba(65, 200, 255, 0.45);
+    color: var(--color-sky);
+    position: relative;
+  }
+  .sw-day.sel b { color: var(--color-sky); }
+  .sel-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-sky);
+    margin-top: 1px;
+  }
+
+  .sched-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .s-slot {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(151, 166, 199, 0.08);
+    font: 500 11.5px var(--f-mono);
+    color: var(--ink-2);
+  }
+  .s-slot.locked {
+    background: rgba(65, 200, 255, 0.09);
+    border: 1px solid rgba(65, 200, 255, 0.4);
+    box-shadow: 0 0 20px -6px rgba(65, 200, 255, 0.3);
+  }
+  .locked-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .slot-hour {
+    font-weight: 700;
+    color: #fff;
+  }
+  .locked-badge {
+    font: 700 8.5px var(--f-mono);
+    letter-spacing: 0.12em;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: var(--color-sky);
+    color: #05080F;
+  }
+  .locked-sub {
+    display: block;
+    font: 400 11px var(--f-ui);
+    color: var(--ink-2);
+    margin-top: 2px;
+  }
+
+  .sched-guard {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    background: rgba(61, 214, 140, 0.06);
+    border: 1px solid rgba(61, 214, 140, 0.22);
+  }
+  .guard-icon {
+    margin-top: 2px;
+    flex: none;
+  }
+  .guard-text strong {
+    display: block;
+    font: 600 12px var(--f-ui);
+    color: #fff;
+  }
+  .guard-text span {
+    display: block;
+    font: 400 11px/1.45 var(--f-ui);
+    color: var(--ink-2);
+    margin-top: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .split-ui-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+/**
+ * SectionHeader.astro — Standard section intro: eyebrow, headline, subtext.
+ * Spec: site-spec.md §6.4
+ */
+import Badge from '@/components/ui/Badge.astro';
+
+interface Props {
+  eyebrow: string;
+  headline: string;
+  subtext?: string;
+  align?: 'center' | 'left';
+  dark?: boolean;
+}
+
+const { eyebrow, headline, subtext, align = 'center', dark = false } = Astro.props;
+
+const wrapperClasses = `max-w-3xl ${align === 'center' ? 'mx-auto text-center' : ''} mb-12 md:mb-16`;
+const headlineClasses = `text-h2 mt-4 ${dark ? 'text-white' : 'text-dark-900'}`;
+const subtextClasses = `text-body-l mt-4 ${dark ? 'text-grey-300' : 'text-grey-500'}`;
+---
+
+<div class={wrapperClasses} data-reveal>
+  <Badge variant={dark ? 'glass' : 'sky'}>{eyebrow}</Badge>
+  <h2 class={headlineClasses} set:html={headline} />
+  {subtext && <p class={subtextClasses}>{subtext}</p>}
+</div>

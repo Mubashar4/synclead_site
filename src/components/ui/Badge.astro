@@ -1,0 +1,27 @@
+---
+/**
+ * Badge.astro — Pill badge component.
+ * Spec: site-spec.md §6.2
+ */
+interface Props {
+  variant?: 'light' | 'glass' | 'sky' | 'success';
+  class?: string;
+}
+
+const { variant = 'light', class: className = '' } = Astro.props;
+
+const baseClasses = 'inline-flex items-center gap-2 rounded-badge px-3 py-1 text-label uppercase';
+
+const variantClasses: Record<string, string> = {
+  light: 'bg-grey-100 text-grey-500 border border-grey-300',
+  glass: 'glass-dark text-white',
+  sky: 'bg-brand-sky-light/30 text-brand-sky-dark border border-brand-sky/50',
+  success: 'bg-success/10 text-success border border-success/30',
+};
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${className}`.trim();
+---
+
+<span class={classes}>
+  <slot />
+</span>

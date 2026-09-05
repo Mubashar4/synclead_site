@@ -1,0 +1,110 @@
+---
+/**
+ * FeatureShowcase.astro — Two-column feature section with interactive panel mock.
+ * Design system v2 (WD-032). Used 3× on the home page (campaigns, deliverability, scheduling).
+ */
+interface Props {
+  id: string;
+  eyebrow: string;
+  headline: string;
+  body: string;
+  bullets: string[];
+  ctaLabel: string;
+  ctaHref: string;
+  reversed?: boolean;
+  dark?: boolean;
+  panelType?: 'campaigns' | 'health' | 'scheduling';
+}
+
+const {
+  id, eyebrow, headline, body, bullets,
+  ctaLabel, ctaHref, reversed = false, dark = false,
+  panelType = 'campaigns',
+} = Astro.props;
+
+const sectionClass = dark ? 'sec sec-dark seam' : 'sec sec-light';
+const featClass = reversed ? 'feat rev' : 'feat';
+---
+
+<section class={sectionClass} id={id}>
+  <div class={`container ${featClass}`}>
+    <div class="feat-t" data-reveal>
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 class="h2" set:html={headline} />
+      <p class="lead">{body}</p>
+      <ul class="blt">
+        {bullets.map((b) => (
+          <li>
+            <span class="ic">
+              <svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+            </span>
+            {b}
+          </li>
+        ))}
+      </ul>
+      <a class="lnk" href={ctaHref} target="_blank" rel="noopener">
+        {ctaLabel}
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div data-reveal data-d="1">
+      {panelType === 'campaigns' && (
+        <div class="bframe">
+          <div class="chrome">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="url">app.synclead.io/campaigns</span>
+            <span class="chrome-r"><i></i>A/B</span>
+          </div>
+          <div class="pnl">
+            <div class="prow"><span class="pnum">01</span><span class="ptxt"><strong>Intro email</strong><span>Subject: <span class="spin"><i>quick question</i><i>genuine ask</i><i>30 seconds?</i></span></span></span><span class="pchip">Send 9:12</span></div>
+            <div class="prow"><span class="pnum">02</span><span class="ptxt"><strong>Follow-up · case study</strong><span>Variant B · rotating per send</span></span><span class="pchip">Send 11:40</span></div>
+            <div class="prow"><span class="pnum">03</span><span class="ptxt"><strong>Break-up note</strong><span>Exits on reply or booking</span></span><span class="pchip">Queued</span></div>
+            <div class="pbar"><span class="pbar-l">Send window</span><span class="pbar-track"><i class="pbar-fill"></i><i class="pbar-dot"></i></span><span class="pbar-r">09–17 · TZ local</span></div>
+          </div>
+        </div>
+      )}
+      {panelType === 'health' && (
+        <div class="bframe">
+          <div class="chrome">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="url">app.synclead.io/health</span>
+            <span class="chrome-r"><i></i>OK</span>
+          </div>
+          <div class="pnl">
+            <span class="scan" aria-hidden="true"></span>
+            <div class="prow-dns"><span class="k">SPF</span><span class="v">v=spf1 include:_spf.synclead.io ~all</span><span class="st"></span></div>
+            <div class="prow-dns"><span class="k">DKIM</span><span class="v">2048-bit · selector s1 · aligned</span><span class="st"></span></div>
+            <div class="prow-dns"><span class="k">DMARC</span><span class="v">p=quarantine · rua reports on</span><span class="st"></span></div>
+            <div class="prow-dns"><span class="k">MX</span><span class="v">routed · provider resolved</span><span class="st"></span></div>
+            <div class="pnl-f"><span>Domain acme.com</span><span>All records verified</span></div>
+          </div>
+        </div>
+      )}
+      {panelType === 'scheduling' && (
+        <div class="bframe">
+          <div class="chrome">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="url">app.synclead.io/scheduling</span>
+            <span class="chrome-r"><i></i>Synced</span>
+          </div>
+          <div class="pnl">
+            <div class="cal-wk">
+              <div class="sw-col"><b>MON</b><span class="sw on"></span><span class="sw"></span></div>
+              <div class="sw-col"><b>TUE</b><span class="sw"></span><span class="sw on"></span></div>
+              <div class="sw-col"><b>WED</b><span class="sw"></span><span class="sw"></span></div>
+              <div class="sw-col"><b>THU</b><span class="sw bk"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><span class="sw on"></span></div>
+              <div class="sw-col"><b>FRI</b><span class="sw"></span><span class="sw on"></span></div>
+            </div>
+            <div class="prow-rr"><span class="avas"><i></i><i></i><i></i></span><span>3 reps · pooled availability</span><span class="pchip">Round-robin</span></div>
+            <div class="prow-ns">
+              <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+              <span class="ptxt"><strong>No-show recovery</strong><span>Rebooks the slot automatically</span></span>
+              <span class="pchip">On</span>
+            </div>
+            <div class="pnl-f"><span>Google + Microsoft</span><span>Quiet hours on</span></div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>

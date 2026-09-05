@@ -1,0 +1,25 @@
+---
+/**
+ * PageLayout.astro — Standard page chrome: Navbar + slot + Footer.
+ * Design system v2 (WD-032).
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Navbar from '@/components/nav/Navbar.astro';
+import Footer from '@/components/footer/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+
+const { title, description, noindex } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} noindex={noindex}>
+  <Navbar />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+</BaseLayout>

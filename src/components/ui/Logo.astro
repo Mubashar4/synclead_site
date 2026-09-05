@@ -1,0 +1,62 @@
+---
+/**
+ * Logo.astro — Single source for rendering the SyncLead brand mark.
+ *
+ * Wraps the real brand assets in `public/` so no component hardcodes a logo path:
+ *   /logo-icon.svg          — icon only (calendar-envelope / paper-plane mark)
+ *   /logo-full-on-dark.svg  — icon + wordmark, wordmark in white  → dark surfaces
+ *   /logo-full-on-light.svg — icon + wordmark, wordmark in black  → light surfaces
+ *
+ * The supplied "full" SVGs contain generous internal padding (viewBox
+ * 236.88 × 69.75, aspect ≈ 3.4:1), so `height` drives sizing and width is left
+ * to the intrinsic ratio.
+ */
+interface Props {
+  /** `full` = icon + wordmark, `icon` = mark only */
+  variant?: 'full' | 'icon';
+  /** Surface the logo sits on — selects the light/dark artwork. Ignored for `icon`. */
+  surface?: 'dark' | 'light';
+  /** Rendered height in px. Width follows the intrinsic aspect ratio. */
+  height?: number;
+  /** Wrap in a link to the homepage (used in nav/footer). */
+  href?: string;
+  /** Accessible name. Empty string marks the image decorative. */
+  alt?: string;
+  class?: string;
+}
+
+const {
+  variant = 'full',
+  surface = 'dark',
+  height = 32,
+  href,
+  alt = 'SyncLead',
+  class: className = '',
+} = Astro.props;
+
+const src =
+  variant === 'icon'
+    ? '/logo-icon.svg'
+    : surface === 'light'
+      ? '/logo-full-on-light.svg'
+      : '/logo-full-on-dark.svg';
+
+// Intrinsic ratios of the supplied artwork.
+const ratio = variant === 'icon' ? 56.88 / 58.5 : 236.88 / 69.75;
+const width = Math.round(height * ratio);
+---
+
+{href ? (
+  <a href={href} aria-label="SyncLead home" class={`inline-flex items-center ${className}`}>
+    <img src={src} alt="" width={width} height={height} style={`height:${height}px;width:auto`} />
+  </a>
+) : (
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    style={`height:${height}px;width:auto`}
+    class={className}
+  />
+)}

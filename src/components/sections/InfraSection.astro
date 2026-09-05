@@ -1,0 +1,225 @@
+---
+/**
+ * InfraSection.astro — Infrastructure & Deliverability (The Engine).
+ * WD-033. Dark-mode visualization of domain rotation and health scoring.
+ * Shows a cluster of secondary domains with 100% health scores protecting a primary domain.
+ */
+---
+
+<section class="sec sec-dark seam" id="infrastructure">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow">Infrastructure</p>
+      <h2 class="h2">Enterprise-grade infrastructure, <em>without the ops headcount.</em></h2>
+    </div>
+
+    <!-- Callout -->
+    <div class="infra-callout" data-reveal data-d="1">
+      <h3>Stop playing Russian roulette with primary domains.</h3>
+      <p>Our platform auto-rotates IPs and manages sending limits so our users never burn their core infrastructure.</p>
+    </div>
+
+    <!-- Dark-mode Domain Cluster Visualization -->
+    <div class="infra-viz" data-reveal data-d="2">
+      <div class="bframe relative overflow-hidden">
+        <div class="chrome">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url">app.synclead.io/accounts</span>
+          <span class="chrome-r"><i></i>MULTI-IP CLUSTER ACTIVE</span>
+        </div>
+        <div class="pnl infra-panel">
+          <!-- Scan beam animation -->
+          <div class="scan-beam" aria-hidden="true"></div>
+
+          <!-- Connected Sending Mailboxes Grid (3 rows × 2 cols) -->
+          <div class="cluster-grid">
+            <div class="sec-domain">
+              <span class="sd-dot"></span>
+              <div class="sd-info">
+                <div class="sd-header">
+                  <span class="sd-name">s.miller@leadorbit.net</span>
+                  <span class="prov-tag google">Google</span>
+                </div>
+                <span class="sd-pool">Warmup Active · Daily Cap 20 · Sent 0/20</span>
+              </div>
+              <div class="sd-dns">
+                <i class="dns-ok">SPF</i><i class="dns-ok">DKIM</i><i class="dns-ok">DMARC</i>
+              </div>
+              <span class="sd-health">100%</span>
+            </div>
+
+            <div class="sec-domain">
+              <span class="sd-dot"></span>
+              <div class="sd-info">
+                <div class="sd-header">
+                  <span class="sd-name">seth.miller@leadorbit.net</span>
+                  <span class="prov-tag msft">Microsoft 365</span>
+                </div>
+                <span class="sd-pool">Warmup Active · Daily Cap 20 · Sent 0/20</span>
+              </div>
+              <div class="sd-dns">
+                <i class="dns-ok">SPF</i><i class="dns-ok">DKIM</i><i class="dns-ok">DMARC</i>
+              </div>
+              <span class="sd-health">100%</span>
+            </div>
+
+            <div class="sec-domain">
+              <span class="sd-dot"></span>
+              <div class="sd-info">
+                <div class="sd-header">
+                  <span class="sd-name">seth.m@leadorbit.net</span>
+                  <span class="prov-tag msft">Outlook</span>
+                </div>
+                <span class="sd-pool">Warmup Active · Daily Cap 20 · Sent 0/20</span>
+              </div>
+              <div class="sd-dns">
+                <i class="dns-ok">SPF</i><i class="dns-ok">DKIM</i><i class="dns-ok">DMARC</i>
+              </div>
+              <span class="sd-health">100%</span>
+            </div>
+
+            <div class="sec-domain">
+              <span class="sd-dot"></span>
+              <div class="sd-info">
+                <div class="sd-header">
+                  <span class="sd-name">s.miller@leadorbit.io</span>
+                  <span class="prov-tag google">Google</span>
+                </div>
+                <span class="sd-pool">Warmup Active · Daily Cap 20 · Sent 0/20</span>
+              </div>
+              <div class="sd-dns">
+                <i class="dns-ok">SPF</i><i class="dns-ok">DKIM</i><i class="dns-ok">DMARC</i>
+              </div>
+              <span class="sd-health">100%</span>
+            </div>
+
+            <div class="sec-domain">
+              <span class="sd-dot"></span>
+              <div class="sd-info">
+                <div class="sd-header">
+                  <span class="sd-name">alex.m@leadorbit.net</span>
+                  <span class="prov-tag msft">Microsoft 365</span>
+                </div>
+                <span class="sd-pool">Warmup Active · Daily Cap 20 · Sent 0/20</span>
+              </div>
+              <div class="sd-dns">
+                <i class="dns-ok">SPF</i><i class="dns-ok">DKIM</i><i class="dns-ok">DMARC</i>
+              </div>
+              <span class="sd-health">100%</span>
+            </div>
+
+            <div class="sec-domain">
+              <span class="sd-dot"></span>
+              <div class="sd-info">
+                <div class="sd-header">
+                  <span class="sd-name">seth@leadorbit.co</span>
+                  <span class="prov-tag google">Google</span>
+                </div>
+                <span class="sd-pool">Warmup Active · Daily Cap 20 · Sent 0/20</span>
+              </div>
+              <div class="sd-dns">
+                <i class="dns-ok">SPF</i><i class="dns-ok">DKIM</i><i class="dns-ok">DMARC</i>
+              </div>
+              <span class="sd-health">100%</span>
+            </div>
+          </div>
+
+          <!-- Telemetry footer: Workspace Blocklist & IP rotation (from PDF Page 2 & 13) -->
+          <div class="infra-tele">
+            <span><i class="tele-dot"></i>Workspace Blocklist Active · Automatic Quarantine on Bounces & Unsubscribes</span>
+            <span class="font-mono text-sky">Multi-IP Subnet Isolation · 0 DNS Drift</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .infra-callout {
+    text-align: center; max-width: 720px; margin: 0 auto 56px;
+  }
+  .infra-callout h3 {
+    font: 600 clamp(20px, 2.4vw, 26px)/1.35 var(--f-ui);
+    color: var(--color-sky);
+  }
+  .infra-callout p {
+    font: 400 var(--text-lead-size)/var(--text-lead-lh) var(--f-ui);
+    color: var(--ink-2); margin-top: 12px; max-width: 640px; margin-inline: auto;
+  }
+
+  .infra-viz { max-width: 960px; margin: 0 auto; }
+  .infra-panel { gap: 16px; }
+
+  /* Cluster grid */
+  .cluster-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+  }
+  .sec-domain {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 9px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(151, 166, 199, 0.08);
+  }
+  .sd-dot {
+    width: 7px; height: 7px; border-radius: 50%; flex: none;
+    background: var(--color-ok);
+    box-shadow: 0 0 8px rgba(61, 214, 140, 0.5);
+  }
+  .sd-info { flex: 1; min-width: 0; }
+  .sd-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .sd-name {
+    display: block; font: 600 12px var(--f-mono); color: var(--ink);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .prov-tag {
+    font: 600 8px var(--f-mono); padding: 1px 5px; border-radius: 4px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .prov-tag.google { background: rgba(66, 133, 244, 0.12); color: #4285F4; border: 1px solid rgba(66, 133, 244, 0.3); }
+  .prov-tag.msft { background: rgba(0, 164, 239, 0.12); color: #00A4EF; border: 1px solid rgba(0, 164, 239, 0.3); }
+  .prov-tag.pool { background: rgba(65, 200, 255, 0.1); color: var(--color-sky); border: 1px solid rgba(65, 200, 255, 0.25); }
+
+  .scan-beam {
+    position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(65, 200, 255, 0.06), transparent);
+    transform: skewX(-20deg);
+    animation: scanSweep 7s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes scanSweep {
+    0% { left: -100%; }
+    50%, 100% { left: 200%; }
+  }
+
+  .sd-pool {
+    display: block; font: 400 10px var(--f-mono); color: var(--ink-3); margin-top: 1px;
+  }
+  .sd-dns { display: flex; gap: 4px; }
+  .dns-ok {
+    font-style: normal; font: 600 7.5px var(--f-mono);
+    padding: 1px 4px; border-radius: 3px;
+    background: rgba(61, 214, 140, 0.1);
+    color: var(--color-ok);
+    border: 1px solid rgba(61, 214, 140, 0.2);
+  }
+  .sd-health {
+    font: 700 11px var(--f-mono); color: var(--color-ok); flex: none;
+  }
+
+  /* Telemetry footer */
+  .infra-tele {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 10px; border-top: 1px solid rgba(151, 166, 199, 0.08);
+    font: 500 11px var(--f-ui); color: var(--ink-2); flex-wrap: wrap; gap: 8px;
+  }
+  .tele-dot {
+    display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--color-sky); margin-right: 6px; vertical-align: middle;
+  }
+
+  @media (max-width: 720px) {
+    .cluster-grid { grid-template-columns: 1fr; }
+    .sec-domain .sd-dns { display: none; }
+  }
+</style>

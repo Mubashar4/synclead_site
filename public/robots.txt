@@ -1,0 +1,87 @@
+# ==============================================================================
+# SyncLead.io — Robots Exclusion & Crawler Policy
+# Designed for maximum visibility across search engines and AI / LLM agents.
+# ==============================================================================
+
+# Search Engine Crawlers (Google, Bing, DuckDuckGo, etc.)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# OpenAI Crawlers & User Agents
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic Claude Crawlers & Agents
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI Crawler
+User-agent: PerplexityBot
+Allow: /
+
+# Google Gemini & Extended AI Crawler
+User-agent: Google-Extended
+Allow: /
+
+# Apple Intelligence & Search Crawlers
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Meta AI Crawler
+User-agent: meta-externalagent
+Allow: /
+
+# ByteDance AI Crawler
+User-agent: Bytespider
+Allow: /
+
+# Cohere AI Crawler
+User-agent: Cohere-ai
+Allow: /
+
+# Common Crawl (Foundation Dataset for LLM Training)
+User-agent: CCBot
+Allow: /
+
+# Default Rule for all other crawlers
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://synclead.io/sitemap-index.xml
+Sitemap: https://synclead.io/sitemap-0.xml
+
+# LLM-optimized documentation endpoints
+# See https://llmstxt.org/ for details
+# Standard index: https://synclead.io/llms.txt
+# Comprehensive full text: https://synclead.io/llms-full.txt

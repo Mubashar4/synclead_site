@@ -1,0 +1,79 @@
+# SyncLead
+
+> SyncLead (https://synclead.io) is a unified outbound cold email deliverability, automation, and automated calendar scheduling platform. It prevents domain burning by connecting dozens to hundreds of mailboxes across secondary sending domains, actively monitoring SPF, DKIM, DMARC, and MX records, and automating calendar bookings with instant round-robin scheduling and no-show recovery.
+
+## Core Capabilities
+
+- **Multi-Mailbox Sender Rotation**: Distribute sending volume smoothly across 50 to 250+ Google Workspace and Microsoft 365 mailboxes. Avoid spam traps and provider throttling through intelligent pacing and algorithmic ramp-up.
+- **Continuous Deliverability & DNS Guardrails**: Real-time automated verification of SPF, DKIM, DMARC, and MX health across every sending domain. At-risk mailboxes are quarantined before reputation burns.
+- **Unified Master Inbox with AI Lead Intent**: Inbound responses across all connected accounts aggregate into a single high-velocity inbox. Incoming replies are classified by intent (Ready to Book, Evaluating Stack, Objection, Out of Office, Not Interested).
+- **Embedded Calendar Scheduling & Recovery**: Direct round-robin meeting scheduling embedded into outbound email steps without external booking links. Automated SMS/email reminders drastically reduce calendar drop-offs.
+- **Agency Multitenancy & Workspace Isolation**: Multi-account infrastructure designed for lead generation agencies and high-volume sales teams, complete with isolated client workspaces, role-based access delegation, and unified billing.
+
+## Verified Pricing & Plans
+
+- **Pro ($149 / month)**:
+  - 50 connected mailboxes & sending domains
+  - 125,000 monthly verified email sends
+  - 25,000 uploaded contacts
+  - 7,500 monthly plan credits included
+  - Full DNS deliverability health checks & sender rotation
+  - Integrated round-robin calendar booking
+  - Unlimited team members
+
+- **Scale ($399 / month)**:
+  - 250 connected mailboxes & sending domains
+  - 600,000 monthly verified email sends
+  - 125,000 uploaded contacts
+  - 35,000 monthly plan credits included
+  - Agency-level workspace controls & client delegation
+  - 90-day activity audit logs
+  - Priority routing & warmup coordination
+
+- **Enterprise (Custom Quotation)**:
+  - Unlimited mailboxes & sending domains
+  - 1,500,000+ monthly verified email sends
+  - Custom contact tiers
+  - 100,000 monthly plan credits included
+  - 5 isolated agency workspaces included (+$39/mo per additional)
+  - Dedicated Deliverability Engineer on Slack channel
+  - 180-day activity audit retention
+
+## Credit Economics
+
+- 1.0 plan credit per lead email verification & mailbox ping.
+- 0.2 plan credits per burst campaign send.
+- Non-expiring rollover credit packages available for high-throughput teams.
+
+## Engineering Roadmap Highlights
+
+1. **AI Auto-Replies & Objection Handling**: Q3 2026 (Staging / Rollout)
+2. **Autonomous AI SDR Agents**: Q4 2026 (Active Sprint)
+3. **Deep Account & Prospect Research Agents**: Q1 2027 (In Development)
+4. **Full Agency Controls & Multi-Tenant Portals**: Q1 2027 (Planned)
+5. **Mailbox Placement & Deliverability Warmup Suite**: Q2 2027 (Planned)
+6. **SyncLead MCP (Model Context Protocol) Server**: Q3 2027 (Next-Gen Tooling)
+
+## Corporate Identity & Trust Verification
+
+- **Legal Entity**: SYNCLEAD LTD (Company Number: 15903993)
+- **Registered Office**: London, England
+- **Contact**: contact@synclead.io
+- **Media & Press**: press@synclead.io
+- **Careers**: careers@synclead.io
+
+## Documentation & Key Site Pages
+
+- [Homepage](https://synclead.io/): Full platform overview, interactive infrastructure monitor, and feature breakdown.
+- [Pricing](https://synclead.io/pricing): Comprehensive tier comparison matrix, credit breakdown, and deliverability FAQs.
+- [Engineering Roadmap](https://synclead.io/roadmap): Prioritized feature delivery schedule and live architectural foundations.
+- [Careers](https://synclead.io/careers): Open engineering disciplines and remote-first mission.
+- [Press Kit](https://synclead.io/press): Media boilerplate, corporate verification facts, and official brand assets.
+- [Terms of Service](https://synclead.io/terms): Master service agreement, acceptable use clauses, and SLA terms.
+- [Privacy Policy](https://synclead.io/privacy): GDPR/CCPA data handling, security architecture, and encryption policies.
+- [Acceptable Use Policy](https://synclead.io/acceptable-use): Outbound compliance rules and sender conduct guidelines.
+- [Refund Policy](https://synclead.io/refund): Cancellation and refund policy terms.
+
+## Full LLM Reference
+
+- [Complete Platform Reference](https://synclead.io/llms-full.txt): Exhaustive documentation containing full details of all modules, algorithms, and technical specs.

@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <rect width="1600" height="1000" fill="#0B1D33"/>
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="240" height="1000" fill="#060E1A"/>
+  <rect x="24" y="24" width="32" height="32" rx="8" fill="#8ECAE6"/>
+  <rect x="68" y="30" width="100" height="16" rx="4" fill="#ffffff" opacity="0.8"/>
+  <rect x="24" y="90" width="192" height="36" rx="8" fill="transparent"/>
+  <rect x="44" y="100" width="100" height="14" rx="4" fill="#ffffff" opacity="0.3"/>
+  <rect x="24" y="140" width="192" height="36" rx="8" fill="transparent"/>
+  <rect x="44" y="150" width="80" height="14" rx="4" fill="#ffffff" opacity="0.3"/>
+  <rect x="24" y="190" width="192" height="36" rx="8" fill="#8ECAE6" opacity="0.15"/>
+  <rect x="44" y="200" width="130" height="14" rx="4" fill="#8ECAE6"/>
+
+  <!-- Header -->
+  <rect x="272" y="24" width="340" height="24" rx="4" fill="#ffffff" opacity="0.9"/>
+  <rect x="272" y="56" width="200" height="14" rx="4" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Overall health score -->
+  <rect x="272" y="100" width="400" height="200" rx="12" fill="#122A46"/>
+  <rect x="296" y="120" width="140" height="14" rx="4" fill="#ffffff" opacity="0.5"/>
+  <circle cx="472" cy="210" r="60" fill="none" stroke="#10B981" stroke-width="8" stroke-dasharray="340 377" transform="rotate(-90 472 210)"/>
+  <circle cx="472" cy="210" r="60" fill="none" stroke="#ffffff" stroke-width="8" opacity="0.05"/>
+  <rect x="442" y="198" width="60" height="24" rx="4" fill="#10B981"/>
+  <rect x="296" y="270" width="100" height="12" rx="4" fill="#10B981"/>
+
+  <!-- DNS records panel -->
+  <rect x="692" y="100" width="880" height="200" rx="12" fill="#122A46"/>
+  <rect x="716" y="120" width="160" height="14" rx="4" fill="#ffffff" opacity="0.5"/>
+
+  <!-- SPF -->
+  <rect x="716" y="152" width="180" height="50" rx="8" fill="#0B1D33"/>
+  <rect x="732" y="162" width="40" height="10" rx="4" fill="#ffffff" opacity="0.5"/>
+  <circle cx="736" cy="188" r="8" fill="#10B981"/>
+  <rect x="752" y="183" width="60" height="10" rx="4" fill="#10B981"/>
+  <!-- DKIM -->
+  <rect x="916" y="152" width="180" height="50" rx="8" fill="#0B1D33"/>
+  <rect x="932" y="162" width="50" height="10" rx="4" fill="#ffffff" opacity="0.5"/>
+  <circle cx="936" cy="188" r="8" fill="#10B981"/>
+  <rect x="952" y="183" width="60" height="10" rx="4" fill="#10B981"/>
+  <!-- DMARC -->
+  <rect x="1116" y="152" width="180" height="50" rx="8" fill="#0B1D33"/>
+  <rect x="1132" y="162" width="60" height="10" rx="4" fill="#ffffff" opacity="0.5"/>
+  <circle cx="1136" cy="188" r="8" fill="#10B981"/>
+  <rect x="1152" y="183" width="60" height="10" rx="4" fill="#10B981"/>
+  <!-- MX -->
+  <rect x="1316" y="152" width="180" height="50" rx="8" fill="#0B1D33"/>
+  <rect x="1332" y="162" width="30" height="10" rx="4" fill="#ffffff" opacity="0.5"/>
+  <circle cx="1336" cy="188" r="8" fill="#10B981"/>
+  <rect x="1352" y="183" width="60" height="10" rx="4" fill="#10B981"/>
+
+  <!-- Account list -->
+  <rect x="272" y="330" width="1300" height="640" rx="12" fill="#122A46"/>
+  <rect x="296" y="354" width="200" height="16" rx="4" fill="#ffffff" opacity="0.7"/>
+
+  <!-- Table header -->
+  <rect x="296" y="390" width="1252" height="1" fill="#ffffff" opacity="0.1"/>
+  <rect x="296" y="400" width="80" height="10" rx="4" fill="#ffffff" opacity="0.4"/>
+  <rect x="500" y="400" width="60" height="10" rx="4" fill="#ffffff" opacity="0.4"/>
+  <rect x="700" y="400" width="40" height="10" rx="4" fill="#ffffff" opacity="0.4"/>
+  <rect x="860" y="400" width="50" height="10" rx="4" fill="#ffffff" opacity="0.4"/>
+  <rect x="1020" y="400" width="60" height="10" rx="4" fill="#ffffff" opacity="0.4"/>
+  <rect x="1180" y="400" width="70" height="10" rx="4" fill="#ffffff" opacity="0.4"/>
+  <rect x="1380" y="400" width="60" height="10" rx="4" fill="#ffffff" opacity="0.4"/>
+
+  <!-- Account rows -->
+  <rect x="296" y="430" width="1252" height="1" fill="#ffffff" opacity="0.05"/>
+  <rect x="296" y="442" width="170" height="12" rx="4" fill="#ffffff" opacity="0.6"/>
+  <rect x="500" y="442" width="50" height="12" rx="4" fill="#ffffff" opacity="0.3"/>
+  <circle cx="720" cy="448" r="6" fill="#10B981"/>
+  <circle cx="880" cy="448" r="6" fill="#10B981"/>
+  <circle cx="1040" cy="448" r="6" fill="#10B981"/>
+  <circle cx="1200" cy="448" r="6" fill="#10B981"/>
+  <rect x="1370" y="440" width="70" height="20" rx="10" fill="#10B981" opacity="0.15"/>
+  <rect x="1385" y="445" width="40" height="10" rx="4" fill="#10B981"/>
+
+  <rect x="296" y="480" width="1252" height="1" fill="#ffffff" opacity="0.05"/>
+  <rect x="296" y="492" width="190" height="12" rx="4" fill="#ffffff" opacity="0.6"/>
+  <rect x="500" y="492" width="60" height="12" rx="4" fill="#ffffff" opacity="0.3"/>
+  <circle cx="720" cy="498" r="6" fill="#10B981"/>
+  <circle cx="880" cy="498" r="6" fill="#10B981"/>
+  <circle cx="1040" cy="498" r="6" fill="#F59E0B"/>
+  <circle cx="1200" cy="498" r="6" fill="#10B981"/>
+  <rect x="1370" y="490" width="70" height="20" rx="10" fill="#F59E0B" opacity="0.15"/>
+  <rect x="1385" y="495" width="40" height="10" rx="4" fill="#F59E0B"/>
+
+  <rect x="296" y="530" width="1252" height="1" fill="#ffffff" opacity="0.05"/>
+  <rect x="296" y="542" width="150" height="12" rx="4" fill="#ffffff" opacity="0.6"/>
+  <rect x="500" y="542" width="45" height="12" rx="4" fill="#ffffff" opacity="0.3"/>
+  <circle cx="720" cy="548" r="6" fill="#10B981"/>
+  <circle cx="880" cy="548" r="6" fill="#10B981"/>
+  <circle cx="1040" cy="548" r="6" fill="#10B981"/>
+  <circle cx="1200" cy="548" r="6" fill="#10B981"/>
+  <rect x="1370" y="540" width="70" height="20" rx="10" fill="#10B981" opacity="0.15"/>
+  <rect x="1385" y="545" width="40" height="10" rx="4" fill="#10B981"/>
+
+  <rect x="296" y="580" width="1252" height="1" fill="#ffffff" opacity="0.05"/>
+  <rect x="296" y="592" width="200" height="12" rx="4" fill="#ffffff" opacity="0.6"/>
+  <rect x="500" y="592" width="55" height="12" rx="4" fill="#ffffff" opacity="0.3"/>
+  <circle cx="720" cy="598" r="6" fill="#EF4444"/>
+  <circle cx="880" cy="598" r="6" fill="#10B981"/>
+  <circle cx="1040" cy="598" r="6" fill="#10B981"/>
+  <circle cx="1200" cy="598" r="6" fill="#10B981"/>
+  <rect x="1370" y="590" width="70" height="20" rx="10" fill="#EF4444" opacity="0.15"/>
+  <rect x="1385" y="595" width="40" height="10" rx="4" fill="#EF4444"/>
+
+  <rect x="296" y="630" width="1252" height="1" fill="#ffffff" opacity="0.05"/>
+  <rect x="296" y="642" width="180" height="12" rx="4" fill="#ffffff" opacity="0.6"/>
+  <rect x="500" y="642" width="50" height="12" rx="4" fill="#ffffff" opacity="0.3"/>
+  <circle cx="720" cy="648" r="6" fill="#10B981"/>
+  <circle cx="880" cy="648" r="6" fill="#10B981"/>
+  <circle cx="1040" cy="648" r="6" fill="#10B981"/>
+  <circle cx="1200" cy="648" r="6" fill="#10B981"/>
+  <rect x="1370" y="640" width="70" height="20" rx="10" fill="#10B981" opacity="0.15"/>
+  <rect x="1385" y="645" width="40" height="10" rx="4" fill="#10B981"/>
+</svg>

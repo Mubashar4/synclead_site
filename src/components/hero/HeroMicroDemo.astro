@@ -1,0 +1,459 @@
+---
+/**
+ * HeroMicroDemo.astro — The Booking Loop v2.
+ * Linear 3-station route (Sequence → Inbox → Calendar) with flying morphing token.
+ * Design system v2 (WD-032).
+ *
+ * 9s synchronized CSS keyframe timeline (--loop: 9s).
+ * Responsive & reduced-motion friendly (renders final booked state statically).
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class={`booking-loop ${className}`}>
+  <!-- Accessible description -->
+  <p class="sr-only">
+    The product loop: the sequence sends steps one and two; the prospect replies, and step three stops automatically; the calendar slot on Thursday at 14:30 fills and the meeting is confirmed.
+  </p>
+
+  <!-- Route flight line + token -->
+  <div class="flight" aria-hidden="true">
+    <svg viewBox="0 0 100 64" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="flG" gradientUnits="userSpaceOnUse" x1="2" y1="32" x2="98" y2="32">
+          <stop offset="0" stop-color="#9D8BFF" />
+          <stop offset="0.55" stop-color="#7FA0FF" />
+          <stop offset="1" stop-color="#41C8FF" />
+        </linearGradient>
+      </defs>
+      <path class="fline-base" d="M2 32 H98" pathLength="1" />
+      <path class="fline-glow" d="M2 32 H98" pathLength="1" />
+      <path class="fline-draw" d="M2 32 H98" pathLength="1" />
+    </svg>
+    <span class="fnode fn1"></span>
+    <span class="fnode fn2"></span>
+    <span class="fnode fn3"></span>
+
+    <!-- The token: envelope (violet) morphs into calendar (sky) -->
+    <div class="ftoken">
+      <div class="bob">
+        <span class="halo"></span>
+        <span class="tkflash"></span>
+        <svg class="tk-env" viewBox="0 0 24 24">
+          <rect x="3" y="5.5" width="18" height="13" rx="2.5" />
+          <path d="M4.5 7.5l7.5 5.5 7.5-5.5" />
+        </svg>
+        <svg class="tk-cal" viewBox="0 0 24 24">
+          <rect x="3.5" y="4.5" width="17" height="16" rx="2.5" />
+          <path d="M3.5 9h17M8 2.8V6.5M16 2.8V6.5" />
+          <path class="chk" d="M8.3 14.6l2.6 2.6 4.6-5" pathLength="1" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- The 3 stations -->
+  <div class="stations" aria-hidden="true">
+    <!-- Station 1: Sequence -->
+    <div class="station stx1">
+      <div class="shead">
+        <span class="sl"><i class="sdot"></i>01 · Sequence</span>
+        <span class="sr">Q3 · Outbound</span>
+      </div>
+      <div class="srow">
+        <span class="n">01</span>
+        <span class="t">Intro email</span>
+        <span class="qwrap">
+          <span class="schip queued">Queued</span>
+          <span class="schip sent pop sc-a">Sent</span>
+        </span>
+      </div>
+      <div class="srow">
+        <span class="n">02</span>
+        <span class="t">Case study proof</span>
+        <span class="qwrap">
+          <span class="schip queued">Queued</span>
+          <span class="schip sent pop sc-b">Sent</span>
+        </span>
+      </div>
+      <div class="srow srow3">
+        <span class="n">03</span>
+        <span class="t">Break-up note<i class="strike" aria-hidden="true"></i></span>
+        <span class="qwrap">
+          <span class="schip queued qd">Queued</span>
+          <span class="schip stopped pop sdp">Stopped</span>
+        </span>
+      </div>
+      <div class="sfoot">
+        <span>24 prospects</span>
+        <span>Window 09–17</span>
+      </div>
+    </div>
+
+    <!-- Station 2: Inbox -->
+    <div class="station stx2">
+      <div class="shead">
+        <span class="sl"><i class="sdot"></i>02 · Inbox</span>
+        <span class="sr">Unified</span>
+      </div>
+      <div class="rslot">
+        <div class="rghost">Awaiting reply</div>
+        <div class="reply">
+          <span class="rava"></span>
+          <span class="rtxt">
+            <strong>“Thursday works.”</strong>
+            <span class="rsub">Prospect · acme.com</span>
+          </span>
+          <span class="schip replied">Replied</span>
+        </div>
+      </div>
+      <p class="rnote">
+        <svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2" /></svg>
+        Reply detected · step 03 stopped
+      </p>
+      <div class="sfoot">
+        <span>Reply rules on</span>
+        <span>No-show armed</span>
+      </div>
+    </div>
+
+    <!-- Station 3: Calendar -->
+    <div class="station stx3">
+      <div class="shead">
+        <span class="sl"><i class="sdot"></i>03 · Calendar</span>
+        <span class="sr">This week</span>
+      </div>
+      <div class="wk">
+        <div class="day"><b>MON</b><span class="cell"></span><span class="cell"></span></div>
+        <div class="day"><b>TUE</b><span class="cell"></span><span class="cell"></span></div>
+        <div class="day"><b>WED</b><span class="cell"></span><span class="cell"></span></div>
+        <div class="day">
+          <b>THU</b><span class="cell"></span>
+          <span class="tgt">
+            <i class="tfill" aria-hidden="true"></i>
+            <i class="tring" aria-hidden="true"></i>
+            <span class="tt">14:30</span>
+            <svg class="tchk" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6.5 12.5l4 4 7.5-8" pathLength="1" />
+            </svg>
+            <span class="tpill">Booked</span>
+          </span>
+        </div>
+        <div class="day"><b>FRI</b><span class="cell"></span><span class="cell"></span></div>
+      </div>
+      <div class="confirm">
+        <span class="cic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" /></svg></span>
+        <span class="ctxt">
+          <strong>Demo · 20 min</strong>
+          <span>Thu 14:30 · Round-robin</span>
+        </span>
+        <span class="schip replied">Confirmed</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .booking-loop {
+    padding: 16px 18px 18px;
+    position: relative;
+  }
+
+  /* ═══ FLIGHT ROUTE ═══ */
+  .flight {
+    position: relative; height: 64px; margin-bottom: 10px;
+  }
+  .flight svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .fline-base {
+    fill: none; stroke: rgba(151, 166, 199, 0.16); stroke-width: 1.6;
+    stroke-dasharray: 0.012 0.022; stroke-linecap: round;
+  }
+  .fline-glow {
+    fill: none; stroke: url(#flG); stroke-width: 6; stroke-linecap: round;
+    stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0;
+    animation: fgline var(--loop) linear infinite;
+  }
+  .fline-draw {
+    fill: none; stroke: url(#flG); stroke-width: 2.2; stroke-linecap: round;
+    stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0;
+    animation: fline var(--loop) linear infinite;
+  }
+  @keyframes fline {
+    0%, 4% { opacity: 0; stroke-dashoffset: 1; }
+    6%, 94% { opacity: 1; }
+    15%, 30% { stroke-dashoffset: 0.854; }
+    40%, 56% { stroke-dashoffset: 0.5; }
+    62% { stroke-dashoffset: 0.396; }
+    69%, 94% { stroke-dashoffset: 0.146; }
+    97% { opacity: 0; stroke-dashoffset: 0.146; }
+    100% { opacity: 0; stroke-dashoffset: 1; }
+  }
+  @keyframes fgline {
+    0%, 4% { opacity: 0; stroke-dashoffset: 1; }
+    6%, 94% { opacity: 0.2; }
+    15%, 30% { stroke-dashoffset: 0.854; }
+    40%, 56% { stroke-dashoffset: 0.5; }
+    62% { stroke-dashoffset: 0.396; }
+    69%, 94% { stroke-dashoffset: 0.146; }
+    97% { opacity: 0; stroke-dashoffset: 0.146; }
+    100% { opacity: 0; stroke-dashoffset: 1; }
+  }
+
+  /* Nodes */
+  .fnode {
+    position: absolute; top: 32px; width: 11px; height: 11px;
+    margin: -5.5px 0 0 -5.5px; border-radius: 50%;
+    background: var(--bg-0); border: 1.6px solid rgba(151, 166, 199, 0.35); z-index: 2;
+  }
+  .fnode::after {
+    content: ''; position: absolute; inset: -5px; border-radius: 50%;
+    border: 1.5px solid rgba(65, 200, 255, 0.8); opacity: 0; transform: scale(0.4);
+  }
+  .fnode.fn1 { left: 16%; animation: fnA var(--loop) linear infinite; }
+  .fnode.fn2 { left: 50%; animation: fnB var(--loop) linear infinite; }
+  .fnode.fn3 { left: 84%; animation: fnC var(--loop) linear infinite; }
+
+  @keyframes fnA { 0%, 14% { border-color: rgba(151, 166, 199, 0.35); box-shadow: none; } 16%, 92% { border-color: var(--color-sky); box-shadow: 0 0 12px rgba(65, 200, 255, 0.5); } 96%, 100% { border-color: rgba(151, 166, 199, 0.35); box-shadow: none; } }
+  @keyframes fnB { 0%, 38% { border-color: rgba(151, 166, 199, 0.35); box-shadow: none; } 40%, 92% { border-color: var(--color-sky); box-shadow: 0 0 12px rgba(65, 200, 255, 0.5); } 96%, 100% { border-color: rgba(151, 166, 199, 0.35); box-shadow: none; } }
+  @keyframes fnC { 0%, 67% { border-color: rgba(151, 166, 199, 0.35); box-shadow: none; } 69%, 92% { border-color: var(--color-sky); box-shadow: 0 0 12px rgba(65, 200, 255, 0.5); } 96%, 100% { border-color: rgba(151, 166, 199, 0.35); box-shadow: none; } }
+
+  .fn1::after { animation: pingA var(--loop) var(--ease) infinite; }
+  .fn2::after { animation: pingB var(--loop) var(--ease) infinite; }
+  .fn3::after { animation: pingC var(--loop) var(--ease) infinite; }
+
+  @keyframes pingA { 0%, 14% { opacity: 0; transform: scale(0.4); } 19% { opacity: 0.9; transform: scale(1.15); } 25%, 100% { opacity: 0; transform: scale(1.7); } }
+  @keyframes pingB { 0%, 39% { opacity: 0; transform: scale(0.4); } 45% { opacity: 0.9; transform: scale(1.15); } 51%, 100% { opacity: 0; transform: scale(1.7); } }
+  @keyframes pingC { 0%, 68% { opacity: 0; transform: scale(0.4); } 74% { opacity: 0.9; transform: scale(1.15); } 80%, 100% { opacity: 0; transform: scale(1.7); } }
+
+  /* Token */
+  .ftoken {
+    position: absolute; left: 2%; top: 32px; width: 46px; height: 46px;
+    z-index: 4; opacity: 0; pointer-events: none;
+    animation: tfly var(--loop) linear infinite;
+  }
+  @keyframes tfly {
+    0% { left: 2%; top: 32px; opacity: 0; transform: translate(-50%, -50%) rotate(-14deg) scale(0.7); }
+    4% { left: 4%; opacity: 1; transform: translate(-50%, -50%) rotate(-12deg) scale(0.85); }
+    15%, 30% { left: 16%; top: 32px; transform: translate(-50%, -50%) rotate(-6deg) scale(1); }
+    40%, 56% { left: 50%; top: 32px; transform: translate(-50%, -50%) rotate(3deg) scale(1); }
+    62% { left: 60%; top: 28px; transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+    66% { left: 74%; top: 22px; transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+    69% { left: 84%; top: 40px; transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+    74% { left: 89.5%; top: 173px; opacity: 1; transform: translate(-50%, -50%) rotate(0deg) scale(0.5); }
+    76%, 100% { left: 89.5%; top: 176px; opacity: 0; transform: translate(-50%, -50%) rotate(0deg) scale(0.2); }
+  }
+
+  .ftoken .bob { position: absolute; inset: 0; animation: tbob 2.8s ease-in-out infinite; }
+  @keyframes tbob { 0%, 100% { transform: translateY(-2.5px); } 50% { transform: translateY(2.5px); } }
+
+  .ftoken .halo {
+    position: absolute; inset: -9px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.14), rgba(65, 200, 255, 0.08) 45%, transparent 72%);
+  }
+  .ftoken .tkflash {
+    position: absolute; inset: 3px; border-radius: 50%;
+    background: radial-gradient(circle, #fff, rgba(255, 255, 255, 0) 70%);
+    opacity: 0; transform: scale(0.4);
+    animation: tkflash var(--loop) var(--ease) infinite;
+  }
+  @keyframes tkflash { 0%, 58% { opacity: 0; transform: scale(0.4); } 61% { opacity: 0.9; transform: scale(1.1); } 66%, 100% { opacity: 0; transform: scale(1.4); } }
+
+  .tk-env, .tk-cal {
+    position: absolute; inset: 0; margin: auto; width: 30px; height: 30px;
+    fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .tk-env { stroke: var(--color-violet-2); animation: tkenv var(--loop) linear infinite; }
+  @keyframes tkenv { 0%, 56% { opacity: 1; transform: scale(1); } 62%, 100% { opacity: 0; transform: scale(0.72); } }
+
+  .tk-cal { stroke: var(--color-sky); opacity: 0; animation: tkcal var(--loop) var(--ease) infinite; }
+  @keyframes tkcal { 0%, 59% { opacity: 0; transform: scale(0.55); } 64% { opacity: 1; transform: scale(1.12); } 67%, 100% { opacity: 1; transform: scale(1); } }
+
+  .tk-cal .chk { stroke-dasharray: 1; stroke-dashoffset: 1; animation: tkchk var(--loop) ease infinite; }
+  @keyframes tkchk { 0%, 62% { stroke-dashoffset: 1; } 68%, 100% { stroke-dashoffset: 0; } }
+
+  /* ═══ STATIONS ═══ */
+  .stations { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .station {
+    position: relative; background: rgba(13, 19, 35, 0.6);
+    border: 1px solid rgba(151, 166, 199, 0.12); border-radius: 12px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;
+    min-height: 236px;
+  }
+  .shead {
+    display: flex; justify-content: space-between; align-items: center;
+    height: 12px; font: 600 9.5px var(--f-mono); letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .shead .sl { display: flex; align-items: center; gap: 8px; }
+  .sdot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: none; }
+  .shead .sr { color: var(--ink-3); letter-spacing: 0.12em; font-weight: 500; }
+
+  .stx1 .shead { animation: sheadA var(--loop) linear infinite; }
+  .stx2 .shead { animation: sheadB var(--loop) linear infinite; }
+  .stx3 .shead { animation: sheadC var(--loop) linear infinite; }
+  @keyframes sheadA { 0%, 13% { color: var(--ink-3); } 16%, 92% { color: var(--color-sky); } 96%, 100% { color: var(--ink-3); } }
+  @keyframes sheadB { 0%, 38% { color: var(--ink-3); } 41%, 92% { color: var(--color-sky); } 96%, 100% { color: var(--ink-3); } }
+  @keyframes sheadC { 0%, 67% { color: var(--ink-3); } 70%, 92% { color: var(--color-sky); } 96%, 100% { color: var(--ink-3); } }
+
+  /* Station 1: Sequence */
+  .srow {
+    display: flex; align-items: center; gap: 10px; padding: 8px 11px;
+    border-radius: 9px; background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(151, 166, 199, 0.08);
+  }
+  .srow .n { font: 600 10px var(--f-mono); color: var(--ink-3); letter-spacing: 0.06em; flex: none; }
+  .srow .t {
+    position: relative; flex: 1; min-width: 0; font: 500 12.5px var(--f-ui);
+    color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .schip {
+    font: 600 8.5px var(--f-mono); letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 4px 8px; border-radius: 6px; white-space: nowrap; flex: none;
+  }
+  .schip.queued { background: rgba(151, 166, 199, 0.07); color: var(--ink-3); border: 1px solid rgba(151, 166, 199, 0.16); }
+  .schip.sent { background: #121A2E; color: var(--color-violet-2); border: 1px solid rgba(157, 139, 255, 0.4); }
+  .schip.stopped { background: #1D1A12; color: var(--color-warn); border: 1px solid rgba(245, 183, 78, 0.4); }
+  .schip.replied { background: #0E1B2E; color: var(--color-sky-2); border: 1px solid rgba(65, 200, 255, 0.4); }
+
+  .qwrap { position: relative; display: inline-flex; flex: none; }
+  .qwrap .pop { position: absolute; inset: 0; }
+  .sc-a { animation: chipA var(--loop) var(--ease) infinite; }
+  .sc-b { animation: chipB var(--loop) var(--ease) infinite; }
+  @keyframes chipA { 0%, 15% { opacity: 0; transform: translateY(5px) scale(0.85); } 19%, 92% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: translateY(4px) scale(0.9); } }
+  @keyframes chipB { 0%, 21% { opacity: 0; transform: translateY(5px) scale(0.85); } 25%, 92% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: translateY(4px) scale(0.9); } }
+
+  .qd { animation: qfade var(--loop) linear infinite; }
+  @keyframes qfade { 0%, 47% { opacity: 1; } 52%, 96% { opacity: 0; } 100% { opacity: 1; } }
+
+  .sdp { animation: sdp var(--loop) var(--ease) infinite; }
+  @keyframes sdp { 0%, 48% { opacity: 0; transform: scale(0.7); } 52%, 92% { opacity: 1; transform: scale(1); } 96%, 100% { opacity: 0; transform: scale(0.8); } }
+
+  .strike { position: absolute; left: 0; right: 0; top: 52%; height: 1.5px; background: rgba(245, 183, 78, 0.75); transform: scaleX(0); transform-origin: left; }
+  .srow3 .strike { animation: strikeGo var(--loop) var(--ease) infinite; }
+  @keyframes strikeGo { 0%, 47% { transform: scaleX(0); } 52%, 92% { transform: scaleX(1); } 96%, 100% { transform: scaleX(0); } }
+
+  .srow3 { animation: rowdim var(--loop) linear infinite; }
+  @keyframes rowdim { 0%, 47% { opacity: 1; } 52%, 92% { opacity: 0.55; } 96%, 100% { opacity: 1; } }
+
+  .sfoot {
+    margin-top: auto; display: flex; justify-content: space-between; gap: 8px;
+    padding-top: 10px; border-top: 1px solid rgba(151, 166, 199, 0.08);
+    font: 600 8.5px var(--f-mono); letter-spacing: 0.16em; color: var(--ink-3);
+  }
+
+  /* Station 2: Inbox */
+  .rslot { position: relative; height: 64px; }
+  .rghost {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    border: 1px dashed rgba(151, 166, 199, 0.18); border-radius: 10px;
+    font: 500 9px var(--f-mono); letter-spacing: 0.22em; color: var(--ink-3);
+    text-transform: uppercase; animation: rgo var(--loop) linear infinite;
+  }
+  @keyframes rgo { 0%, 40% { opacity: 1; } 46%, 93% { opacity: 0; } 97%, 100% { opacity: 1; } }
+
+  .reply {
+    position: absolute; inset: 0; display: flex; align-items: center; gap: 11px;
+    padding: 11px 12px; border-radius: 10px; background: rgba(65, 200, 255, 0.06);
+    border: 1px solid rgba(65, 200, 255, 0.28); opacity: 0;
+    transform: translateY(12px) scale(0.97); animation: replyin var(--loop) var(--ease) infinite;
+  }
+  @keyframes replyin { 0%, 41% { opacity: 0; transform: translateY(12px) scale(0.97); } 47%, 92% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: translateY(8px) scale(0.98); } }
+
+  .rava { width: 9px; height: 9px; border-radius: 50%; background: var(--color-sky); box-shadow: 0 0 10px rgba(65, 200, 255, 0.8); flex: none; }
+  .rtxt { flex: 1; min-width: 0; }
+  .rtxt strong { display: block; font: 600 13px var(--f-ui); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rtxt .rsub { display: block; font: 500 8.5px var(--f-mono); letter-spacing: 0.16em; color: var(--ink-3); margin-top: 3px; }
+
+  .rnote {
+    display: flex; align-items: center; gap: 8px; font: 500 10px var(--f-mono);
+    letter-spacing: 0.06em; color: var(--ink-2); opacity: 0;
+    animation: rnotein var(--loop) var(--ease) infinite;
+  }
+  .rnote svg { width: 13px; height: 13px; flex: none; fill: none; stroke: var(--color-warn); stroke-width: 2; stroke-linecap: round; }
+  @keyframes rnotein { 0%, 45% { opacity: 0; transform: translateY(6px); } 50%, 92% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; } }
+
+  /* Station 3: Calendar */
+  .wk { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .day { display: flex; flex-direction: column; gap: 5px; }
+  .day b { font: 600 8.5px var(--f-mono); letter-spacing: 0.14em; color: var(--ink-3); text-align: center; height: 10px; line-height: 10px; }
+  .cell { height: 22px; border-radius: 6px; border: 1px dashed rgba(151, 166, 199, 0.16); }
+
+  .tgt {
+    position: relative; height: 48px; border-radius: 8px;
+    border: 1.5px dashed rgba(65, 200, 255, 0.5);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+  }
+  .tgt .tt { font: 600 9px var(--f-mono); letter-spacing: 0.1em; color: var(--ink-2); }
+  .tchk { width: 13px; height: 13px; }
+  .tchk path {
+    fill: none; stroke: var(--color-sky); stroke-width: 2.6; stroke-linecap: round;
+    stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1;
+    animation: tchk var(--loop) ease infinite;
+  }
+  @keyframes tchk { 0%, 74% { stroke-dashoffset: 1; } 80%, 92% { stroke-dashoffset: 0; } 96%, 100% { stroke-dashoffset: 1; } }
+
+  .tfill {
+    position: absolute; inset: -1.5px; border-radius: 8px; border: 1.5px solid var(--color-sky);
+    background: rgba(65, 200, 255, 0.13); opacity: 0;
+    animation: tfill var(--loop) var(--ease) infinite;
+  }
+  @keyframes tfill { 0%, 70% { opacity: 0; } 74%, 92% { opacity: 1; } 96%, 100% { opacity: 0; } }
+
+  .tring {
+    position: absolute; inset: -6px; border-radius: 11px; border: 1.5px solid rgba(65, 200, 255, 0.8);
+    opacity: 0; transform: scale(0.6); animation: tring var(--loop) var(--ease) infinite;
+  }
+  @keyframes tring { 0%, 70% { opacity: 0; transform: scale(0.6); } 73% { opacity: 0.9; transform: scale(1.05); } 78%, 100% { opacity: 0; transform: scale(1.5); } }
+
+  .tpill {
+    position: absolute; top: -9px; right: -6px; font: 600 8.5px var(--f-mono);
+    letter-spacing: 0.14em; text-transform: uppercase; background: var(--color-sky);
+    color: #04121E; padding: 3px 7px; border-radius: 6px; opacity: 0; transform: scale(0.5);
+    animation: tpill var(--loop) var(--ease) infinite;
+  }
+  @keyframes tpill { 0%, 77% { opacity: 0; transform: scale(0.5); } 80% { opacity: 1; transform: scale(1.15); } 82%, 92% { opacity: 1; transform: scale(1); } 96%, 100% { opacity: 0; transform: scale(0.6); } }
+
+  .confirm {
+    margin-top: auto; display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 9px; background: rgba(65, 200, 255, 0.06);
+    border: 1px solid rgba(65, 200, 255, 0.28); opacity: 0;
+    animation: confirmgo var(--loop) var(--ease) infinite;
+  }
+  @keyframes confirmgo { 0%, 79% { opacity: 0; transform: translateY(10px) scale(0.97); } 85%, 92% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: translateY(6px) scale(0.98); } }
+
+  .cic { width: 30px; height: 30px; border-radius: 8px; background: rgba(65, 200, 255, 0.14); display: grid; place-items: center; flex: none; }
+  .cic svg { width: 15px; height: 15px; fill: none; stroke: var(--color-sky); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .ctxt { flex: 1; min-width: 0; }
+  .ctxt strong { display: block; font: 600 12.5px var(--f-ui); color: var(--ink); }
+  .ctxt span { display: block; font: 500 8.5px var(--f-mono); letter-spacing: 0.14em; color: var(--ink-3); margin-top: 2px; }
+
+  @media (max-width: 720px) {
+    .flight { display: none; }
+    .stations { grid-template-columns: 1fr; }
+    .station { min-height: 0; }
+    .booking-loop { padding: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ftoken { display: none; }
+    .fnode { border-color: var(--color-sky); }
+    .fnode::after { opacity: 0; }
+    .fline-draw { opacity: 0.35; stroke-dashoffset: 0; }
+    .fline-glow { opacity: 0; stroke-dashoffset: 0; }
+    .shead { color: var(--color-sky) !important; }
+    .sc-a, .sc-b, .sdp { opacity: 1; transform: none; }
+    .qd { opacity: 0; }
+    .srow3 { opacity: 0.55; }
+    .srow3 .strike { transform: scaleX(1); }
+    .rghost { opacity: 0; }
+    .reply, .rnote { opacity: 1; transform: none; }
+    .tfill { opacity: 1; }
+    .tchk path { stroke-dashoffset: 0; }
+    .tpill { opacity: 1; transform: none; }
+    .confirm { opacity: 1; transform: none; }
+  }
+</style>

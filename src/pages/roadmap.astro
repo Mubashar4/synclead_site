@@ -1,0 +1,711 @@
+---
+/**
+ * roadmap.astro — Official SyncLead Product Roadmap.
+ * WD-039. High-leverage outbound engineering roadmap.
+ *
+ * Prioritized initiatives:
+ * 1. AI Auto Replies (Q3, 2026 · Staging / Active Rollout)
+ * 2. Autonomous AI SDR Agents (Q4, 2026 · In Development)
+ * 3. Autonomous Research Agents (Q1, 2027 · In Development)
+ * 4. Full Agency Controls (Q1, 2027 · Planned)
+ * 5. Mailbox Placement & Deliverability Suite (Q2, 2027 · Planned)
+ * 6. SyncLead MCP (Model Context Protocol) (Q3, 2027 · Next-Gen Tooling)
+ *
+ * Includes Shipped Infrastructure foundations to anchor product maturity.
+ */
+import PageLayout from '@/layouts/PageLayout.astro';
+import CTASection from '@/components/sections/CTASection.astro';
+
+const roadmapItems = [
+  {
+    id: 'ai-auto-replies',
+    priority: 'P0 · IMMEDIATE CORE FOCUS',
+    timeline: 'Q3, 2026',
+    status: 'Staging',
+    statusClass: 'status-staging',
+    title: 'AI Auto Replies & Objection Handling',
+    subtitle: 'Autonomous response orchestration for inbound cold leads',
+    description:
+      'Engineered to convert replies the moment they land. Analyzes prospect intent (Objection, Information Request, Pricing Inquiry, Ready to Book), stops subsequent drip steps immediately, and crafts context-aware responses citing your knowledge repository while reps sleep.',
+    highlights: [
+      'Multi-intent neural classifier with 98% sentiment accuracy',
+      'Dynamic sequence exit rules triggering automated calendar insertion',
+      'Custom company knowledge base grounding to prevent hallucination',
+      'Optional human-in-the-loop approval toggle before outbound dispatch',
+    ],
+    badge: 'COMING TO STAGING',
+  },
+  {
+    id: 'ai-agents',
+    priority: 'P1 · HIGH VELOCITY',
+    timeline: 'Q4, 2026',
+    status: 'In Development',
+    statusClass: 'status-dev',
+    title: 'Autonomous AI SDR Agents',
+    subtitle: 'Multi-turn autonomous agents managing end-to-end conversation flows',
+    description:
+      'Autonomous outbound agents that go beyond one-off replies. Our AI agents handle multi-turn conversational exchanges, answer complex technical and qualification questions, resolve scheduling conflicts, and lock qualified discovery calls directly into rep calendars.',
+    highlights: [
+      'Multi-turn conversational memory with objection history retention',
+      'BANT / MEDDIC qualification criteria evaluation before booking',
+      'Smart time-slot negotiation across pooled rep availability',
+      'Instant escalation routing to designated account executives on high-value signals',
+    ],
+    badge: 'ACTIVE SPRINT',
+  },
+  {
+    id: 'research-agents',
+    priority: 'P2 · CORE EXPANSION',
+    timeline: 'Q1, 2027',
+    status: 'In Development',
+    statusClass: 'status-dev',
+    title: 'Deep Account & Prospect Research Agents',
+    subtitle: 'Automated intelligence synthesis for hyper-relevant sequence hooks',
+    description:
+      'Eliminates generic spintax. Research agents autonomously crawl prospect company websites, executive LinkedIn activity, quarterly filings, and job postings to synthesize bespoke opening hooks that prove your team did the homework.',
+    highlights: [
+      'Real-time firmographic & technographic signal extraction',
+      'Verified executive trigger events (hiring, funding, stack migration)',
+      'Automated relevance scoring before sequence inclusion',
+      'Direct synchronization into contact custom fields and dynamic merge tags',
+    ],
+    badge: 'IN DESIGN',
+  },
+  {
+    id: 'agency-controls',
+    priority: 'P3 · SCALE ARCHITECTURE',
+    timeline: 'Q1, 2027',
+    status: 'Planned',
+    statusClass: 'status-planned',
+    title: 'Full Agency Controls & Multi-Tenant Portals',
+    subtitle: 'Enterprise multi-workspace management for GTM agencies and consultants',
+    description:
+      'Built specifically for outbound growth agencies managing multiple client stacks. Create isolated client workspaces, delegate campaign-level access to client reps, centralize master credit billing, and generate white-labeled performance reporting.',
+    highlights: [
+      'Isolated multi-tenant workspaces with separate sending pools and domains',
+      'Master billing with central credit distribution to sub-workspaces',
+      'Client-level RBAC (read-only client reporting, rep execution tiers)',
+      'White-labeled domain reporting exports and scheduled Slack summaries',
+    ],
+    badge: 'PLANNED',
+  },
+  {
+    id: 'mailbox-placement',
+    priority: 'P4 · DELIVERABILITY SUITE',
+    timeline: 'Q2, 2027',
+    status: 'Planned',
+    statusClass: 'status-planned',
+    title: 'Mailbox Placement & Deliverability Warmup Suite',
+    subtitle: 'Continuous seed-list inbox placement testing and spam recovery',
+    description:
+      'A comprehensive deliverability diagnostic engine. Automatically fires test sends to seed mailboxes across Google Workspace, Microsoft 365, and Yahoo to map inbox vs. spam tab placement, detect throttling, and dynamically adjust sending speed.',
+    highlights: [
+      'Live inbox placement heatmaps across all major email service providers',
+      'Automated spam-folder detection with instant emergency sending pause',
+      'Dynamic volume ramping algorithms based on seed engagement health',
+      'Continuous blacklist and reputation tracking across major spam databases',
+    ],
+    badge: 'PLANNED',
+  },
+  {
+    id: 'synclead-mcp',
+    priority: 'P5 · NEXT-GEN INFRASTRUCTURE',
+    timeline: 'Q3, 2027',
+    status: 'Planned',
+    statusClass: 'status-planned',
+    title: 'SyncLead MCP (Model Context Protocol) Server',
+    subtitle: 'Native Model Context Protocol integration for Claude, Cursor, and custom LLM agents',
+    description:
+      'Standardized Model Context Protocol (MCP) server integration. Connect external AI agents, IDEs, and local workflows directly to SyncLead to query mailbox health, adjust sequence schedules, analyze reply intent, and trigger campaigns programmatically.',
+    highlights: [
+      'Standardized MCP tool declarations for deliverability, campaigns, and inbox',
+      'Secure tokenized MCP authentication with granular permission scopes',
+      'Enables Claude Desktop and autonomous AI workflows to act as outbound ops co-pilots',
+      'Real-time streaming telemetry and audit logging for all MCP-invoked actions',
+    ],
+    badge: 'ARCHITECTURE',
+  },
+];
+
+const shippedFoundations = [
+  {
+    title: 'Multi-IP Sending Pools & IP Auto-Rotation',
+    quarter: 'Q1, 2026',
+    desc: 'Volume rotates across multiple IP addresses with strict per-account sending caps to isolate domain reputation.',
+  },
+  {
+    title: 'OAuth 2.0 Mailbox Authentication (Zero Password Retention)',
+    quarter: 'Q2, 2026',
+    desc: 'Native Google Workspace and Microsoft Graph token exchange. Credentials never touch our servers.',
+  },
+  {
+    title: 'Continuous SPF, DKIM, DMARC & MX Drift Monitoring',
+    quarter: 'Q2, 2026',
+    desc: 'Automated background workers continuously query DNS records and alert upon any configuration drift.',
+  },
+  {
+    title: 'Native Calendar Scheduling & Automated No-Show Recovery',
+    quarter: 'Q2, 2026',
+    desc: 'Integrated booking engine that instantly triggers multi-channel recovery sequences when prospects miss calls.',
+  },
+  {
+    title: 'AI Reply Intent Scoring v2.4 (Positive, Neutral, OOO)',
+    quarter: 'Q3, 2026',
+    desc: 'Real-time NLP stream identifying buying signals and automatically pausing sequences upon prospect replies.',
+  },
+];
+---
+
+<PageLayout
+  title="Product Roadmap & Engineering Timeline — SyncLead"
+  description="Transparent engineering roadmap for SyncLead. From AI auto-replies and autonomous SDR agents to full agency controls and native Model Context Protocol (MCP) tooling."
+>
+  <!-- Hero Section -->
+  <section class="roadmap-hero">
+    <div class="container">
+      <div class="hero-content" data-reveal>
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>PRODUCT ROADMAP · 2026–2027</span>
+        </div>
+        <h1 class="hero-title">
+          Engineering the future of<br />
+          <em>autonomous outbound infrastructure.</em>
+        </h1>
+        <p class="hero-lead">
+          We ship in the open. Explore our prioritized engineering pipeline from real-time AI reply automation and autonomous research agents to native Model Context Protocol (MCP) integrations.
+        </p>
+
+        <div class="roadmap-stats">
+          <div class="stat-pill">
+            <span class="dot-live"></span>
+            <span>5 Core Systems Live</span>
+          </div>
+          <div class="stat-pill">
+            <span class="dot-active"></span>
+            <span>2 Features in Active Sprints</span>
+          </div>
+          <div class="stat-pill">
+            <span class="dot-future"></span>
+            <span>4 Major Architectures Scheduled</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prioritized Roadmap Timeline -->
+  <section class="sec sec-roadmap seam" id="pipeline">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <p class="eyebrow">Engineering Pipeline</p>
+        <h2 class="h2">Prioritized development. <em>High conviction.</em></h2>
+        <p class="lead">Every item is ordered strictly by strategic impact on booked meeting velocity and domain preservation.</p>
+      </div>
+
+      <div class="timeline-stream">
+        {roadmapItems.map((item, index) => (
+          <div class="timeline-item" data-reveal data-d={index > 0 ? (index % 3) : undefined}>
+            <!-- Left Meta Column -->
+            <div class="t-meta">
+              <span class="t-timeline font-mono">{item.timeline}</span>
+              <span class="t-priority font-mono">{item.priority}</span>
+              <span class={`t-status ${item.statusClass}`}>
+                <i class="st-dot"></i>
+                {item.status}
+              </span>
+            </div>
+
+            <!-- Main Roadmap Content Card -->
+            <div class="t-card">
+              <div class="t-card-head">
+                <div>
+                  <h3 class="t-title">{item.title}</h3>
+                  <p class="t-subtitle">{item.subtitle}</p>
+                </div>
+                <span class="t-badge font-mono">{item.badge}</span>
+              </div>
+
+              <p class="t-desc">{item.description}</p>
+
+              <div class="t-specs">
+                <span class="specs-head">KEY CAPABILITIES & DELIVERABLES</span>
+                <ul class="specs-list">
+                  {item.highlights.map((h) => (
+                    <li>
+                      <span class="spec-check" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+                      </span>
+                      <span>{h}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Shipped Infrastructure Foundations -->
+  <section class="sec sec-shipped seam" id="shipped">
+    <div class="container">
+      <div class="sec-head" data-reveal>
+        <p class="eyebrow">Shipped & Operational</p>
+        <h2 class="h2">Core infrastructure already <em>in production.</em></h2>
+        <p class="lead">The battle-tested architectural foundation powering 100% of campaigns today.</p>
+      </div>
+
+      <div class="shipped-grid" data-reveal data-d="1">
+        {shippedFoundations.map((item) => (
+          <div class="shipped-card">
+            <div class="shipped-top">
+              <span class="shipped-badge font-mono">LIVE IN PROD</span>
+              <span class="shipped-quarter font-mono">{item.quarter}</span>
+            </div>
+            <h3 class="shipped-title">{item.title}</h3>
+            <p class="shipped-desc">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Request Callout -->
+  <section class="sec sec-request seam">
+    <div class="container">
+      <div class="request-card" data-reveal>
+        <div class="req-content">
+          <span class="req-eyebrow font-mono">COLLABORATIVE GTM ARCHITECTURE</span>
+          <h3 class="req-title">Have an outbound infrastructure requirement?</h3>
+          <p class="req-desc">
+            We work closely with serious revenue engines. If your team requires specific CRM custom fields, dedicated deliverability routing, or enterprise protocol support, let our engineering team know directly.
+          </p>
+        </div>
+        <div class="req-cta">
+          <a
+            class="btn btn-white btn-lg"
+            href="mailto:contact@synclead.io?subject=Roadmap%20Architecture%20Request"
+          >
+            Submit Roadmap Request
+          </a>
+          <span class="req-sub font-mono">Direct line to core engineering</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom Global CTA -->
+  <CTASection />
+</PageLayout>
+
+<style>
+  /* Roadmap Hero */
+  .roadmap-hero {
+    position: relative;
+    padding-top: clamp(140px, 18vh, 180px);
+    padding-bottom: clamp(60px, 8vh, 90px);
+    background: var(--bg-0);
+    overflow: hidden;
+  }
+  .roadmap-hero::before {
+    content: '';
+    position: absolute;
+    top: -140px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 960px;
+    height: 520px;
+    background: radial-gradient(circle, rgba(157, 139, 255, 0.12), rgba(65, 200, 255, 0.05), transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(157, 139, 255, 0.1);
+    border: 1px solid rgba(157, 139, 255, 0.3);
+    border-radius: 999px;
+    padding: 6px 16px;
+    font: 600 10.5px var(--f-mono);
+    color: var(--color-violet-2);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-violet);
+    box-shadow: 0 0 8px var(--color-violet);
+  }
+
+  .hero-title {
+    font: 800 clamp(38px, 5.5vw, 62px)/1.1 var(--f-ui);
+    color: #fff;
+    letter-spacing: -0.03em;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-family: var(--f-serif);
+    font-weight: 400;
+    color: var(--color-sky);
+    display: block;
+    margin-top: 4px;
+  }
+  .hero-lead {
+    font: 400 clamp(16px, 2vw, 19px)/1.6 var(--f-ui);
+    color: var(--ink-2);
+    max-width: 720px;
+    margin: 20px auto 0;
+  }
+
+  /* Roadmap Stats Pills */
+  .roadmap-stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 36px;
+  }
+  .stat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line-2);
+    padding: 7px 16px;
+    border-radius: 999px;
+    font: 500 12px var(--f-ui);
+    color: var(--ink-2);
+  }
+  .dot-live {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-ok);
+  }
+  .dot-active {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-violet);
+    box-shadow: 0 0 6px var(--color-violet);
+  }
+  .dot-future {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-sky);
+  }
+
+  /* Pipeline Section */
+  .sec-roadmap {
+    background: #060913;
+    padding: 90px 0 110px;
+  }
+  .timeline-stream {
+    max-width: 1040px;
+    margin: 48px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    position: relative;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  /* Timeline Meta Column */
+  .t-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 12px;
+  }
+  .t-timeline {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .t-priority {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+  }
+  .t-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 600 11px var(--f-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 6px;
+    width: fit-content;
+    margin-top: 4px;
+  }
+  .st-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+  }
+
+  .status-staging {
+    background: rgba(157, 139, 255, 0.14);
+    border: 1px solid rgba(157, 139, 255, 0.35);
+    color: var(--color-violet-2);
+  }
+  .status-staging .st-dot {
+    background: var(--color-violet);
+    box-shadow: 0 0 6px var(--color-violet);
+  }
+
+  .status-dev {
+    background: rgba(65, 200, 255, 0.12);
+    border: 1px solid rgba(65, 200, 255, 0.3);
+    color: var(--color-sky);
+  }
+  .status-dev .st-dot {
+    background: var(--color-sky);
+  }
+
+  .status-planned {
+    background: rgba(151, 166, 199, 0.08);
+    border: 1px solid rgba(151, 166, 199, 0.18);
+    color: var(--ink-2);
+  }
+  .status-planned .st-dot {
+    background: var(--ink-3);
+  }
+
+  /* Timeline Card */
+  .t-card {
+    background: rgba(10, 15, 30, 0.75);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 32px 36px;
+    box-shadow: 0 16px 40px -15px rgba(0, 0, 0, 0.6);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+  .t-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(65, 200, 255, 0.3);
+  }
+
+  .t-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .t-title {
+    font: 700 22px var(--f-ui);
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .t-subtitle {
+    font: 500 13px var(--f-ui);
+    color: var(--color-sky);
+    margin-top: 3px;
+  }
+  .t-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(151, 166, 199, 0.16);
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+
+  .t-desc {
+    font: 400 14px/1.65 var(--f-ui);
+    color: var(--ink-2);
+    margin-bottom: 24px;
+  }
+
+  /* Specs list */
+  .t-specs {
+    border-top: 1px solid rgba(151, 166, 199, 0.1);
+    padding-top: 18px;
+  }
+  .specs-head {
+    display: block;
+    font: 600 9px var(--f-mono);
+    letter-spacing: 0.16em;
+    color: var(--ink-3);
+    margin-bottom: 12px;
+  }
+  .specs-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 20px;
+  }
+  .specs-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font: 400 12.5px/1.5 var(--f-ui);
+    color: var(--ink-2);
+  }
+  .spec-check {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgba(65, 200, 255, 0.1);
+    border: 1px solid rgba(65, 200, 255, 0.3);
+    display: grid;
+    place-items: center;
+    flex: none;
+    margin-top: 2px;
+  }
+  .spec-check svg {
+    width: 8px;
+    height: 8px;
+    stroke: var(--color-sky);
+    fill: none;
+    stroke-width: 2.8;
+  }
+
+  /* Shipped Section */
+  .sec-shipped {
+    background: var(--bg-0);
+    padding: 90px 0;
+  }
+  .shipped-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1040px;
+    margin: 48px auto 0;
+  }
+  .shipped-card {
+    background: rgba(10, 15, 30, 0.6);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .shipped-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .shipped-badge {
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--color-ok);
+    background: rgba(61, 214, 140, 0.1);
+    border: 1px solid rgba(61, 214, 140, 0.25);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .shipped-quarter {
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  .shipped-title {
+    font: 600 15px var(--f-ui);
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .shipped-desc {
+    font: 400 12.5px/1.55 var(--f-ui);
+    color: var(--ink-2);
+  }
+
+  /* Request Architecture Section */
+  .sec-request {
+    background: #060913;
+    padding: 70px 0 90px;
+  }
+  .request-card {
+    max-width: 1040px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(13, 22, 40, 0.95), rgba(8, 12, 24, 0.9));
+    border: 1px solid rgba(65, 200, 255, 0.25);
+    border-radius: 20px;
+    padding: 44px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 36px;
+    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.7);
+  }
+  .req-eyebrow {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--color-sky);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .req-title {
+    font: 700 24px var(--f-ui);
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .req-desc {
+    font: 400 14px/1.6 var(--f-ui);
+    color: var(--ink-2);
+    max-width: 540px;
+    margin-top: 8px;
+  }
+  .req-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    flex: none;
+  }
+  .req-sub {
+    font-size: 10.5px;
+    color: var(--ink-3);
+  }
+
+  @media (max-width: 960px) {
+    .timeline-item {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .specs-list {
+      grid-template-columns: 1fr;
+    }
+    .shipped-grid {
+      grid-template-columns: 1fr;
+    }
+    .request-card {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 32px 24px;
+    }
+    .req-cta {
+      width: 100%;
+    }
+    .req-cta .btn {
+      width: 100%;
+    }
+  }
+</style>

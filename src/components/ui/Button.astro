@@ -1,0 +1,51 @@
+---
+/**
+ * Button.astro — Single button/link component, 3 variants × 3 sizes.
+ * Spec: site-spec.md §6.1
+ */
+interface Props {
+  variant?: 'primary' | 'solid' | 'ghost' | 'outline';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  type?: 'link' | 'submit';
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  type = 'link',
+  class: className = '',
+} = Astro.props;
+
+// `btn-base` (global.css §4b, WD-028) supplies the shared transition plus the
+// 1px hover rise / press-down. Variants only declare colour.
+const baseClasses = 'btn-base inline-flex items-center justify-center gap-2 font-semibold';
+
+const variantClasses: Record<string, string> = {
+  primary: 'text-white rounded-btn bg-gradient-cta hover:opacity-90 hover:shadow-glow-sky',
+  solid: 'text-white rounded-btn bg-dark-900 hover:bg-dark-800 hover:shadow-glow-sky',
+  ghost: 'text-white rounded-btn border border-white/25 bg-transparent hover:bg-white/10',
+  outline: 'text-brand-sky rounded-btn border border-brand-sky bg-transparent hover:bg-brand-sky hover:text-brand-navy',
+};
+
+const sizeClasses: Record<string, string> = {
+  sm: 'text-body-m px-4 py-2',
+  md: 'text-body-m px-6 py-3',
+  lg: 'text-body-l px-8 py-4',
+};
+
+const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`.trim();
+const isSubmit = type === 'submit';
+---
+
+{isSubmit ? (
+  <button type="submit" class={classes}>
+    <slot />
+  </button>
+) : (
+  <a href={href} class={classes}>
+    <slot />
+  </a>
+)}

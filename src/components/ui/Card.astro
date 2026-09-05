@@ -1,0 +1,32 @@
+---
+/**
+ * Card.astro — Content card, two variants.
+ * Spec: site-spec.md §6.3 · Hover lift per WD-028
+ *
+ * `lift` defaults to true: cards rise and pick up a sky-tinted border on hover.
+ * Pass `lift={false}` for cards that are purely presentational and should not
+ * suggest interactivity.
+ */
+interface Props {
+  variant?: 'light' | 'glass';
+  lift?: boolean;
+  class?: string;
+}
+
+const { variant = 'light', lift = true, class: className = '' } = Astro.props;
+
+const variantClasses: Record<string, string> = {
+  light: 'bg-white rounded-card shadow-card border border-grey-300 p-8',
+  glass: 'glass-dark rounded-card p-8',
+};
+
+// Light cards lift with a shadow; glass cards brighten, because a shadow on a
+// dark background reads as nothing (global.css §4b).
+const liftClass = lift ? (variant === 'glass' ? 'card-lift-glass' : 'card-lift') : '';
+
+const classes = `${variantClasses[variant]} ${liftClass} ${className}`.trim();
+---
+
+<div class={classes}>
+  <slot />
+</div>

@@ -1,0 +1,415 @@
+---
+/**
+ * LegalLayout.astro — High-end editorial chrome for SyncLead legal documents.
+ * Architecture: Dark Cinema Design System v2 (WD-032).
+ * Formatted to world-class enterprise SaaS standards (Linear / Stripe / Supabase caliber).
+ */
+import PageLayout from '@/layouts/PageLayout.astro';
+
+export interface TocItem {
+  id: string;
+  label: string;
+  number?: string;
+}
+
+interface Props {
+  /** Document title, e.g. "Privacy Policy" — also used as the H1. */
+  heading: string;
+  /** One-line standfirst under the H1. */
+  standfirst: string;
+  /** Uppercase eyebrow pill, e.g. "OFFICIAL POLICY". */
+  eyebrow?: string;
+  /** Human-readable revision date, e.g. "28 March 2026". */
+  lastUpdated: string;
+  /** ISO date for the <time datetime> attribute. */
+  lastUpdatedISO: string;
+  /** <title> tag. */
+  title: string;
+  /** Meta description. */
+  description: string;
+  /** Path of the current document, used to mark the active cross-link. */
+  current: string;
+  /** Optional table of contents items for sidebar navigation. */
+  toc?: TocItem[];
+}
+
+const {
+  heading,
+  standfirst,
+  eyebrow = 'OFFICIAL POLICY',
+  lastUpdated,
+  lastUpdatedISO,
+  title,
+  description,
+  current,
+  toc = [],
+} = Astro.props;
+
+const legalDocuments = [
+  {
+    label: 'Terms of Service',
+    href: '/terms',
+    desc: 'General commercial terms, acceptable use, and platform service boundaries.',
+  },
+  {
+    label: 'Privacy Policy',
+    href: '/privacy',
+    desc: 'GDPR compliance, data controller info, personal data categories, and rights.',
+  },
+  {
+    label: 'Acceptable Use Policy',
+    href: '/acceptable-use',
+    desc: 'Sending hygiene standards, prohibited actions, and infrastructure protection.',
+  },
+  {
+    label: 'Refund Policy',
+    href: '/refund',
+    desc: '14-day money-back guarantee terms, cancellation procedures, and Stripe processing.',
+  },
+];
+---
+
+<PageLayout title={title} description={description}>
+  <!-- Ambient top glow -->
+  <div class="relative overflow-hidden bg-bg-0 pt-32 sm:pt-40 pb-12 sm:pb-16 border-b border-white/[0.06]">
+    <div
+      class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[720px] h-[380px] bg-[radial-gradient(ellipse_at_center,_rgba(65,200,255,0.08)_0%,_transparent_70%)] blur-2xl"
+      aria-hidden="true"
+    ></div>
+
+    <div class="container max-w-6xl relative z-10">
+      <!-- Breadcrumbs -->
+      <nav class="flex items-center gap-2 text-xs font-mono tracking-wider text-ink-3 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-ink transition-colors">HOME</a>
+        <span class="text-white/20">/</span>
+        <span class="text-ink-2">LEGAL</span>
+        <span class="text-white/20">/</span>
+        <span class="text-sky">{heading.toUpperCase()}</span>
+      </nav>
+
+      <!-- Eyebrow + Live status pill -->
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium tracking-wide bg-sky/10 border border-sky/30 text-sky">
+          <span class="w-1.5 h-1.5 rounded-full bg-ok shadow-[0_0_8px_#3DD68C]"></span>
+          {eyebrow}
+        </span>
+        <span class="text-xs font-mono uppercase tracking-widest text-ink-3">
+          SYNCLEAD COMPLIANCE CORPUS
+        </span>
+      </div>
+
+      <!-- Title & Standfirst -->
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mt-4 font-ui">
+        {heading}
+      </h1>
+      <p class="text-base sm:text-lg text-ink-2 mt-4 max-w-3xl leading-relaxed">
+        {standfirst}
+      </p>
+
+      <!-- Metadata summary ribbon -->
+      <div class="flex flex-wrap items-center gap-y-3 gap-x-6 mt-8 pt-6 border-t border-white/[0.08] text-xs font-mono text-ink-3">
+        <div class="flex items-center gap-2">
+          <span class="text-ink-2">LAST REVISED:</span>
+          <time datetime={lastUpdatedISO} class="text-ink">{lastUpdated}</time>
+        </div>
+        <div class="hidden sm:block text-white/20">&bull;</div>
+        <div class="flex items-center gap-2">
+          <span class="text-ink-2">JURISDICTION:</span>
+          <span class="text-ink">ENGLAND & WALES</span>
+        </div>
+        <div class="hidden sm:block text-white/20">&bull;</div>
+        <div class="flex items-center gap-2">
+          <span class="text-ink-2">ENFORCEMENT:</span>
+          <span class="text-ok font-semibold">ACTIVE & BINDING</span>
+        </div>
+        <div class="sm:ml-auto flex items-center gap-3">
+          <button
+            id="share-legal-doc-btn"
+            type="button"
+            class="inline-flex items-center gap-1.5 text-xs text-sky hover:text-sky-2 transition-colors px-2.5 py-1 rounded border border-sky/20 bg-sky/5 hover:bg-sky/10"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            <span id="share-btn-label">Copy Link</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Collapsible Table of Contents (<1024px) -->
+  {toc.length > 0 && (
+    <div class="lg:hidden bg-bg-1 border-b border-white/[0.06] sticky top-16 z-30">
+      <div class="container max-w-6xl py-2.5">
+        <details class="group">
+          <summary class="flex items-center justify-between text-xs font-mono text-ink cursor-pointer list-none select-none py-1">
+            <span class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-sky" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+              <span>JUMP TO SECTION</span>
+            </span>
+            <span class="text-sky text-[11px] group-open:rotate-180 transition-transform">&darr;</span>
+          </summary>
+          <div class="pt-3 pb-2 max-h-64 overflow-y-auto space-y-1">
+            {toc.map((item) => (
+              <a
+                href={`#${item.id}`}
+                class="block py-1.5 px-2 rounded text-xs text-ink-2 hover:text-white hover:bg-white/[0.04] transition-colors"
+              >
+                {item.number && <span class="font-mono text-ink-3 mr-2">{item.number}</span>}
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </details>
+      </div>
+    </div>
+  )}
+
+  <!-- Document Main Workspace -->
+  <section class="bg-bg-0 py-12 lg:py-16">
+    <div class="container max-w-6xl">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        
+        <!-- Desktop Sticky Navigation Sidebar -->
+        <aside class="hidden lg:block lg:col-span-4 xl:col-span-3 sticky top-28 space-y-6 self-start">
+          
+          <!-- Legal Suite Quick Switcher -->
+          <div class="p-4 rounded-xl border border-white/[0.08] bg-bg-1/90 backdrop-blur-sm shadow-lg">
+            <p class="text-[11px] font-mono tracking-widest uppercase text-ink-3 mb-3 font-semibold flex items-center justify-between">
+              <span>LEGAL CORPUS</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-sky"></span>
+            </p>
+            <nav aria-label="Policy switcher" class="space-y-1">
+              {legalDocuments.map((doc) => {
+                const isCurrent = doc.href === current;
+                return isCurrent ? (
+                  <span
+                    class="flex items-center justify-between py-2 px-3 rounded-lg bg-sky/10 border border-sky/30 text-xs font-medium text-white shadow-sm"
+                    aria-current="page"
+                  >
+                    <span>{doc.label}</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-sky animate-pulse"></span>
+                  </span>
+                ) : (
+                  <a
+                    href={doc.href}
+                    class="block py-2 px-3 rounded-lg text-xs text-ink-2 hover:text-white hover:bg-white/[0.04] transition-colors"
+                  >
+                    {doc.label}
+                  </a>
+                );
+              })}
+            </nav>
+          </div>
+
+          <!-- Table of Contents -->
+          {toc.length > 0 && (
+            <div class="p-4 rounded-xl border border-white/[0.08] bg-bg-1/90 backdrop-blur-sm shadow-lg max-h-[calc(100vh-320px)] overflow-y-auto">
+              <p class="text-[11px] font-mono tracking-widest uppercase text-ink-3 mb-3 font-semibold flex items-center justify-between">
+                <span>ON THIS PAGE</span>
+                <span class="text-[10px] text-ink-3 font-normal">{toc.length} CLAUSES</span>
+              </p>
+              <nav aria-label="Table of contents" class="space-y-0.5">
+                {toc.map((item) => (
+                  <a
+                    href={`#${item.id}`}
+                    class="toc-link group flex items-baseline gap-2 py-1.5 px-2.5 rounded-lg text-xs text-ink-2 hover:text-white hover:bg-white/[0.04] transition-all"
+                    data-section={item.id}
+                  >
+                    {item.number && (
+                      <span class="font-mono text-[10.5px] text-ink-3 group-hover:text-sky transition-colors shrink-0">
+                        {item.number}
+                      </span>
+                    )}
+                    <span class="truncate leading-normal">{item.label}</span>
+                  </a>
+                ))}
+              </nav>
+            </div>
+          )}
+
+          <!-- Compliance Desk Help Card -->
+          <div class="p-4 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+            <h4 class="text-[11px] font-mono uppercase tracking-wider text-ink-2 font-semibold">
+              Compliance Enquiries
+            </h4>
+            <p class="text-xs text-ink-3 mt-1.5 leading-relaxed">
+              Have specific legal or data security questions regarding your workspace?
+            </p>
+            <div class="mt-3 pt-3 border-t border-white/[0.06] flex flex-col gap-1.5 text-xs">
+              <a href="mailto:privacy@synclead.io" class="text-sky hover:underline flex items-center gap-1.5">
+                <span>&bull;</span> privacy@synclead.io
+              </a>
+              <a href="mailto:contact@synclead.io" class="text-ink-2 hover:text-sky flex items-center gap-1.5">
+                <span>&bull;</span> contact@synclead.io
+              </a>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Reading Canvas -->
+        <div class="lg:col-span-8 xl:col-span-9">
+          <div class="bg-bg-1/90 border border-white/[0.08] rounded-2xl p-6 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-sm">
+            <article class="legal-prose">
+              <slot />
+            </article>
+
+            <!-- Corporate Entity Badge Block (Executive Card) -->
+            <div class="mt-16 pt-8 border-t border-white/[0.1]">
+              <div class="p-6 rounded-xl bg-bg-2 border border-white/[0.08] relative overflow-hidden">
+                <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div>
+                    <div class="flex items-center gap-2.5">
+                      <span class="w-2.5 h-2.5 rounded-full bg-ok shadow-[0_0_8px_#3DD68C]"></span>
+                      <h3 class="font-bold text-base text-white tracking-wide font-ui">
+                        SYNCLEAD LTD
+                      </h3>
+                      <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-white/[0.06] text-ink-2 border border-white/[0.08]">
+                        Active UK Entity
+                      </span>
+                    </div>
+                    <address class="mt-3 text-xs sm:text-sm text-ink-2 not-italic leading-relaxed">
+                      Company Number: <strong class="text-white font-mono font-medium">15903993</strong><br />
+                      Registered Office: 20 Wenlock Road, London, England, N1 7GU<br />
+                      United Kingdom
+                    </address>
+                  </div>
+                  <div class="sm:text-right shrink-0">
+                    <p class="text-[11px] font-mono text-ink-3 uppercase tracking-wider mb-1.5">Official Inquiries</p>
+                    <a
+                      href="mailto:contact@synclead.io"
+                      class="inline-block text-xs font-mono text-sky hover:underline"
+                    >
+                      contact@synclead.io
+                    </a>
+                    <br />
+                    <a
+                      href="mailto:privacy@synclead.io"
+                      class="inline-block text-xs font-mono text-sky hover:underline mt-1"
+                    >
+                      privacy@synclead.io
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Sibling Policy Documents Navigation Grid -->
+  <section class="bg-bg-1 py-16 border-t border-white/[0.06]">
+    <div class="container max-w-6xl">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+        <div>
+          <p class="text-xs font-mono text-sky uppercase tracking-widest">Complete Documentation</p>
+          <h2 class="text-2xl font-bold text-white tracking-tight font-ui mt-1">
+            All Compliance Policies
+          </h2>
+        </div>
+        <p class="text-xs font-mono text-ink-3">
+          STANDARDIZED TERMS &middot; REVISION 2026.03
+        </p>
+      </div>
+
+      <nav aria-label="Legal documents suite">
+        <ul class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {legalDocuments.map((doc) => {
+            const isCurrent = doc.href === current;
+            return (
+              <li>
+                {isCurrent ? (
+                  <div class="h-full p-5 rounded-xl border border-sky/50 bg-sky/[0.05] shadow-lg flex flex-col justify-between">
+                    <div>
+                      <span class="inline-flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-sky font-semibold mb-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-sky"></span>
+                        Current Document
+                      </span>
+                      <h3 class="font-bold text-white text-base font-ui">{doc.label}</h3>
+                      <p class="text-xs text-ink-2 mt-2 leading-relaxed">{doc.desc}</p>
+                    </div>
+                    <span class="mt-4 text-xs font-mono text-sky font-medium">Viewing Now &bull;</span>
+                  </div>
+                ) : (
+                  <a
+                    href={doc.href}
+                    class="group h-full p-5 rounded-xl border border-white/[0.08] bg-bg-2 hover:border-sky/40 hover:bg-bg-3/80 transition-all duration-200 flex flex-col justify-between shadow-md hover:-translate-y-0.5"
+                  >
+                    <div>
+                      <span class="text-[10px] font-mono uppercase tracking-wider text-ink-3 mb-2 block group-hover:text-sky transition-colors">
+                        Policy Document
+                      </span>
+                      <h3 class="font-bold text-white text-base font-ui group-hover:text-sky transition-colors">{doc.label}</h3>
+                      <p class="text-xs text-ink-2 mt-2 leading-relaxed">{doc.desc}</p>
+                    </div>
+                    <span class="mt-4 inline-flex items-center gap-1 text-xs font-mono text-sky group-hover:translate-x-0.5 transition-transform">
+                      Read Policy &rarr;
+                    </span>
+                  </a>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Interactive ScrollSpy & Share Script -->
+  <script>
+    // Copy URL functionality
+    const shareBtn = document.getElementById('share-legal-doc-btn');
+    const shareLabel = document.getElementById('share-btn-label');
+    if (shareBtn && shareLabel) {
+      shareBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          const original = shareLabel.textContent;
+          shareLabel.textContent = 'Link Copied!';
+          setTimeout(() => {
+            shareLabel.textContent = original;
+          }, 2000);
+        } catch {
+          // Fallback
+        }
+      });
+    }
+
+    // ScrollSpy for Table of Contents
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const headingElements = Array.from(document.querySelectorAll('.legal-prose h2[id]'));
+
+    if (tocLinks.length > 0 && headingElements.length > 0) {
+      const observerCallback = (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const activeId = entry.target.getAttribute('id');
+            tocLinks.forEach((link) => {
+              if (link.getAttribute('data-section') === activeId) {
+                link.classList.add('toc-active');
+              } else {
+                link.classList.remove('toc-active');
+              }
+            });
+          }
+        });
+      };
+
+      const observer = new IntersectionObserver(observerCallback, {
+        rootMargin: '-100px 0px -60% 0px',
+        threshold: 0,
+      });
+
+      headingElements.forEach((heading) => observer.observe(heading));
+    }
+  </script>
+</PageLayout>

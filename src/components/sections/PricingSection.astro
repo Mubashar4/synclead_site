@@ -1,0 +1,450 @@
+---
+/**
+ * PricingSection.astro — Three-tier pricing table. WD-033 / WD-039.
+ * Clean, high-leverage infrastructure aesthetic:
+ * Tier 1: Pro ($149/mo) — 50 connected mailboxes, 125k verified email sends.
+ * Tier 2: Scale ($399/mo) — Highlighted primary tier: 250 mailboxes, 600k verified sends, Agency controls.
+ * Tier 3: Enterprise (Custom) — Unlimited mailboxes, 1.5M+ verified sends, dedicated deliverability ops.
+ */
+interface Props {
+  showHeader?: boolean;
+}
+
+const { showHeader = true } = Astro.props;
+
+const plans = [
+  {
+    id: 'pro',
+    name: 'Pro',
+    tagline: 'The anchor tier for dedicated outbound revenue engines.',
+    price: '149',
+    unit: '/month',
+    highlighted: false,
+    badge: null,
+    features: [
+      '50 connected mailboxes & sending domains',
+      '125,000 verified emails delivered / mo',
+      '25,000 uploaded contacts in campaigns & lists',
+      '7,500 plan credits allocated monthly',
+      'Multi-IP sending pools with auto-rotation',
+      'Continuous SPF, DKIM, DMARC & MX monitoring',
+      'Frictionless calendar booking & no-show recovery',
+      'Centralized inbox with automated sequence exit rules',
+      'Core deliverability analytics & bounce classification',
+    ],
+    ctaLabel: 'Get Started',
+    ctaHref: 'https://app.synclead.io/signup',
+  },
+  {
+    id: 'scale',
+    name: 'Scale',
+    tagline: 'Engineered for high-velocity teams scaling pipeline aggressively.',
+    price: '399',
+    unit: '/month',
+    highlighted: true,
+    badge: 'MOST POPULAR',
+    features: [
+      '250 connected mailboxes & secondary domains',
+      '600,000 verified emails delivered / mo',
+      '125,000 uploaded contacts & 50k per list',
+      '35,000 plan credits allocated monthly',
+      'Dedicated IP rotation pools & subnet isolation',
+      'Full agency controls & campaign-level access delegation',
+      '90-day activity log retention & advanced blocklist',
+      'Live AI Intent Scoring & prioritized lead feed',
+      'Round-robin pooled availability across rep team',
+      'Automated multi-channel no-show recovery loops',
+      'Bi-directional HubSpot sync & webhook pipelines',
+    ],
+    ctaLabel: 'Get Started',
+    ctaHref: 'https://app.synclead.io/signup',
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    tagline: 'Custom infrastructure & dedicated deliverability ops.',
+    price: 'Custom',
+    unit: '',
+    highlighted: false,
+    badge: null,
+    features: [
+      'Unlimited mailboxes & secondary sending domains',
+      '1.5M+ monthly verified email sends (custom volume)',
+      'Unlimited uploaded contacts & custom lists',
+      '100,000 monthly credits + unified credit pooling',
+      'Dedicated Deliverability Engineer on Slack',
+      'Agency workspaces (5 included) & unified billing',
+      '180-day activity log retention & audit logging',
+      'Custom API rate limits & bring-your-own LLM key',
+      'White-glove sequence & domain migration assistance',
+      '99.99% infrastructure uptime SLA',
+    ],
+    ctaLabel: 'Contact Us',
+    ctaHref: 'mailto:contact@synclead.io?subject=Enterprise%20Infrastructure',
+  },
+];
+---
+
+<section class="sec sec-pricing seam" id="pricing">
+  <div class="container">
+    {showHeader && (
+      <div class="sec-head" data-reveal>
+        <p class="eyebrow">Pricing</p>
+        <h2 class="h2">Built for serious <em>outbound engines.</em></h2>
+        <p class="lead">Infrastructure pricing that scales with booked meetings, not inflated seat licenses. No hidden caps.</p>
+      </div>
+    )}
+
+    <!-- 3-Tier Clean Grid -->
+    <div class="pricing-grid">
+      {plans.map((plan, i) => (
+        <div
+          class={`pricing-card ${plan.highlighted ? 'card-scale' : 'card-standard'}`}
+          data-reveal
+          data-d={i > 0 ? i : undefined}
+        >
+          {plan.badge && (
+            <div class="popular-badge">
+              <span class="badge-glow"></span>
+              <span class="badge-text">{plan.badge}</span>
+            </div>
+          )}
+
+          <div class="card-top">
+            <h3 class="plan-name">{plan.name}</h3>
+            <p class="plan-tagline">{plan.tagline}</p>
+          </div>
+
+          <div class="card-pricing">
+            <div class="price-val font-mono">
+              {plan.price !== 'Custom' && <span class="cur">$</span>}
+              <span class="num">{plan.price}</span>
+              {plan.unit && <span class="unit">{plan.unit}</span>}
+            </div>
+            <span class="billed-note">Billed monthly · No long-term lock-in</span>
+          </div>
+
+          <div class="card-divider"></div>
+
+          <div class="card-features">
+            <span class="feat-heading">INFRASTRUCTURE SPECIFICATIONS</span>
+            <ul>
+              {plan.features.map((feat) => (
+                <li>
+                  <span class="check-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+                  </span>
+                  <span>{feat}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="card-cta">
+            <a
+              class={`btn ${plan.highlighted ? 'btn-white btn-lg' : 'btn-ghost'}`}
+              href={plan.ctaHref}
+              target={plan.price !== 'Custom' ? '_blank' : undefined}
+              rel="noopener"
+            >
+              {plan.ctaLabel}
+            </a>
+            {plan.price !== 'Custom' && (
+              <span class="cta-sub">Unlimited team members · Stripe billing</span>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Negative Space / Risk-Reversal Architecture Bar -->
+    <div class="infra-guarantees" data-reveal>
+      <div class="guar-item">
+        <span class="guar-num font-mono">01</span>
+        <div>
+          <strong>Stripe Level-1 Security</strong>
+          <p>Direct encrypted tokenization. Card credentials never touch SyncLead compute instances.</p>
+        </div>
+      </div>
+      <div class="guar-item">
+        <span class="guar-num font-mono">02</span>
+        <div>
+          <strong>Zero Vendor Lock-In</strong>
+          <p>Export full contact lists, reply threads, and DNS configurations anytime with 1-click JSON/CSV.</p>
+        </div>
+      </div>
+      <div class="guar-item">
+        <span class="guar-num font-mono">03</span>
+        <div>
+          <strong>Real Infrastructure Migration</strong>
+          <p>Our engineers walk you through secondary domain provisioning and DKIM record alignment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec-pricing {
+    background: var(--bg-0);
+    position: relative;
+    overflow: hidden;
+  }
+  .sec-pricing::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1000px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(65, 200, 255, 0.05), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Pricing Grid */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: stretch;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  .pricing-card {
+    position: relative;
+    border-radius: 18px;
+    padding: 36px 30px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s var(--ease), border-color 0.3s;
+  }
+  .pricing-card:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Standard Tier (Pro / Enterprise) */
+  .card-standard {
+    background: rgba(10, 15, 29, 0.7);
+    border: 1px solid rgba(151, 166, 199, 0.14);
+    box-shadow: 0 16px 40px -15px rgba(0, 0, 0, 0.5);
+  }
+  .card-standard:hover {
+    border-color: rgba(151, 166, 199, 0.3);
+  }
+
+  /* Highlighted Tier (Scale) */
+  .card-scale {
+    background: rgba(13, 22, 40, 0.95);
+    border: 1.5px solid rgba(65, 200, 255, 0.45);
+    box-shadow: 0 24px 70px -15px rgba(0, 0, 0, 0.8), 0 0 50px -18px rgba(65, 200, 255, 0.35);
+  }
+  .card-scale:hover {
+    border-color: var(--color-sky);
+    box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.9), 0 0 65px -15px rgba(65, 200, 255, 0.5);
+  }
+
+  @media (min-width: 992px) {
+    .card-scale {
+      margin-top: -16px;
+      margin-bottom: 16px;
+    }
+  }
+
+  /* Most Popular Badge */
+  .popular-badge {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  .badge-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--color-sky), var(--color-sky-2));
+    filter: blur(4px);
+    opacity: 0.7;
+  }
+  .badge-text {
+    position: relative;
+    font: 700 9.5px var(--f-mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: var(--color-sky);
+    color: #040810;
+    padding: 5px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* Card Top */
+  .card-top {
+    margin-bottom: 24px;
+  }
+  .plan-name {
+    font: 700 24px var(--f-ui);
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .plan-tagline {
+    font: 400 13px/1.55 var(--f-ui);
+    color: var(--ink-2);
+    margin-top: 6px;
+    min-height: 40px;
+  }
+
+  /* Pricing Numbers */
+  .card-pricing {
+    margin-bottom: 24px;
+  }
+  .price-val {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    color: #fff;
+  }
+  .price-val .cur {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--color-sky);
+  }
+  .price-val .num {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .price-val .unit {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-3);
+    margin-left: 4px;
+  }
+  .billed-note {
+    display: block;
+    font: 500 11.5px var(--f-ui);
+    color: var(--ink-3);
+    margin-top: 6px;
+  }
+
+  .card-divider {
+    height: 1px;
+    background: rgba(151, 166, 199, 0.1);
+    margin-bottom: 24px;
+  }
+
+  /* Features */
+  .card-features {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .feat-heading {
+    font: 600 9px var(--f-mono);
+    letter-spacing: 0.16em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+  }
+  .card-features ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  .card-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font: 400 13.5px/1.5 var(--f-ui);
+    color: var(--ink-2);
+  }
+  .card-scale .card-features li {
+    color: var(--ink);
+  }
+  .check-icon {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: rgba(65, 200, 255, 0.12);
+    border: 1px solid rgba(65, 200, 255, 0.35);
+    display: grid;
+    place-items: center;
+    flex: none;
+    margin-top: 2px;
+  }
+  .check-icon svg {
+    width: 9px;
+    height: 9px;
+    stroke: var(--color-sky);
+    fill: none;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* CTA */
+  .card-cta {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+  .card-cta .btn {
+    width: 100%;
+  }
+  .cta-sub {
+    font: 500 11px var(--f-mono);
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+
+  /* Guarantees Row */
+  .infra-guarantees {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 64px auto 0;
+    padding-top: 36px;
+    border-top: 1px solid rgba(151, 166, 199, 0.1);
+  }
+  .guar-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .guar-num {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-sky);
+    opacity: 0.8;
+  }
+  .guar-item strong {
+    display: block;
+    font: 600 14px var(--f-ui);
+    color: #fff;
+  }
+  .guar-item p {
+    font: 400 12.5px/1.55 var(--f-ui);
+    color: var(--ink-2);
+    margin-top: 4px;
+  }
+
+  @media (max-width: 960px) {
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      max-width: 480px;
+    }
+    .infra-guarantees {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

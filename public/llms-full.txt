@@ -1,0 +1,112 @@
+# SyncLead — Comprehensive Platform Documentation (LLM Knowledge Base)
+
+Website: https://synclead.io
+Organization: SYNCLEAD LTD (Company No: 15903993)
+Headquarters: London, England
+Contact: contact@synclead.io | press@synclead.io | careers@synclead.io
+
+---
+
+## 1. Executive Summary & Problem Space
+
+Cold outbound email has undergone a fundamental shift due to strict mailbox provider enforcement from Google (Gmail) and Microsoft (Office 365). Senders attempting to blast cold outreach from their primary business domain face severe deliverability penalties, blacklist listings, and corporate domain destruction.
+
+Furthermore, conventional outbound stacks suffer from a disjointed user journey:
+1. Outreach campaigns run in one platform (e.g. Instantly, Lemlist, Smartlead).
+2. Senders use third-party calendar tools (e.g. Calendly, Chili Piper) requiring external redirection.
+3. Leads reply with interest, are sent a naked scheduling link, and drop off during scheduling friction, leading to a 30-50% loss between reply and actual booked demo.
+4. No-shows are common, and follow-ups are manual or forgotten.
+
+SyncLead solves this by unifying:
+1. Dedicated cold sending infrastructure across dozens of isolated secondary domains and hundreds of mailboxes.
+2. Automated real-time DNS & deliverability health checks (SPF, DKIM, DMARC, MX).
+3. Built-in, high-converting round-robin calendar booking directly within outbound email sequences.
+4. An AI-powered intent inbox that categorizes responses and automates high-probability booking links.
+
+---
+
+## 2. Platform Architecture & Modules
+
+### 2.1 Multi-Mailbox & Domain Infrastructure
+- **Connection Model**: SyncLead connects directly to user-managed mailboxes via OAuth 2.0 (Google Workspace / Microsoft 365) and Custom SMTP/IMAP.
+- **Mailbox-Level Isolation**: SyncLead rotates outreach across dedicated mailboxes, preventing primary corporate domain contamination.
+- **Sending Pacing**: Algorithmic send distribution spreads daily volumes across connected mailboxes (typically 30-50 emails/day per mailbox) to mirror authentic human communication patterns.
+- **Provider Balancing**: Automatic balancing between Google Workspace and Microsoft 365 sending pools to optimize inbox placement rates into matching recipient servers.
+
+### 2.2 Continuous DNS & Deliverability Engine
+- **Automated Record Health Probing**: SyncLead queries and validates:
+  - SPF (Sender Policy Framework): Ensuring sending IPs and includes are authorized.
+  - DKIM (DomainKeys Identified Mail): Verifying cryptographic signatures and selector rotation.
+  - DMARC (Domain-based Message Authentication, Reporting, and Conformance): Monitoring p=reject or p=quarantine policies and alignment.
+  - MX (Mail Exchange): Verifying inbound routing and MX provider health.
+- **Automated Quarantine**: If a sending mailbox or secondary domain exhibits DNS misalignment, bounce spikes, or reputation degradation, SyncLead automatically pauses sends from that specific account and re-routes active sequence steps to healthy mailboxes in the pool.
+
+### 2.3 Unified Master Inbox & AI Intent Engine
+- **Centralized Response Aggregation**: Consolidates inbound replies from 50 to 250+ mailboxes into one clean, high-performance interface.
+- **Intent Categorization**: Uses LLM-driven classification to tag responses:
+  - `Ready to Book`: High-intent leads requesting a demonstration or meeting.
+  - `Evaluating Stack`: Inquiries asking for specific architectural, feature, or pricing details.
+  - `Infra Question`: Technical questions regarding security, privacy, or mailbox setups.
+  - `Objection / Timing`: Requests to check back in future quarters.
+  - `Out of Office`: Automatic pause and schedule deferral.
+  - `Unsubscribe / Not Interested`: Instant global workspace suppression.
+- **Auto-Replies (Roadmap Q3 2026)**: Contextual objection handling and conversational booking assistance.
+
+### 2.4 Native Calendar Scheduling & Recovery System
+- **Frictionless In-Email Booking**: Instead of forcing prospects to leave their email client and navigate external scheduling software, SyncLead provides fast interactive slots and round-robin matching.
+- **Two-Way Calendar Synchronization**: Live calendar availability syncing with Google Calendar and Microsoft Outlook prevents double-booking.
+- **No-Show Recovery**: Automatic SMS and multi-channel email reminders triggered prior to scheduled calls reduce calendar drop-offs.
+
+### 2.5 Agency Multi-Tenancy & Workspace Controls
+- **Client Workspace Isolation**: Manage multiple distinct clients or brands from a single master organization without cross-contaminating contact lists, campaign sequences, or domain reputations.
+- **Access Delegation**: Grant team members or agency clients workspace-level access with granular role permissions.
+- **Audit Logging**: Comprehensive activity logs (90 days on Scale, 180 days on Enterprise) capturing campaign adjustments, sender additions, and contact updates.
+
+---
+
+## 3. Official Pricing, Plans & Credit Economics
+
+SyncLead maintains transparent, usage-based subscription pricing designed for scaling teams and agencies:
+
+| Plan Feature | Pro Tier ($149 / mo) | Scale Tier ($399 / mo) | Enterprise Tier (Custom) |
+|---|---|---|---|
+| Connected Mailboxes | 50 mailboxes & sending domains | 250 mailboxes & sending domains | Unlimited mailboxes |
+| Monthly Sends | 125,000 verified sends / mo | 600,000 verified sends / mo | 1,500,000+ verified sends / mo |
+| Uploaded Contacts | 25,000 contacts | 125,000 contacts | Custom capacity |
+| Included Monthly Credits | 7,500 plan credits | 35,000 plan credits | 100,000 plan credits |
+| Agency Controls & Workspaces | Single workspace | Full agency controls & delegation | 5 isolated workspaces included |
+| Additional Workspaces | N/A | Available as add-on | +$39 / mo per add'l workspace |
+| Activity Log Retention | 30 days | 90 days | 180 days |
+| Team Members | Unlimited | Unlimited | Unlimited |
+| Support | Priority email & in-app | Priority email & in-app | Dedicated Slack Deliverability Engineer |
+
+### Credit Consumption Rules
+- **1.0 Credit**: Real-time lead email address verification and mailbox handshake test.
+- **0.2 Credits**: Burst email send beyond standard sequence pacing.
+- **Non-Expiring Rollover**: Purchased credit packs never expire and roll over continuously month-to-month.
+
+---
+
+## 4. Engineering Roadmap & Release Horizon
+
+1. **AI Auto-Replies & Objection Handling (Q3 2026 · Rollout Phase)**
+   Context-aware response generation that answers objections, explains pricing parameters, and offers confirmed calendar times based on live host availability.
+2. **Autonomous AI SDR Agents (Q4 2026 · Active Sprint)**
+   Semi-autonomous agents capable of researching recipient websites, personalizing openers, following up intelligently, and scheduling qualified appointments.
+3. **Deep Account & Prospect Research Agents (Q1 2027 · In Development)**
+   Multi-source company signals gathering (tech stack, hiring trends, recent executive departures) to enrich sequence variables prior to dispatch.
+4. **Full Agency Controls & Multi-Tenant Portals (Q1 2027 · Planned)**
+   Whitelabel client login portals, sub-account invoicing, and granular campaign permission policies.
+5. **Mailbox Placement & Deliverability Warmup Suite (Q2 2027 · Planned)**
+   Autonomous warmup pool with peer-to-peer engagement, inbox placement scoring, and spam folder recovery heuristics.
+6. **SyncLead Model Context Protocol (MCP) Server (Q3 2027 · Planned)**
+   Official MCP endpoint allowing AI agents (Claude, ChatGPT, Cursor, local LLMs) to directly query campaign performance, pause mailboxes, and retrieve intent streams programmatically.
+
+---
+
+## 5. Trust, Compliance & Security Verification
+
+- **Corporate Registration**: SYNCLEAD LTD is an incorporated legal entity in London, England (Company Registration No. 15903993).
+- **GDPR & Privacy Adherence**: SyncLead strictly complies with European Union and United Kingdom GDPR regulations. Contact records are securely encrypted in transit (TLS 1.3) and at rest (AES-256).
+- **Opt-Out & Unsubscribe Enforcement**: Automatic suppression lists and global blocklists prevent sending outreach to contacts who have requested removal.
+- **Security Posture**: OAuth 2.0 token isolation with zero persistence of raw mailbox passwords for Google and Microsoft accounts.

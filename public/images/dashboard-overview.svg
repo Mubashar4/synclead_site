@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <defs>
+    <linearGradient id="violet-glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6C58E8" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#9D8BFF" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="bar-funnel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#41C8FF"/>
+      <stop offset="100%" stop-color="#0E86C8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#05080F"/>
+  
+  <!-- Sidebar (Matching Journey PDF Page 11) -->
+  <rect x="0" y="0" width="220" height="1000" fill="#0A0F1D" stroke="#151D33" stroke-width="1"/>
+  <circle cx="40" cy="40" r="14" fill="#41C8FF"/>
+  <text x="64" y="46" fill="#FFFFFF" font-size="18" font-family="sans-serif" font-weight="bold">SyncLead<tspan fill="#41C8FF">.io</tspan></text>
+  
+  <!-- Sidebar Nav items -->
+  <g font-family="sans-serif" font-size="13" font-weight="500">
+    <rect x="16" y="80" width="188" height="36" rx="8" fill="#41C8FF" fill-opacity="0.15"/>
+    <circle cx="36" cy="98" r="4" fill="#41C8FF"/>
+    <text x="50" y="102" fill="#41C8FF" font-weight="bold">Dashboard</text>
+    
+    <text x="50" y="142" fill="#94A3B8">Events</text>
+    <text x="50" y="182" fill="#94A3B8">Availability</text>
+    <text x="50" y="222" fill="#94A3B8">Meetings</text>
+    <text x="50" y="262" fill="#94A3B8">Contacts</text>
+    <text x="50" y="302" fill="#94A3B8">Lists</text>
+    <text x="50" y="342" fill="#94A3B8">Teams</text>
+    <text x="50" y="382" fill="#94A3B8">Accounts</text>
+    <text x="50" y="422" fill="#94A3B8">Inbox</text>
+    <text x="50" y="462" fill="#94A3B8">Campaigns</text>
+    <text x="50" y="502" fill="#94A3B8">Integrations</text>
+    <text x="50" y="542" fill="#94A3B8">Settings</text>
+  </g>
+
+  <!-- Top bar -->
+  <rect x="220" y="0" width="1380" height="60" fill="#0A0F1D" stroke="#151D33" stroke-width="1"/>
+  <text x="250" y="36" fill="#FFFFFF" font-size="16" font-family="sans-serif" font-weight="600">Performance Dashboard</text>
+  <rect x="1410" y="18" width="150" height="26" rx="13" fill="#151D33"/>
+  <circle cx="1425" cy="31" r="5" fill="#3DD68C"/>
+  <text x="1438" y="35" fill="#94A3B8" font-size="11" font-family="monospace">SYSTEM HEALTH 100%</text>
+
+  <!-- Stat Cards Row (From Journey PDF Page 11 verbatim) -->
+  <!-- Card 1: EMAILS SENT -->
+  <rect x="250" y="84" width="245" height="96" rx="10" fill="#0D1629" stroke="#1E293B" stroke-width="1"/>
+  <text x="270" y="108" fill="#94A3B8" font-size="11" font-family="monospace" letter-spacing="1">EMAILS SENT</text>
+  <text x="270" y="142" fill="#FFFFFF" font-size="26" font-family="monospace" font-weight="bold">1,842</text>
+  <text x="270" y="164" fill="#3DD68C" font-size="11" font-family="sans-serif">↗ +2.5% vs last week</text>
+
+  <!-- Card 2: REPLY RATE -->
+  <rect x="515" y="84" width="245" height="96" rx="10" fill="#0D1629" stroke="#1E293B" stroke-width="1"/>
+  <text x="535" y="108" fill="#94A3B8" font-size="11" font-family="monospace" letter-spacing="1">REPLY RATE</text>
+  <text x="535" y="142" fill="#FFFFFF" font-size="26" font-family="monospace" font-weight="bold">7.9%</text>
+  <text x="535" y="164" fill="#41C8FF" font-size="11" font-family="sans-serif">Target: >5.0%</text>
+
+  <!-- Card 3: MEETINGS BOOKED -->
+  <rect x="780" y="84" width="245" height="96" rx="10" fill="#0D1629" stroke="#1E293B" stroke-width="1"/>
+  <text x="800" y="108" fill="#94A3B8" font-size="11" font-family="monospace" letter-spacing="1">MEETINGS BOOKED</text>
+  <text x="800" y="142" fill="#41C8FF" font-size="26" font-family="monospace" font-weight="bold">53</text>
+  <text x="800" y="164" fill="#3DD68C" font-size="11" font-family="sans-serif">↗ +4.8% conversion</text>
+
+  <!-- Card 4: DELIVERABILITY -->
+  <rect x="1045" y="84" width="245" height="96" rx="10" fill="#0D1629" stroke="#1E293B" stroke-width="1"/>
+  <text x="1065" y="108" fill="#94A3B8" font-size="11" font-family="monospace" letter-spacing="1">DELIVERABILITY</text>
+  <text x="1065" y="142" fill="#3DD68C" font-size="26" font-family="monospace" font-weight="bold">98.0%</text>
+  <text x="1065" y="164" fill="#3DD68C" font-size="11" font-family="sans-serif">OPTIMAL · 0 Flags</text>
+
+  <!-- Card 5: CALENDAR UTIL -->
+  <rect x="1310" y="84" width="250" height="96" rx="10" fill="#0D1629" stroke="#1E293B" stroke-width="1"/>
+  <text x="1330" y="108" fill="#94A3B8" font-size="11" font-family="monospace" letter-spacing="1">CALENDAR UTIL</text>
+  <text x="1330" y="142" fill="#FFFFFF" font-size="26" font-family="monospace" font-weight="bold">68%</text>
+  <text x="1330" y="164" fill="#3DD68C" font-size="11" font-family="sans-serif">↗ +4.7% rep capacity</text>
+
+  <!-- Main Left Area: Outreach Performance Funnel (Journey PDF Page 11) -->
+  <rect x="250" y="200" width="800" height="420" rx="12" fill="#0D1629" stroke="#1E293B" stroke-width="1"/>
+  <text x="275" y="234" fill="#FFFFFF" font-size="16" font-family="sans-serif" font-weight="600">Outreach Performance Funnel</text>
+  <text x="275" y="254" fill="#94A3B8" font-size="12" font-family="sans-serif">Conversation lifecycle across active sender cluster</text>
+
+  <!-- Funnel Stage Bars -->
+  <!-- Sent -->
+  <rect x="275" y="280" width="100" height="150" rx="6" fill="#6C58E8"/>
+  <text x="325" y="306" fill="#FFFFFF" font-size="14" font-family="monospace" font-weight="bold" text-anchor="middle">1,842</text>
+  <text x="325" y="450" fill="#94A3B8" font-size="11" font-family="sans-serif" text-anchor="middle">Sent</text>
+  
+  <!-- Delivered -->
+  <rect x="390" y="284" width="95" height="146" rx="6" fill="#6C58E8" fill-opacity="0.9"/>
+  <text x="437" y="310" fill="#FFFFFF" font-size="14" font-family="monospace" font-weight="bold" text-anchor="middle">1,806</text>
+  <text x="437" y="450" fill="#94A3B8" font-size="11" font-family="sans-serif" text-anchor="middle">Delivered 98%</text>
+
+  <!-- Opened -->
+  <rect x="500" y="320" width="95" height="110" rx="6" fill="#7C6BF0"/>
+  <text x="547" y="344" fill="#FFFFFF" font-size="14" font-family="monospace" font-weight="bold" text-anchor="middle">1,120</text>
+  <text x="547" y="450" fill="#94A3B8" font-size="11" font-family="sans-serif" text-anchor="middle">Opened 62%</text>
+
+  <!-- Replied -->
+  <rect x="610" y="375" width="95" height="55" rx="6" fill="#9D8BFF"/>
+  <text x="657" y="398" fill="#FFFFFF" font-size="14" font-family="monospace" font-weight="bold" text-anchor="middle">145</text>
+  <text x="657" y="450" fill="#94A3B8" font-size="11" font-family="sans-serif" text-anchor="middle">Replied 12.9%</text>
+
+  <!-- Positive Reply -->
+  <rect x="720" y="390" width="95" height="40" rx="6" fill="#20B26C"/>
+  <text x="767" y="414" fill="#FFFFFF" font-size="14" font-family="monospace" font-weight="bold" text-anchor="middle">82</text>
+  <text x="767" y="450" fill="#94A3B8" font-size="11" font-family="sans-serif" text-anchor="middle">Positive</text>
+
+  <!-- Booked -->
+  <rect x="830" y="400" width="95" height="30" rx="6" fill="#3DD68C"/>
+  <text x="877" y="422" fill="#05080F" font-size="14" font-family="monospace" font-weight="bold" text-anchor="middle">53</text>
+  <text x="877" y="450" fill="#3DD68C" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">Booked</text>
+
+  <!-- Call Completed -->
+  <rect x="940" y="408" width="90" height="22" rx="6" fill="#41C8FF"/>
+  <text x="985" y="424" fill="#05080F" font-size="13" font-family="monospace" font-weight="bold" text-anchor="middle">41</text>
+  <text x="985" y="450" fill="#41C8FF" font-size="11" font-family="sans-serif" text-anchor="middle">Completed</text>
+
+  <!-- Main Right Area: AI Growth Insights & Scheduling (PDF Page 11) -->
+  <rect x="1070" y="200" width="490" height="420" rx="12" fill="#0D1629" stroke="#1E293B" stroke-width="1"/>
+  
+  <!-- AI Card inside right pane -->
+  <rect x="1090" y="220" width="450" height="150" rx="10" fill="url(#violet-glow)" stroke="#9D8BFF" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="1110" y="246" fill="#FFFFFF" font-size="14" font-family="sans-serif" font-weight="bold">✦ AI Growth Insights</text>
+  <text x="1110" y="274" fill="#E2E8F0" font-size="12" font-family="sans-serif">“Q4 Enterprise” reply rates are <tspan fill="#41C8FF" font-weight="bold">40% higher</tspan> on Tuesdays before 10 AM.</text>
+  <text x="1110" y="296" fill="#E2E8F0" font-size="12" font-family="sans-serif">3 domains showing 'Neutral' sentiment. Triggering sequence B.</text>
+  <rect x="1110" y="320" width="160" height="30" rx="6" fill="#6C58E8"/>
+  <text x="1190" y="340" fill="#FFFFFF" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">Apply Optimization +</text>
+
+  <!-- Live Activity Feed (PDF Page 11) -->
+  <text x="1090" y="405" fill="#FFFFFF" font-size="14" font-family="sans-serif" font-weight="600">Live Activity Feed</text>
+  
+  <rect x="1090" y="425" width="450" height="52" rx="8" fill="#121D36" stroke="#1E293B" stroke-width="1"/>
+  <circle cx="1115" cy="451" r="12" fill="#41C8FF" fill-opacity="0.2"/>
+  <text x="1115" y="455" fill="#41C8FF" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">JD</text>
+  <text x="1140" y="446" fill="#FFFFFF" font-size="12" font-family="sans-serif" font-weight="600">James Doe replied to Enterprise SaaS</text>
+  <text x="1140" y="464" fill="#94A3B8" font-size="11" font-family="sans-serif">4 minutes ago · Intent: High (94%)</text>
+
+  <rect x="1090" y="487" width="450" height="52" rx="8" fill="#121D36" stroke="#1E293B" stroke-width="1"/>
+  <circle cx="1115" cy="513" r="12" fill="#3DD68C" fill-opacity="0.2"/>
+  <text x="1115" y="517" fill="#3DD68C" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">SJ</text>
+  <text x="1140" y="508" fill="#FFFFFF" font-size="12" font-family="sans-serif" font-weight="600">Meeting Booked: Sarah Jenkins</text>
+  <text x="1140" y="526" fill="#94A3B8" font-size="11" font-family="sans-serif">1 hour ago · 30 min Architecture Call locked</text>
+
+  <rect x="1090" y="549" width="450" height="52" rx="8" fill="#121D36" stroke="#1E293B" stroke-width="1"/>
+  <circle cx="1115" cy="575" r="12" fill="#9D8BFF" fill-opacity="0.2"/>
+  <text x="1115" y="579" fill="#9D8BFF" font-size="11" font-family="sans-serif" font-weight="bold" text-anchor="middle">28</text>
+  <text x="1140" y="570" fill="#FFFFFF" font-size="12" font-family="sans-serif" font-weight="600">28 new leads imported to Q1 List</text>
+  <text x="1140" y="588" fill="#94A3B8" font-size="11" font-family="sans-serif">3 hours ago · Workspace Blocklist verified</text>
+
+  <!-- Bottom Table: Top Performing Campaigns (PDF Page 11) -->
+  <rect x="250" y="640" width="1310" height="330" rx="12" fill="#0D1629" stroke="#1E293B" stroke-width="1"/>
+  <text x="275" y="675" fill="#FFFFFF" font-size="16" font-family="sans-serif" font-weight="600">Top Performing Campaigns</text>
+  <text x="1490" y="675" fill="#41C8FF" font-size="12" font-family="sans-serif" font-weight="600">View All →</text>
+
+  <line x1="275" y1="695" x2="1535" y2="695" stroke="#1E293B" stroke-width="1"/>
+  <text x="280" y="718" fill="#94A3B8" font-size="11" font-family="monospace">CAMPAIGN NAME</text>
+  <text x="750" y="718" fill="#94A3B8" font-size="11" font-family="monospace">SENT</text>
+  <text x="950" y="718" fill="#94A3B8" font-size="11" font-family="monospace">REPLY %</text>
+  <text x="1150" y="718" fill="#94A3B8" font-size="11" font-family="monospace">BOOKED</text>
+  <text x="1350" y="718" fill="#94A3B8" font-size="11" font-family="monospace">STATUS</text>
+
+  <!-- Row 1 -->
+  <line x1="275" y1="735" x2="1535" y2="735" stroke="#1E293B" stroke-width="0.5"/>
+  <text x="280" y="765" fill="#FFFFFF" font-size="13" font-family="sans-serif" font-weight="600">Q4 Enterprise SaaS Reach</text>
+  <text x="750" y="765" fill="#FFFFFF" font-size="13" font-family="monospace">842</text>
+  <text x="950" y="765" fill="#3DD68C" font-size="13" font-family="monospace">12.4%</text>
+  <text x="1150" y="765" fill="#41C8FF" font-size="13" font-family="monospace">24</text>
+  <rect x="1350" y="748" width="60" height="22" rx="4" fill="#3DD68C" fill-opacity="0.15"/>
+  <text x="1380" y="763" fill="#3DD68C" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">ACTIVE</text>
+
+  <!-- Row 2 -->
+  <line x1="275" y1="785" x2="1535" y2="785" stroke="#1E293B" stroke-width="0.5"/>
+  <text x="280" y="815" fill="#FFFFFF" font-size="13" font-family="sans-serif" font-weight="600">Mid-Market Expansion v2</text>
+  <text x="750" y="815" fill="#FFFFFF" font-size="13" font-family="monospace">520</text>
+  <text x="950" y="815" fill="#3DD68C" font-size="13" font-family="monospace">8.1%</text>
+  <text x="1150" y="815" fill="#41C8FF" font-size="13" font-family="monospace">15</text>
+  <rect x="1350" y="798" width="60" height="22" rx="4" fill="#3DD68C" fill-opacity="0.15"/>
+  <text x="1380" y="813" fill="#3DD68C" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">ACTIVE</text>
+
+  <!-- Row 3 -->
+  <line x1="275" y1="835" x2="1535" y2="835" stroke="#1E293B" stroke-width="0.5"/>
+  <text x="280" y="865" fill="#FFFFFF" font-size="13" font-family="sans-serif" font-weight="600">Inbound Lead Follow-up</text>
+  <text x="750" y="865" fill="#FFFFFF" font-size="13" font-family="monospace">215</text>
+  <text x="950" y="865" fill="#3DD68C" font-size="13" font-family="monospace">24.5%</text>
+  <text x="1150" y="865" fill="#41C8FF" font-size="13" font-family="monospace">10</text>
+  <rect x="1350" y="848" width="60" height="22" rx="4" fill="#F59E0B" fill-opacity="0.15"/>
+  <text x="1380" y="863" fill="#F59E0B" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">PAUSED</text>
+
+  <!-- Row 4 -->
+  <line x1="275" y1="885" x2="1535" y2="885" stroke="#1E293B" stroke-width="0.5"/>
+  <text x="280" y="915" fill="#FFFFFF" font-size="13" font-family="sans-serif" font-weight="600">Agency White-Label Partner Sequence</text>
+  <text x="750" y="915" fill="#FFFFFF" font-size="13" font-family="monospace">265</text>
+  <text x="950" y="915" fill="#3DD68C" font-size="13" font-family="monospace">9.8%</text>
+  <text x="1150" y="915" fill="#41C8FF" font-size="13" font-family="monospace">4</text>
+  <rect x="1350" y="898" width="60" height="22" rx="4" fill="#3DD68C" fill-opacity="0.15"/>
+  <text x="1380" y="913" fill="#3DD68C" font-size="10" font-family="monospace" font-weight="bold" text-anchor="middle">ACTIVE</text>
+</svg>

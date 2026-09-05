@@ -1,0 +1,56 @@
+---
+/**
+ * 404.astro — Not Found page for Cloudflare Pages and direct 404 errors.
+ * Architecture: Dark Cinema Design System v2 (WD-032).
+ */
+import PageLayout from '@/layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Page Not Found (404) — SyncLead"
+  description="The requested page could not be located on the SyncLead platform."
+  noindex={true}
+>
+  <div class="relative overflow-hidden bg-bg-0 pt-36 sm:pt-48 pb-24 border-b border-white/[0.06] min-h-[70vh] flex items-center">
+    <div
+      class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[380px] bg-[radial-gradient(ellipse_at_center,_rgba(65,200,255,0.08)_0%,_transparent_70%)] blur-2xl"
+      aria-hidden="true"
+    ></div>
+
+    <div class="container max-w-3xl relative z-10 text-center mx-auto px-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium tracking-wider bg-sky/10 border border-sky/30 text-sky mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-sky animate-pulse"></span>
+        HTTP 404 · RESOURCE UNRESOLVED
+      </div>
+
+      <h1 class="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-4 font-ui">
+        Route not found
+      </h1>
+
+      <p class="text-base sm:text-lg text-ink-2 max-w-xl mx-auto mb-10 leading-relaxed font-ui">
+        The destination you navigated to does not exist or has moved. Explore the verified pages below or return to the platform overview.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-semibold tracking-wide bg-white text-navy hover:bg-slate-100 transition-colors shadow-lg shadow-white/10"
+        >
+          Return Home
+        </a>
+        <a
+          href="/pricing"
+          class="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-semibold tracking-wide bg-bg-2 border border-white/10 text-white hover:border-sky/40 hover:text-sky transition-colors"
+        >
+          View Pricing & Plans
+        </a>
+        <a
+          href="/roadmap"
+          class="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-semibold tracking-wide bg-bg-2 border border-white/10 text-white hover:border-sky/40 hover:text-sky transition-colors"
+        >
+          Engineering Roadmap
+        </a>
+      </div>
+    </div>
+  </div>
+</PageLayout>

@@ -1,0 +1,52 @@
+Refund Policy
+Our commitment to your satisfaction with a 14-day money-back guarantee.
+
+Last updated: 28 March 2026
+
+1. 14-Day Money-Back Guarantee
+SyncLead offers a 14-day money-back guarantee for all new subscriptions. If you are not satisfied with our B2B Sales Engagement Platform, you may request a full refund within 14 days of your initial purchase.
+
+To request a refund under this guarantee:
+
+Contact us at contact@synclead.io within 14 days of your initial subscription purchase.
+Include your account email address and reason for the refund request.
+We will process your refund within 5–10 business days to the original payment method.
+2. Eligibility
+The 14-day money-back guarantee applies to:
+
+New subscriptions only: The guarantee applies to the first subscription purchase on your account.
+All plans: Starter, Professional, and Scale plans are all eligible.
+The guarantee does not apply to:
+
+Subscription renewals (second month and beyond).
+Plan upgrades or downgrades after the initial 14-day period.
+Accounts terminated for violation of our Terms of Service or Acceptable Use Policy.
+3. Cancellations
+You may cancel your SyncLead subscription at any time from your account settings or by contacting contact@synclead.io. Upon cancellation:
+
+Your access to paid features will continue until the end of your current billing cycle.
+No partial refunds are issued for unused time remaining in the current billing period.
+Cancellations are effective immediately — no further charges will be made after the current cycle ends.
+Your data will be retained for 30 days following the end of your subscription, after which it may be permanently deleted.
+4. Annual Subscriptions
+For annual subscription plans:
+
+The 14-day money-back guarantee still applies from the date of initial purchase.
+After the 14-day period, cancellations will take effect at the end of the annual billing cycle. No pro-rata refunds are issued for annual plans cancelled mid-term.
+If you wish to discuss special circumstances regarding an annual plan cancellation, please contact us at contact@synclead.io.
+5. Refund Processing
+All refunds are processed through Stripe, our payment processor, to the original payment method.
+Refunds typically appear on your statement within 5–10 business days, depending on your bank or card issuer.
+Refunds are issued in the original currency of payment (USD).
+6. Exceptions and Disputes
+If you believe you are entitled to a refund that falls outside the standard 14-day window, please contact us at contact@synclead.io with a detailed explanation. We review all refund requests on a case-by-case basis and strive to reach a fair resolution.
+
+For billing disputes, please contact us first before initiating a chargeback with your bank. We are committed to resolving billing issues promptly and fairly.
+
+7. Contact Us
+For refund requests, billing questions, or cancellation assistance:
+
+Email: contact@synclead.io
+Address: SYNCLEAD LTD, 20 Wenlock Road, London, England, N1 7GU
+Company Number: 15903993
+We aim to respond to all refund requests within 24 hours during business days.

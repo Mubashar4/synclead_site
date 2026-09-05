@@ -1,0 +1,242 @@
+---
+/**
+ * press.astro — Press & Media Kit (/press).
+ * Architecture: Dark Cinema Design System v2 (WD-032 / WD-038).
+ */
+import PageLayout from '@/layouts/PageLayout.astro';
+import Logo from '@/components/ui/Logo.astro';
+
+const brandColors = [
+  { name: 'Dark Obsidian', hex: '#05080F', role: 'Page Base / Dark Canvas' },
+  { name: 'Deep Navy', hex: '#0A0F1D', role: 'Card & Surface Layers' },
+  { name: 'Sky Blue', hex: '#41C8FF', role: 'Primary Accent / Booked State' },
+  { name: 'Violet', hex: '#9D8BFF', role: 'Secondary Accent / Sent State' },
+  { name: 'Paper / White', hex: '#FFFFFF', role: 'Light Surface / High Contrast' },
+];
+
+const brandAssets = [
+  {
+    title: 'Logo Icon (Vector SVG)',
+    desc: 'Square vector icon mark for app icons, avatars, and compact headers.',
+    path: '/logo-icon.svg',
+    format: 'SVG',
+    variant: 'Dark Background',
+  },
+  {
+    title: 'Full Logo on Dark (Vector SVG)',
+    desc: 'Primary brand mark with white wordmark for obsidian and navy backgrounds.',
+    path: '/logo-full-on-dark.svg',
+    format: 'SVG',
+    variant: 'Dark Surfaces',
+  },
+  {
+    title: 'Full Logo on Light (Vector SVG)',
+    desc: 'Alternative brand mark with dark wordmark for documents and light paper.',
+    path: '/logo-full-on-light.svg',
+    format: 'SVG',
+    variant: 'Light Surfaces',
+  },
+  {
+    title: 'Raster Favicon (64×64 PNG)',
+    desc: 'Standard high-density PNG raster favicon for web clip and browser chrome.',
+    path: '/favicon-64.png',
+    format: 'PNG',
+    variant: 'High DPI Raster',
+  },
+];
+---
+
+<PageLayout
+  title="Press Kit & Brand Assets — SyncLead"
+  description="Official press kit, brand assets, verified corporate details, and media guidelines for SyncLead."
+>
+  <!-- Ambient top glow -->
+  <div class="relative overflow-hidden bg-bg-0 pt-32 sm:pt-40 pb-16 border-b border-white/[0.06]">
+    <div
+      class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[720px] h-[380px] bg-[radial-gradient(ellipse_at_center,_rgba(65,200,255,0.08)_0%,_transparent_70%)] blur-2xl"
+      aria-hidden="true"
+    ></div>
+
+    <div class="container max-w-5xl relative z-10">
+      <!-- Breadcrumbs -->
+      <nav class="flex items-center gap-2 text-xs font-mono tracking-wider text-ink-3 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-ink transition-colors">HOME</a>
+        <span class="text-white/20">/</span>
+        <span class="text-sky">PRESS KIT</span>
+      </nav>
+
+      <!-- Eyebrow -->
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium tracking-wide bg-sky/10 border border-sky/30 text-sky">
+          <span class="w-1.5 h-1.5 rounded-full bg-ok shadow-[0_0_8px_#3DD68C]"></span>
+          MEDIA &middot; BRAND ASSETS
+        </span>
+        <span class="text-xs font-mono uppercase tracking-widest text-ink-3">
+          OFFICIAL RESOURCES
+        </span>
+      </div>
+
+      <!-- Title & Standfirst -->
+      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-white mt-4 font-ui">
+        Press Kit & Brand Assets
+      </h1>
+      <p class="text-base sm:text-lg text-ink-2 mt-4 max-w-3xl leading-relaxed">
+        Everything you need to write about SyncLead. Download official high-resolution vector brand assets, review verified company facts, and reach our press desk.
+      </p>
+
+      <!-- Metadata summary ribbon -->
+      <div class="flex flex-wrap items-center gap-y-3 gap-x-6 mt-8 pt-6 border-t border-white/[0.08] text-xs font-mono text-ink-3">
+        <div><span class="text-ink-2">HQ:</span> <span class="text-white">LONDON, ENGLAND</span></div>
+        <div class="hidden sm:block text-white/20">&bull;</div>
+        <div><span class="text-ink-2">COMPANY NUMBER:</span> <span class="text-white">15903993</span></div>
+        <div class="hidden sm:block text-white/20">&bull;</div>
+        <div><span class="text-ink-2">MEDIA INQUIRIES:</span> <a href="mailto:press@synclead.io" class="text-sky hover:underline">press@synclead.io</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Press Content -->
+  <section class="bg-bg-0 py-16 lg:py-20">
+    <div class="container max-w-5xl space-y-16">
+
+      <!-- Boilerplate Section -->
+      <div>
+        <p class="text-xs font-mono uppercase tracking-widest text-sky mb-2">Company Overview</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white font-ui mb-6">Official Boilerplate</h2>
+
+        <div class="p-8 rounded-2xl bg-bg-1 border border-white/[0.08] shadow-xl relative overflow-hidden">
+          <div class="space-y-4 text-xs sm:text-sm text-ink-2 leading-relaxed font-ui">
+            <p>
+              <strong class="text-white font-semibold">One-sentence summary:</strong><br />
+              SyncLead is a B2B sales engagement and lead nurturing platform combining multi-IP outbound infrastructure, cold sequence delivery, and automated calendar scheduling into a unified engine.
+            </p>
+            <p>
+              <strong class="text-white font-semibold">Standard boilerplate:</strong><br />
+              SyncLead replaces fractured outbound stacks by merging multi-mailbox delivery pools, real-time health heuristics, and frictionless calendar booking into one integrated platform. Engineered for revenue teams that measure performance in meetings booked rather than raw send volume, SyncLead protects domain deliverability while streamlining prospect engagement from first email to confirmed calendar time.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brand Assets Grid -->
+      <div>
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          <div>
+            <p class="text-xs font-mono uppercase tracking-widest text-sky mb-2">Vector Artwork</p>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white font-ui">Official Logos</h2>
+          </div>
+          <span class="text-xs font-mono text-ink-3">SVG & PNG FORMATS</span>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-6">
+          {brandAssets.map((asset) => (
+            <div class="p-6 rounded-2xl border border-white/[0.08] bg-bg-1 shadow-lg flex flex-col justify-between">
+              <div>
+                <div class="h-28 rounded-xl bg-bg-2 border border-white/[0.06] flex items-center justify-center p-4 mb-5 overflow-hidden">
+                  <img src={asset.path} alt={asset.title} class="max-h-12 w-auto object-contain" />
+                </div>
+                <div class="flex items-center justify-between gap-2">
+                  <h3 class="font-bold text-white text-base font-ui">{asset.title}</h3>
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.06] text-ink-2 border border-white/[0.08]">
+                    {asset.format}
+                  </span>
+                </div>
+                <p class="text-xs text-ink-2 mt-2 leading-relaxed">{asset.desc}</p>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between">
+                <span class="text-[11px] font-mono text-ink-3">{asset.variant}</span>
+                <a
+                  href={asset.path}
+                  download
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky/10 border border-sky/30 text-xs font-mono text-sky hover:bg-sky/20 transition-colors"
+                >
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span>Download</span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Color Palette Reference -->
+      <div>
+        <p class="text-xs font-mono uppercase tracking-widest text-sky mb-2">Visual Palette</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white font-ui mb-8">Brand Color Tokens</h2>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          {brandColors.map((color) => (
+            <div class="p-4 rounded-xl border border-white/[0.08] bg-bg-1 shadow-md">
+              <div
+                class="w-full h-14 rounded-lg mb-3 border border-white/[0.1]"
+                style={`background-color: ${color.hex};`}
+              ></div>
+              <h4 class="font-bold text-xs text-white font-ui">{color.name}</h4>
+              <p class="font-mono text-xs text-sky mt-1 font-semibold">{color.hex}</p>
+              <p class="text-[10px] text-ink-3 mt-1 leading-snug">{color.role}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Fast Facts & Corporate Details -->
+      <div>
+        <p class="text-xs font-mono uppercase tracking-widest text-sky mb-2">Corporate Facts</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white font-ui mb-6">Verified Details</h2>
+
+        <div class="p-8 rounded-2xl bg-bg-2 border border-white/[0.08] shadow-xl">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div>
+              <p class="text-[11px] font-mono uppercase tracking-wider text-ink-3">Legal Entity</p>
+              <p class="text-sm font-bold text-white font-ui mt-1">SYNCLEAD LTD</p>
+            </div>
+            <div>
+              <p class="text-[11px] font-mono uppercase tracking-wider text-ink-3">Company Number</p>
+              <p class="text-sm font-bold text-white font-mono mt-1">15903993</p>
+            </div>
+            <div>
+              <p class="text-[11px] font-mono uppercase tracking-wider text-ink-3">Jurisdiction</p>
+              <p class="text-sm font-bold text-white font-ui mt-1">England & Wales</p>
+            </div>
+            <div>
+              <p class="text-[11px] font-mono uppercase tracking-wider text-ink-3">Press Inquiries</p>
+              <a href="mailto:press@synclead.io" class="text-sm font-bold text-sky font-mono mt-1 hover:underline block">
+                press@synclead.io
+              </a>
+            </div>
+          </div>
+          <div class="mt-6 pt-6 border-t border-white/[0.08] text-xs text-ink-2 leading-relaxed">
+            Registered Office: 20 Wenlock Road, London, England, N1 7GU, United Kingdom.
+          </div>
+        </div>
+      </div>
+
+      <!-- Media Contact Card -->
+      <div class="p-8 rounded-2xl bg-gradient-to-r from-bg-1 to-bg-2 border border-sky/30 shadow-2xl text-center max-w-xl mx-auto">
+        <span class="inline-block p-3 rounded-full bg-sky/10 text-sky mb-3">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </span>
+        <h3 class="text-xl font-bold text-white font-ui">Media Desk</h3>
+        <p class="text-xs sm:text-sm text-ink-2 mt-2 leading-relaxed">
+          For interview requests, executive commentary, or high-resolution custom assets, contact our media team directly.
+        </p>
+        <a
+          href="mailto:press@synclead.io?subject=Media%20Inquiry%20—%20SyncLead"
+          class="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-xl bg-sky text-dark-950 hover:bg-sky-2 font-semibold text-xs font-mono transition-all shadow-lg hover:shadow-sky/20"
+        >
+          <span>Contact press@synclead.io</span>
+          <span>&rarr;</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+</PageLayout>

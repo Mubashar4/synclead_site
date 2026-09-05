@@ -1,0 +1,126 @@
+/* ═══════════ TOKENS — Design System (WD-032) ═══════════
+   Complete palette, typography, motion, and spacing tokens.
+   Derived from the founder-approved sample design (2026-09-03).
+   Brand overhaul: navy+sky→dark cinema palette with violet accent.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── 1.1 Background Scale ─────────────────────────────────── */
+  --bg-0: #05080F;   /* deepest black — page base, hero bg */
+  --bg-1: #0A0F1D;   /* primary dark — section backgrounds */
+  --bg-2: #0E1626;   /* card backgrounds on dark surfaces */
+  --bg-3: #141D33;   /* elevated dark — modals, dropdowns */
+
+  /* ── 1.2 Border / Line ────────────────────────────────────── */
+  --line:   rgba(151, 166, 199, 0.14);  /* subtle borders on dark */
+  --line-2: rgba(151, 166, 199, 0.24);  /* stronger borders */
+
+  /* ── 1.3 Ink (Text on Dark) ───────────────────────────────── */
+  --ink:   #E8EDF7;   /* primary text on dark */
+  --ink-2: #9AA6BE;   /* secondary text on dark */
+  --ink-3: #5F6B85;   /* tertiary / muted on dark */
+
+  /* ── 1.4 Sky (Booked / Primary Accent) ────────────────────── */
+  --color-sky:     #41C8FF;  /* primary accent — links, highlights, booked state */
+  --color-sky-2:   #7FD9FF;  /* lighter sky for hover states */
+  --color-sky-ink: #0E86C8;  /* sky text on light backgrounds */
+
+  /* ── 1.5 Violet (Sent / Secondary Accent) ─────────────────── */
+  --color-violet:     #9D8BFF;  /* secondary accent — sent state, AI section */
+  --color-violet-2:   #B7A8FF;  /* lighter violet for emphasis */
+  --color-violet-ink: #6C58E8;  /* violet text on light backgrounds */
+
+  /* ── 1.6 Semantic ─────────────────────────────────────────── */
+  --color-ok:   #3DD68C;  /* success / healthy / booked */
+  --color-warn: #F5B74E;  /* warning / stopped */
+  --color-err:  #F0618C;  /* error / at risk */
+
+  /* ── 1.7 Light Surface ────────────────────────────────────── */
+  --paper:    #F4F7FB;   /* warm paper background */
+  --line-l:   #E2E9F3;   /* borders on light surfaces */
+  --ink-l:    #0D1626;   /* primary text on light */
+  --ink-l-2:  #525E77;   /* secondary text on light */
+  --ink-l-3:  #8B96AD;   /* tertiary on light */
+
+  /* ── 1.8 Channel tokens (for rgba() composition) ──────────── */
+  --color-sky-rgb:    65, 200, 255;
+  --color-violet-rgb: 157, 139, 255;
+  --color-ink-rgb:    232, 237, 247;
+  --color-white-rgb:  255, 255, 255;
+  --color-ok-rgb:     61, 214, 140;
+  --color-warn-rgb:   245, 183, 78;
+
+  /* ── 2.1 Font Families ────────────────────────────────────── */
+  --f-ui:    'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --f-mono:  'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ── 2.2 Type Scale ───────────────────────────────────────── */
+  /* H1 (hero) — responsive via clamp */
+  --text-h1-size: clamp(40px, 6.4vw, 76px);
+  --text-h1-lh:   1.06;
+  --text-h1-ls:   -0.032em;
+  --text-h1-wt:   700;
+
+  /* H2 (section headlines) */
+  --text-h2-size: clamp(30px, 3.8vw, 46px);
+  --text-h2-lh:   1.16;
+  --text-h2-ls:   -0.022em;
+  --text-h2-wt:   700;
+
+  /* H3 (card titles) */
+  --text-h3-size: 20px;
+  --text-h3-lh:   1.3;
+  --text-h3-wt:   600;
+
+  /* Lead / body */
+  --text-lead-size: clamp(16px, 1.5vw, 18px);
+  --text-lead-lh:   1.68;
+
+  /* Body */
+  --text-body-size: 15px;
+  --text-body-lh:   1.68;
+
+  /* Label / eyebrow */
+  --text-label-size: 11px;
+  --text-label-wt:   600;
+  --text-label-ls:   0.26em;
+
+  /* Mono / chip */
+  --text-mono-size: 9.5px;
+  --text-mono-wt:   600;
+  --text-mono-ls:   0.2em;
+
+  /* ── 3.1 Motion ───────────────────────────────────────────── */
+  --ease:   cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-x: cubic-bezier(0.16, 1, 0.3, 1);  /* expo-out */
+  --loop:   9s;  /* shared animation timeline */
+
+  /* ── 3.2 Spacing ──────────────────────────────────────────── */
+  --container-max: 1200px;
+  --section-py: clamp(88px, 10vw, 132px);
+
+  /* ── 3.3 Radii ────────────────────────────────────────────── */
+  --radius-card: 16px;
+  --radius-btn:  12px;
+  --radius-badge: 9999px;
+  --radius-sm:   10px;
+
+  /* ── 3.4 Shadows ──────────────────────────────────────────── */
+  --shadow-stage: 0 40px 100px -40px rgba(0, 0, 0, 0.8),
+                  0 0 90px -46px rgba(65, 200, 255, 0.5);
+  --shadow-card:  0 2px 6px rgba(13, 22, 38, 0.04);
+  --shadow-card-hover: 0 2px 4px rgba(13, 22, 38, 0.04),
+                       0 16px 44px -10px rgba(13, 22, 38, 0.16);
+  --shadow-elevated: 0 34px 80px -36px rgba(13, 22, 38, 0.55);
+  --shadow-float: 0 24px 60px -30px rgba(0, 0, 0, 0.5);
+
+  /* ── 3.5 Noise texture ────────────────────────────────────── */
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* ── 3.6 Gradients ────────────────────────────────────────── */
+  --gradient-route: linear-gradient(90deg, var(--color-violet), var(--color-sky));
+  --gradient-hero:  radial-gradient(1100px 700px at 72% -12%, rgba(22, 35, 70, 0.95), transparent 60%),
+                    radial-gradient(900px 620px at 6% 108%, rgba(16, 28, 58, 0.85), transparent 60%),
+                    var(--bg-0);
+}

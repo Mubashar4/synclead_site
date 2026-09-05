@@ -1,0 +1,92 @@
+Terms of Service
+Please read these terms carefully before using our platform.
+
+Last updated: 28 March 2026
+
+1. Agreement to Terms
+These Terms of Service ("Terms") constitute a legally binding agreement between you ("User," "you," or "your") and SYNCLEAD LTD, a company registered in England and Wales under company number 15903993, with its registered office at 20 Wenlock Road, London, England, N1 7GU ("SyncLead," "we," "us," or "our").
+
+By accessing or using the SyncLead platform at synclead.io (the "Platform"), you agree to be bound by these Terms. If you do not agree to these Terms, you must not access or use the Platform.
+
+2. Description of Service
+SyncLead is a B2B sales engagement and lead nurturing platform that provides:
+
+Calendar Scheduling: Intelligent booking links, availability management, team routing, and calendar synchronisation with Google Calendar and Microsoft Outlook.
+Email Engagement Sequences: Multi-step, automated email campaigns with personalisation, A/B testing, open/click tracking, and auto-pause functionality.
+Unified Master Inbox: Centralised inbox to manage replies across multiple connected email accounts.
+CRM Integrations: Bi-directional sync with third-party CRM platforms including HubSpot, Salesforce, and Clay.
+Account Bridging: Secure connectivity to Google Workspace and Microsoft 365 accounts via OAuth 2.0 for sending and receiving emails through the Platform.
+3. Account Registration and Security
+To use SyncLead, you must create an account and provide accurate, complete, and current information. You are responsible for maintaining the confidentiality of your login credentials and for all activities that occur under your account.
+
+You must immediately notify us at contact@synclead.io if you become aware of any unauthorised use of your account.
+
+4. Acceptable Use and Anti-Spam Policy
+SyncLead is a B2B sales engagement and lead nurturing platform designed for legitimate business communications. By using SyncLead, you agree to the following:
+
+You will strictly comply with all applicable email regulations, including but not limited to CAN-SPAM Act (US), GDPR (EU/UK), CASL (Canada), and other local anti-spam legislation.
+You will only send emails to recipients with whom you have a legitimate business interest, an existing business relationship, or who have opted in to receive communications from you.
+You will not use SyncLead to send unsolicited bulk email ("spam"), malware, phishing attempts, or any malicious content.
+You will include accurate sender information and honour opt-out/unsubscribe requests promptly.
+You will not exceed email provider rate limits or engage in practices that could damage your domain reputation or the reputation of SyncLead's infrastructure.
+SyncLead reserves the right to immediately suspend or terminate accounts that violate this policy, generate high abuse complaint rates, or breach email provider terms of service. No refund will be issued for accounts terminated due to policy violations.
+
+For our complete acceptable use guidelines, please see our Acceptable Use Policy.
+
+5. Account Connectivity and Third-Party Services
+SyncLead connects to your Google Workspace and Microsoft 365 accounts through their respective official OAuth 2.0 APIs. SyncLead acts as a bridge — facilitating email sending, receiving, and calendar synchronisation through these providers' own APIs. SyncLead is not an SMTP relay service.
+
+By connecting your accounts, you agree to:
+
+Comply with Google's Terms of Service and Google API Services User Data Policy when connecting Google Workspace accounts.
+Comply with Microsoft's Terms of Service and Microsoft Graph API Terms when connecting Microsoft 365 accounts.
+Grant SyncLead only the permissions necessary to operate the Platform's features (calendar read/write, email send/receive).
+You may revoke SyncLead's access to your connected accounts at any time through your Google or Microsoft account security settings.
+
+6. Subscriptions and Billing
+SyncLead operates on a subscription-based pricing model. By subscribing to a paid plan, you agree to:
+
+Pay the subscription fees listed on our Pricing page at the time of purchase.
+Allow automatic renewal at the end of each billing cycle (monthly or annual) unless cancelled prior to renewal.
+Provide valid payment information through our payment processor, Stripe.
+All prices are in US Dollars (USD) unless otherwise stated. We reserve the right to change pricing with 30 days' prior notice. Existing subscribers will retain their current pricing until the end of their current commitment period.
+
+7. Cancellation and Refund Policy
+You may cancel your subscription at any time from your account settings. Upon cancellation:
+
+Your access to paid features will continue until the end of your current billing cycle.
+No partial refunds are issued for unused time within a billing period.
+Your data will be retained for 30 days after the end of your subscription, after which it may be permanently deleted.
+SyncLead offers a 14-day money-back guarantee for all new subscriptions. If you are not satisfied with our platform, contact contact@synclead.io within 14 days of your initial purchase for a full refund. For complete details, see our Refund Policy.
+
+8. Intellectual Property
+The SyncLead platform, including its design, code, features, documentation, and branding, is the intellectual property of SYNCLEAD LTD. You may not copy, modify, distribute, reverse-engineer, or create derivative works of any part of the Platform without our prior written consent.
+
+You retain ownership of all content and data you upload to or create through the Platform.
+
+9. Data Protection and Privacy
+We process personal data in accordance with our Privacy Policy, which forms part of these Terms. By using SyncLead, you acknowledge and consent to the data processing practices described therein.
+
+10. Limitation of Liability
+To the maximum extent permitted by law, SYNCLEAD LTD shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, revenue, data, or business opportunities, arising from your use of or inability to use the Platform.
+
+Our total aggregate liability for any claims arising from or relating to these Terms shall not exceed the total fees paid by you to SyncLead in the twelve (12) months preceding the claim.
+
+11. Disclaimer of Warranties
+The Platform is provided "as is" and "as available" without warranties of any kind, whether express or implied. We do not warrant that the Platform will be uninterrupted, error-free, or free of harmful components.
+
+12. Indemnification
+You agree to indemnify and hold harmless SYNCLEAD LTD, its officers, directors, employees, and agents from any claims, damages, losses, or costs (including legal fees) arising from your use of the Platform, your violation of these Terms, or your infringement of any third-party rights.
+
+13. Modifications to Terms
+We reserve the right to modify these Terms at any time. We will provide at least 30 days' notice of material changes by email or through the Platform. Your continued use of the Platform after such changes constitutes acceptance of the revised Terms.
+
+14. Governing Law and Jurisdiction
+These Terms are governed by and construed in accordance with the laws of England and Wales. Any disputes arising from these Terms shall be subject to the exclusive jurisdiction of the courts of England and Wales.
+
+15. Contact Us
+If you have any questions about these Terms, please contact us:
+
+Email: contact@synclead.io
+Address: SYNCLEAD LTD, 20 Wenlock Road, London, England, N1 7GU
+Company Number: 15903993

@@ -1,0 +1,102 @@
+---
+/**
+ * MetricsBand.astro — "How it works" mechanisms section. Design system v2 (WD-032).
+ * Three mechanism cards with animated route line (WD-008).
+ */
+const mechanisms = [
+  {
+    num: '01',
+    title: 'Sending spread across multiple IPs',
+    body: 'Volume rotates across a pool of sending accounts with per-account daily caps, so no single domain absorbs the whole campaign.',
+    tags: ['Pools', 'Rotation', 'Daily caps'],
+  },
+  {
+    num: '02',
+    title: 'SPF, DKIM, DMARC and MX watched continuously',
+    body: 'SyncLead re-checks the DNS records behind every connected mailbox and alerts you when one drifts — before deliverability drops.',
+    tags: ['SPF', 'DKIM', 'DMARC', 'MX'],
+  },
+  {
+    num: '03',
+    title: 'Replies and no-shows handled automatically',
+    body: 'A reply stops the sequence and lands in a unified inbox. A no-show triggers a recovery sequence that works to rebook the slot.',
+    tags: ['Replies', 'No-shows', 'Rebooks'],
+  },
+];
+---
+
+<section class="sec sec-dark seam" id="how">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow" style="display:flex;justify-content:center">How it works</p>
+      <h2 class="h2">Three mechanisms doing the work your reps do <em>manually.</em></h2>
+    </div>
+
+    <!-- Animated route line -->
+    <div class="route" data-reveal aria-hidden="true">
+      <span class="nd"></span><span class="nd"></span><span class="nd"></span>
+    </div>
+
+    <div class="mech-grid">
+      {mechanisms.map((m, i) => (
+        <article class="mcard" data-reveal data-d={i > 0 ? i : undefined}>
+          <span class="mnum">{m.num}</span>
+          <h3>{m.title}</h3>
+          <p>{m.body}</p>
+          <div class="mtag">
+            {m.tags.map((t) => <span>{t}</span>)}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .route {
+    position: relative; height: 2px; margin: 60px 0 40px;
+    background: rgba(151, 166, 199, 0.12);
+  }
+  .route::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--color-violet), var(--color-sky));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1.5s var(--ease-x);
+  }
+  .route.in::before { transform: scaleX(1); }
+  .route .nd {
+    position: absolute; top: 50%; width: 12px; height: 12px; margin-top: -6px;
+    border-radius: 50%; background: var(--bg-1);
+    border: 2px solid var(--color-sky);
+    opacity: 0; transform: scale(0.4);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  }
+  .route.in .nd { opacity: 1; transform: scale(1); }
+  .route .nd:nth-of-type(1) { left: calc(16.66% - 6px); transition-delay: 0.25s; }
+  .route .nd:nth-of-type(2) { left: calc(50% - 6px); transition-delay: 0.7s; }
+  .route .nd:nth-of-type(3) { left: calc(83.33% - 6px); transition-delay: 1.15s; }
+
+  .mech-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .mcard {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--line); border-radius: 16px; padding: 30px 28px;
+    transition: transform 0.3s var(--ease), border-color 0.3s, background 0.3s;
+  }
+  .mcard:hover {
+    transform: translateY(-4px);
+    border-color: rgba(65, 200, 255, 0.3);
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .mnum { font: 600 12px var(--f-mono); letter-spacing: 0.2em; color: var(--color-sky); }
+  .mcard h3 { font: 600 20px var(--f-ui); color: var(--ink); margin-top: 14px; letter-spacing: -0.015em; }
+  .mcard p { font: 400 15px/1.68 var(--f-ui); color: var(--ink-2); margin-top: 12px; }
+  .mtag { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
+  .mtag span {
+    font: 600 9px var(--f-mono); letter-spacing: 0.14em; color: var(--ink-3);
+    border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1020px) { .mech-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 720px) { .mech-grid { grid-template-columns: 1fr; } .route { display: none; } }
+</style>

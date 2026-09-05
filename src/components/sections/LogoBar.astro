@@ -1,0 +1,83 @@
+---
+/**
+ * LogoBar.astro — Integration trust band. Design system v2 (WD-032).
+ * Lists real integrations with OAuth-not-password line (WD-007).
+ */
+interface IntegrationItem {
+  code: string;
+  name: string;
+  desc: string;
+  badge?: string;
+}
+
+const integrations: IntegrationItem[] = [
+  { code: 'M365', name: 'Microsoft 365 & Teams', desc: 'Graph mail + Teams conferencing' },
+  { code: 'GW',   name: 'Google Workspace', desc: 'Gmail + Google Meet calendar' },
+  { code: 'ZOOM', name: 'Zoom Conferencing', desc: 'Dynamic meeting injection' },
+  { code: 'HS',   name: 'HubSpot CRM', desc: 'Bi-directional deal & contact sync' },
+  { code: 'SMTP', name: 'Custom SMTP', desc: 'Any SMTP / IMAP provider', badge: 'Coming Soon' },
+];
+---
+
+<section class="sec-int" id="integrations">
+  <div class="container">
+    <p class="eyebrow" data-reveal style="display:flex;justify-content:center">The stack you already run</p>
+    <p class="int-note" data-reveal>Every mailbox and calendar connects over <strong>OAuth</strong> — SyncLead never asks for or stores your email password.</p>
+    <div class="int-grid">
+      {integrations.map((item, i) => (
+        <div class="int-tile" data-reveal data-d={i > 0 ? Math.min(i, 3) : undefined}>
+          {item.badge && <span class="int-badge">{item.badge}</span>}
+          <span class="int-m">{item.code}</span>
+          <h3>{item.name}</h3>
+          <p>{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec-int { background: #fff; padding: 78px 0 90px; border-bottom: 1px solid var(--line-l); }
+  .sec-int .eyebrow { color: var(--color-sky-ink); }
+  .int-note {
+    max-width: 580px; margin: 16px auto 44px; text-align: center;
+    font: 400 16.5px/1.65 var(--f-ui); color: var(--ink-l-2);
+  }
+  .int-note strong { color: var(--ink-l); font-weight: 600; }
+  .int-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; max-width: 1020px; margin: 0 auto; }
+  .int-tile {
+    position: relative;
+    background: #F7FAFD; border: 1px solid var(--line-l); border-radius: 14px;
+    padding: 22px 12px 28px; text-align: center;
+    transition: transform 0.25s var(--ease), border-color 0.25s, box-shadow 0.25s;
+  }
+  .int-badge {
+    position: absolute;
+    bottom: 9px;
+    right: 9px;
+    font: 600 8px/1 var(--f-mono);
+    letter-spacing: 0.04em;
+    padding: 2.5px 6.5px;
+    border-radius: 999px;
+    background: rgba(14, 134, 200, 0.08);
+    color: var(--color-sky-ink);
+    border: 1px solid rgba(14, 134, 200, 0.22);
+    box-shadow: 0 1px 2px rgba(13, 22, 38, 0.04);
+  }
+  .int-tile:hover {
+    transform: translateY(-4px);
+    border-color: rgba(14, 134, 200, 0.45);
+    box-shadow: 0 14px 34px -18px rgba(13, 22, 38, 0.28);
+  }
+  .int-m {
+    width: 42px; height: 42px; margin: 0 auto 13px; border-radius: 11px;
+    background: #0D1626; color: #E8EDF7;
+    display: grid; place-items: center;
+    font: 600 11.5px var(--f-mono);
+  }
+  .int-tile h3 { font: 600 14.5px var(--f-ui); color: var(--ink-l); }
+  .int-tile p { font: 500 9.5px var(--f-mono); letter-spacing: 0.12em; color: var(--ink-l-3); text-transform: uppercase; margin-top: 6px; }
+
+  @media (max-width: 1020px) { .int-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 720px) { .int-grid { grid-template-columns: 1fr; } }
+</style>

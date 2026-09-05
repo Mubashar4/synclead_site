@@ -1,0 +1,27 @@
+---
+/**
+ * BrowserFrame.astro — Browser-chrome mockup wrapper (dots + URL bar + LIVE indicator).
+ * Design system v2 (WD-032).
+ */
+interface Props {
+  url: string;
+  class?: string;
+}
+
+const { url, class: className = '' } = Astro.props;
+---
+
+<div class={`bframe ${className}`}>
+  <div class="chrome">
+    <span class="dots"><i></i><i></i><i></i></span>
+    <span class="url">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+        <rect x="5" y="11" width="14" height="10" rx="2.5"/>
+        <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+      </svg>
+      {url}
+    </span>
+    <span class="chrome-r"><i></i>LIVE</span>
+  </div>
+  <slot />
+</div>

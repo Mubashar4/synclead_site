@@ -1,0 +1,5 @@
+# Cloudflare Pages Redirects
+/app        https://app.synclead.io           302
+/login      https://app.synclead.io           302
+/signup     https://app.synclead.io/signup    302
+/demo       /pricing                          301

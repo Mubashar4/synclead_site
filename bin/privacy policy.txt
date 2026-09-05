@@ -1,0 +1,105 @@
+Privacy Policy
+How we collect, use, and protect your personal data.
+
+Last updated: 28 March 2026
+
+1. Data Controller
+The data controller responsible for your personal data is:
+
+SYNCLEAD LTD
+Company Number: 15903993
+20 Wenlock Road, London, England, N1 7GU
+United Kingdom
+
+For data protection enquiries, contact: privacy@synclead.io
+
+2. Data We Collect
+We collect the following categories of personal data when you use SyncLead:
+
+2.1 Account Information
+Full name and email address
+Company name and job title
+Account password (stored securely using industry-standard hashing)
+2.2 Billing Information
+Payment card details (processed and stored by Stripe; SyncLead does not store card numbers)
+Billing address and invoice history
+2.3 Connected Account Data
+OAuth Tokens: When you connect Google Workspace or Microsoft 365 accounts, we store OAuth 2.0 access and refresh tokens to facilitate email sending, receiving, and calendar synchronisation. We do not store your Google or Microsoft passwords.
+Email Metadata: Subject lines, recipients, timestamps, open/click events, and reply status for emails sent or received through SyncLead.
+Calendar Data: Meeting schedules, event details, and availability information from connected calendars.
+2.4 CRM Integration Data
+Contact records, deal information, and activity data synchronised between SyncLead and connected CRM platforms (HubSpot, Salesforce, Clay).
+CRM API tokens and integration configuration settings.
+2.5 Usage Data
+IP address, browser type, device information, and referring URLs
+Feature usage patterns, page views, and session duration
+Error logs and performance data
+3. How We Use Your Data
+We use your personal data for the following purposes:
+
+Service Delivery: To provide calendar scheduling, email engagement sequences, the Master Inbox, and CRM synchronisation features.
+Account Management: To create and manage your account, process subscriptions, and handle billing.
+Communication: To send service-related notifications, product updates, and respond to your inquiries.
+Improvement: To analyse usage patterns and improve Platform features, performance, and user experience.
+Security: To detect and prevent fraud, abuse, and security incidents.
+Legal Compliance: To comply with applicable laws, regulations, and legal proceedings.
+4. Legal Basis for Processing (GDPR)
+Where GDPR applies, we process personal data under the following legal bases:
+
+Contract Performance: Processing necessary to provide the SyncLead service you have subscribed to (Article 6(1)(b)).
+Legitimate Interest: Processing necessary for our legitimate interests, such as improving our services, preventing fraud, and ensuring security (Article 6(1)(f)).
+Consent: Where you have given explicit consent, such as for marketing communications (Article 6(1)(a)).
+Legal Obligation: Processing required to comply with legal obligations (Article 6(1)(c)).
+5. Data Sharing
+We do not sell your personal data. We may share data with the following categories of third parties:
+
+Payment Processor: Stripe, Inc. — for processing subscription payments securely.
+Cloud Infrastructure: Hosting providers for data storage and processing.
+CRM Platforms: HubSpot, Salesforce, and Clay — only when you actively configure and enable these integrations.
+Email Providers: Google and Microsoft — through their APIs when you connect your accounts.
+Analytics: Aggregated, anonymised usage data for service improvement.
+Legal Requirements: When required by law, regulation, or valid legal process.
+6. Data Retention
+We retain your personal data for as long as your account is active or as needed to provide you with the Platform's services. When you cancel your subscription:
+
+Your data will be retained for 30 days after the end of your subscription period, during which you may reactivate your account.
+After 30 days, your personal data, connected account tokens, and email data will be permanently deleted from our systems.
+Billing records may be retained for up to 7 years as required by UK tax and accounting regulations.
+7. Data Security
+We implement industry-standard security measures to protect your data, including:
+
+Encryption in transit using TLS 1.3
+Encryption at rest for sensitive data, including OAuth tokens
+Regular security audits and vulnerability assessments
+Access controls and role-based permissions for internal systems
+Secure password hashing using bcrypt or equivalent algorithms
+8. Your Rights
+Under GDPR and applicable data protection laws, you have the following rights:
+
+Right of Access: Request a copy of the personal data we hold about you.
+Right to Rectification: Request correction of inaccurate or incomplete data.
+Right to Erasure: Request deletion of your personal data ("right to be forgotten").
+Right to Restriction: Request restriction of processing in certain circumstances.
+Right to Data Portability: Receive your data in a structured, machine-readable format.
+Right to Object: Object to processing based on legitimate interests or direct marketing.
+Right to Withdraw Consent: Where processing is based on consent, you may withdraw it at any time.
+To exercise any of these rights, contact us at privacy@synclead.io. We will respond within 30 days.
+
+9. International Data Transfers
+Your data may be transferred to and processed in countries outside the United Kingdom and the European Economic Area. Where such transfers occur, we ensure appropriate safeguards are in place, such as Standard Contractual Clauses (SCCs) approved by the European Commission or UK International Data Transfer Agreement (IDTA).
+
+10. Cookies
+SyncLead uses essential cookies necessary for the operation of the Platform (session management, authentication). We may also use analytics cookies to understand usage patterns. You can manage cookie preferences through your browser settings.
+
+11. Children's Privacy
+SyncLead is a B2B platform and is not intended for use by individuals under the age of 18. We do not knowingly collect personal data from children.
+
+12. Changes to This Policy
+We may update this Privacy Policy from time to time. We will notify you of material changes by email or through the Platform at least 30 days before the changes take effect.
+
+13. Contact and Complaints
+For data protection enquiries, GDPR compliance questions, or data deletion requests, contact:
+
+Email: privacy@synclead.io
+Address: SYNCLEAD LTD, 20 Wenlock Road, London, England, N1 7GU
+If you are unsatisfied with our response, you have the right to lodge a complaint with the Information Commissioner's Office (ICO) at ico.org.uk.

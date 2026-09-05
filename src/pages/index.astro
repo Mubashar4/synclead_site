@@ -1,0 +1,36 @@
+---
+/**
+ * index.astro — Home page, primary conversion surface.
+ * Updated for WD-033 design directives & high-leverage infrastructure positioning.
+ *
+ * Section order:
+ * 1. HeroSection (Above the fold: Cascading UI, Deliverability in back, Calendar in front)
+ * 2. LogoBar (Stack integration strip: Microsoft 365, Google Workspace, HubSpot, Stripe, SMTP)
+ * 3. InfraSection (Infrastructure & Deliverability: Domain cluster & health scoring)
+ * 4. CampaignsSchedulingSection (Campaigns & Scheduling: Split-screen sequence & recovery loop)
+ * 5. AIInsightsSection (AI & Intent Scoring: High Intent UI snippet & Roadmap CTA)
+ * 6. PricingSection (Pricing: 3 tiers - Pro $149, Scale $299 highlighted, Enterprise Custom)
+ * 7. CTASection (Footer CTA: Stop duct-taping your pipeline)
+ */
+import PageLayout from '@/layouts/PageLayout.astro';
+import HeroSection from '@/components/hero/HeroSection.astro';
+import LogoBar from '@/components/sections/LogoBar.astro';
+import InfraSection from '@/components/sections/InfraSection.astro';
+import CampaignsSchedulingSection from '@/components/sections/CampaignsSchedulingSection.astro';
+import AIInsightsSection from '@/components/sections/AIInsightsSection.astro';
+import PricingSection from '@/components/sections/PricingSection.astro';
+import CTASection from '@/components/sections/CTASection.astro';
+---
+
+<PageLayout
+  title="SyncLead — Stop Counting Sends. Start Counting Meetings."
+  description="Replace a fractured stack. Multi-IP infrastructure, cold outreach, and automated no-show recovery to turn cold data into booked calls."
+>
+  <HeroSection />
+  <LogoBar />
+  <InfraSection />
+  <CampaignsSchedulingSection />
+  <AIInsightsSection />
+  <PricingSection />
+  <CTASection />
+</PageLayout>

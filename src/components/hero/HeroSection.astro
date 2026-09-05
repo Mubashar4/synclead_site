@@ -1,0 +1,535 @@
+---
+/**
+ * HeroSection.astro — Full-viewport dark cinematic hero. Primary conversion surface.
+ * Design system v2 (WD-032). Copy per WD-033 (founder directive 2026-09-03).
+ * WD-033 supersedes WD-005 (old H1) and WD-031 (trial language ban).
+ *
+ * Visual: cascading overlapping UI — deliverability dashboard in back,
+ * calendar booking interface in front. Communicates the bridge between
+ * inbox and calendar.
+ *
+ * Cursor interaction: one rAF-throttled pointermove, CSS variables only (WD-010).
+ * Gated for prefers-reduced-motion + coarse pointers.
+ */
+---
+
+<section class="hero" id="hero">
+  <!-- Background layers -->
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-dots"></div>
+    <div class="orb o1"><i></i></div>
+    <div class="orb o2"><i></i></div>
+    <div class="hero-pts"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="cursor-spot"></div>
+    <div class="cursor-grid"></div>
+    <div class="noise"></div>
+  </div>
+
+  <!-- Hero content -->
+  <div class="hero-in">
+    <!-- Headline — WD-033 LOCKED copy -->
+    <h1 class="h1">
+      <span class="w"><i>Stop</i></span> <span class="w"><i>Counting</i></span> <span class="w"><i>Sends.</i></span>
+      <span class="w w-em"><i>Start</i></span> <span class="w w-em"><i>Counting</i></span> <span class="w w-end"><i>Meetings.</i></span>
+    </h1>
+
+    <!-- Subheadline — WD-033 LOCKED copy -->
+    <p class="lead" data-rise="1">Replace a fractured stack. We combine multi-IP infrastructure, cold outreach, and automated no-show recovery to turn cold data into booked calls.</p>
+
+    <!-- Primary CTA — WD-034: "Get Started" locked; trial vocabulary banned -->
+    <div class="cta-row" data-rise="2">
+      <a class="btn btn-white btn-lg" href="https://app.synclead.io/signup" target="_blank" rel="noopener">Get Started</a>
+    </div>
+    <p class="hero-hint-text" data-rise="2">No credit card required.</p>
+
+    <!-- Trust subtext (WD-033 — founder authorized) -->
+    <p class="trust-count" data-rise="3">Powering 37 active revenue engines.</p>
+
+    <!-- Honest trust row -->
+    <div class="trust" data-rise="3">
+      <!-- Microsoft Solutions Partner (WD-026) -->
+      <span class="tp">
+        <svg viewBox="0 0 18 18" width="15" height="15" aria-hidden="true"><rect width="8" height="8" fill="#F25022"/><rect x="10" width="8" height="8" fill="#7FBA00"/><rect y="10" width="8" height="8" fill="#00A4EF"/><rect x="10" y="10" width="8" height="8" fill="#FFB900"/></svg>
+        Microsoft Partner
+      </span>
+      <!-- Stripe billing -->
+      <span class="tp">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#7FD9FF" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10.5h18"/></svg>
+        Billing secured by Stripe
+      </span>
+      <!-- Migration -->
+      <span class="tp">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#7FD9FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4M8.2 14.5l2.2 2.2 4-4.2"/></svg>
+        Migration handled by our engineers
+      </span>
+    </div>
+  </div>
+
+  <!-- Cascading UI Visual: Deliverability dashboard (back) + Calendar booking (front) -->
+  <div class="stage-par">
+    <div class="stage" data-reveal>
+      <div class="stage-frame" data-frame>
+        <!-- BACK: Deliverability / Domain Health Dashboard -->
+        <div class="cascade-back">
+          <div class="dash-chrome">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="url">app.synclead.io/infrastructure</span>
+            <span class="chrome-r"><i></i>HEALTH 100%</span>
+          </div>
+          <div class="dash-body">
+            <div class="dash-row">
+              <div class="dom-card">
+                <span class="dom-label">DELIVERABILITY</span>
+                <span class="dom-val text-ok">98.0%</span>
+                <span class="dom-badge ok">OPTIMAL</span>
+              </div>
+              <div class="dom-card">
+                <span class="dom-label">CONNECTED ACCOUNTS</span>
+                <span class="dom-val text-sky">8 / 8 Active</span>
+                <span class="dom-badge shield">PROTECTED</span>
+              </div>
+              <div class="dom-card">
+                <span class="dom-label">MEETINGS BOOKED</span>
+                <span class="dom-val text-ok">53</span>
+                <span class="dom-badge ok">+4.8%</span>
+              </div>
+            </div>
+            <div class="dom-table">
+              <div class="dt-row"><span class="dt-dot"></span><span class="dt-name">seth.miller@leadorbit.net</span><span class="dt-tags"><i>Google Workspace</i><i>Health 100% 🔥</i></span><span class="dt-health">Optimal</span></div>
+              <div class="dt-row"><span class="dt-dot"></span><span class="dt-name">seth.m@leadorbit.net</span><span class="dt-tags"><i>Microsoft 365</i><i>Health 100% 🔥</i></span><span class="dt-health">Optimal</span></div>
+              <div class="dt-row"><span class="dt-dot"></span><span class="dt-name">outreach-sl.io</span><span class="dt-tags"><i>SPF</i><i>DKIM</i><i>DMARC</i></span><span class="dt-health">100%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FRONT: Calendar Booking Interface (overlapping) -->
+        <div class="cascade-front">
+          <div class="cf-header">
+            <span class="cf-pill">FRICTIONLESS SCHEDULING</span>
+            <h4 class="cf-title">Architecture Call · 30 min</h4>
+            <div class="cf-meta"><span>Google Meet / Teams</span><span class="cf-avatar"></span><span>Round-Robin SDR</span></div>
+          </div>
+          <div class="cf-days">
+            <span class="cf-day">MON<b>12</b></span>
+            <span class="cf-day">TUE<b>13</b></span>
+            <span class="cf-day">WED<b>14</b></span>
+            <span class="cf-day active">THU<b>15</b></span>
+            <span class="cf-day">FRI<b>16</b></span>
+          </div>
+          <div class="cf-slots">
+            <div class="cf-slot">10:00 AM</div>
+            <div class="cf-slot">11:30 AM</div>
+            <div class="cf-slot booked">
+              <span class="sl-time">02:30 PM (EST)</span>
+              <span class="sl-badge">CONFIRMED</span>
+            </div>
+            <div class="cf-slot">04:00 PM</div>
+          </div>
+          <div class="cf-confirm">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#41C8FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span><strong>Meeting Locked</strong> · Sequence stopped · Invite sent</span>
+          </div>
+        </div>
+
+        <div class="stage-glare" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-hint" aria-hidden="true"><span>Scroll</span><span class="rail"></span></div>
+</section>
+
+<style>
+  /* ═══ HERO BACKGROUND ═══ */
+  .hero {
+    position: relative; overflow: hidden; min-height: 100svh;
+    background: var(--gradient-hero);
+  }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; }
+  .hero-dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(151, 166, 199, 0.11) 1px, transparent 1.3px);
+    background-size: 30px 30px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 62% at 50% 36%, #000 22%, transparent 74%);
+    mask-image: radial-gradient(ellipse 75% 62% at 50% 36%, #000 22%, transparent 74%);
+  }
+  .orb {
+    position: absolute; border-radius: 50%;
+    transform: translate(calc(var(--px, 0) * 22px), calc(var(--py, 0) * 14px));
+  }
+  .orb i {
+    display: block; width: 100%; height: 100%; border-radius: 50%;
+    filter: blur(90px);
+    animation: oDrift 16s ease-in-out infinite alternate;
+  }
+  .orb.o1 { width: 520px; height: 420px; top: -130px; left: -150px; }
+  .orb.o1 i { background: rgba(108, 88, 232, 0.20); }
+  .orb.o2 { width: 560px; height: 440px; right: -170px; bottom: -140px; }
+  .orb.o2 i { background: rgba(65, 200, 255, 0.13); animation-delay: -8s; }
+  @keyframes oDrift { from { transform: scale(0.94); opacity: 0.75; } to { transform: scale(1.1); opacity: 1; } }
+
+  .hero-pts {
+    position: absolute; inset: 0;
+    transform: translate(calc(var(--px, 0) * -14px), calc(var(--py, 0) * -9px));
+  }
+  .hero-pts span {
+    position: absolute; width: 3px; height: 3px; border-radius: 50%;
+    background: rgba(65, 200, 255, 0.5);
+    animation: ptFloat 9s ease-in-out infinite alternate;
+  }
+  .hero-pts span:nth-child(1) { left: 14%; top: 32%; }
+  .hero-pts span:nth-child(2) { left: 26%; top: 64%; animation-delay: -2s; background: rgba(157, 139, 255, 0.45); }
+  .hero-pts span:nth-child(3) { left: 58%; top: 20%; animation-delay: -4s; }
+  .hero-pts span:nth-child(4) { left: 76%; top: 48%; animation-delay: -1.4s; background: rgba(157, 139, 255, 0.45); }
+  .hero-pts span:nth-child(5) { left: 88%; top: 72%; animation-delay: -6s; }
+  .hero-pts span:nth-child(6) { left: 44%; top: 82%; animation-delay: -3.2s; }
+  @keyframes ptFloat { from { transform: translateY(-14px); opacity: 0.15; } to { transform: translateY(14px); opacity: 0.55; } }
+
+  .cursor-spot, .cursor-grid {
+    position: absolute; inset: 0; pointer-events: none;
+    opacity: var(--ha, 0); transition: opacity 0.5s;
+  }
+  .cursor-spot {
+    background: radial-gradient(600px at calc(var(--mx, 0.5) * 100%) calc(var(--my, 0.42) * 100%), rgba(65, 200, 255, 0.09), transparent 68%);
+  }
+  .cursor-grid {
+    background-image: linear-gradient(rgba(151, 166, 199, 0.08) 1px, transparent 1px),
+                       linear-gradient(90deg, rgba(151, 166, 199, 0.08) 1px, transparent 1px);
+    background-size: 54px 54px;
+    -webkit-mask-image: radial-gradient(340px at calc(var(--mx, 0.5) * 100%) calc(var(--my, 0.42) * 100%), #000, transparent 72%);
+    mask-image: radial-gradient(340px at calc(var(--mx, 0.5) * 100%) calc(var(--my, 0.42) * 100%), #000, transparent 72%);
+  }
+  .noise {
+    position: absolute; inset: 0;
+    background-image: var(--noise); opacity: 0.05; pointer-events: none;
+  }
+
+  /* ═══ HERO CONTENT ═══ */
+  .hero-in {
+    position: relative; z-index: 2; max-width: 880px;
+    margin: 0 auto; padding: 132px 24px 0; text-align: center;
+  }
+
+  /* Rise animation for hero elements */
+  [data-rise] { opacity: 0; animation: rise 0.85s var(--ease) forwards; }
+  [data-rise="1"] { animation-delay: 0.45s; }
+  [data-rise="2"] { animation-delay: 0.58s; }
+  [data-rise="3"] { animation-delay: 0.72s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+  /* Word reveal headline */
+  .h1 .w {
+    display: inline-block; overflow: hidden;
+    vertical-align: bottom; padding-bottom: 0.1em; margin-bottom: -0.1em;
+  }
+  .h1 .w i {
+    display: inline-block; font-style: normal;
+    transform: translateY(112%);
+    animation: wUp 0.7s var(--ease) forwards;
+  }
+  .h1 .w:nth-child(1) i { animation-delay: 0.14s; }
+  .h1 .w:nth-child(2) i { animation-delay: 0.21s; }
+  .h1 .w:nth-child(3) i { animation-delay: 0.28s; }
+  .h1 .w:nth-child(4) i { animation-delay: 0.35s; }
+  .h1 .w:nth-child(5) i { animation-delay: 0.42s; }
+  .h1 .w:nth-child(6) i { animation-delay: 0.49s; }
+  @keyframes wUp { to { transform: none; } }
+
+  .h1 .w-em i {
+    font-family: var(--f-serif); font-weight: 400;
+    font-style: italic; color: var(--color-sky);
+    letter-spacing: 0; font-size: 1.06em;
+  }
+  .h1 .w-end i { position: relative; }
+  .h1 .w-end i::after {
+    content: ''; position: absolute; left: -0.02em; right: -0.02em;
+    bottom: 0.02em; height: 0.048em; min-height: 3px; border-radius: 99px;
+    background: linear-gradient(90deg, var(--color-sky), var(--color-sky-2));
+    transform: scaleX(0); transform-origin: left;
+    animation: uDraw 0.55s var(--ease) 1.2s forwards;
+  }
+  @keyframes uDraw { to { transform: scaleX(1); } }
+
+  .hero .lead { margin: 24px auto 0; color: var(--ink-2); }
+
+  /* CTA row */
+  .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 38px; }
+  .hero-hint-text {
+    font: 500 13px var(--f-ui); color: var(--ink-3); margin-top: 10px;
+  }
+
+  /* Trust count */
+  .trust-count {
+    font: 600 12px var(--f-mono); letter-spacing: 0.12em;
+    color: var(--ink-2); margin-top: 24px; text-transform: uppercase;
+  }
+
+  /* Trust pills */
+  .trust { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 16px; }
+  .tp {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 9px 15px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(233, 237, 246, 0.12);
+    font: 500 12.5px var(--f-ui); color: var(--ink-2);
+  }
+  .tp svg { flex: none; }
+
+  /* ═══ CASCADING UI STAGE ═══ */
+  .stage-par {
+    position: relative; z-index: 2; max-width: 1080px;
+    margin: 92px auto 0; padding: 0 20px 128px; perspective: 1400px;
+  }
+  .stage-frame {
+    position: relative; border-radius: 18px; overflow: visible;
+    min-height: 440px;
+    transition: transform 0.5s var(--ease);
+  }
+
+  /* Back layer: Deliverability Dashboard */
+  .cascade-back {
+    position: relative; width: 84%;
+    background: rgba(10, 15, 29, 0.95);
+    border: 1px solid rgba(151, 166, 199, 0.18);
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7), 0 0 50px -20px rgba(65, 200, 255, 0.2);
+  }
+  .dash-chrome {
+    display: flex; align-items: center; gap: 14px;
+    height: 40px; padding: 0 14px;
+    background: rgba(5, 8, 15, 0.85);
+    border-bottom: 1px solid rgba(151, 166, 199, 0.12);
+  }
+  .dash-chrome .dots { display: flex; gap: 6px; }
+  .dash-chrome .dots i { width: 9px; height: 9px; border-radius: 50%; background: rgba(233, 237, 246, 0.14); }
+  .dash-chrome .url {
+    flex: 1; max-width: 300px; margin: 0 auto; height: 24px; border-radius: 6px;
+    background: rgba(151, 166, 199, 0.08); display: flex; align-items: center;
+    justify-content: center; font: 500 10px var(--f-mono); color: var(--ink-3);
+  }
+  .dash-chrome .chrome-r {
+    display: flex; gap: 6px; align-items: center;
+    font: 600 9px var(--f-mono); letter-spacing: 0.16em; color: var(--color-ok);
+  }
+  .dash-chrome .chrome-r i {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--color-ok);
+    animation: beat 2.6s ease infinite;
+  }
+
+  .dash-body { padding: 16px; }
+  .dash-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+  .dom-card {
+    background: rgba(255, 255, 255, 0.025); border: 1px solid rgba(151, 166, 199, 0.1);
+    border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 3px;
+  }
+  .dom-label { font: 600 8.5px var(--f-mono); letter-spacing: 0.14em; color: var(--ink-3); }
+  .dom-val { font: 700 13px var(--f-mono); color: var(--ink); }
+  .dom-val.text-sky { color: var(--color-sky); }
+  .dom-val.text-ok { color: var(--color-ok); }
+  .dom-badge {
+    font: 600 8px var(--f-mono); padding: 2px 6px; border-radius: 4px;
+    width: fit-content; margin-top: 1px;
+  }
+  .dom-badge.shield { background: rgba(65, 200, 255, 0.12); border: 1px solid rgba(65, 200, 255, 0.3); color: var(--color-sky); }
+  .dom-badge.ok { background: rgba(61, 214, 140, 0.12); border: 1px solid rgba(61, 214, 140, 0.3); color: var(--color-ok); }
+
+  .dom-table { display: flex; flex-direction: column; gap: 6px; }
+  .dt-row {
+    display: flex; align-items: center; gap: 10px; padding: 7px 10px;
+    border-radius: 8px; background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(151, 166, 199, 0.07); font-size: 11px;
+  }
+  .dt-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-ok); box-shadow: 0 0 8px rgba(61, 214, 140, 0.6); flex: none; }
+  .dt-name { flex: 1; font: 500 11px var(--f-mono); color: var(--ink); }
+  .dt-tags { display: flex; gap: 4px; }
+  .dt-tags i {
+    font-style: normal; font: 600 7.5px var(--f-mono); padding: 1px 4px; border-radius: 3px;
+    background: rgba(61, 214, 140, 0.1); color: var(--color-ok); border: 1px solid rgba(61, 214, 140, 0.2);
+  }
+  .dt-health { font: 700 10px var(--f-mono); color: var(--color-ok); }
+
+  /* Front layer: Calendar Booking Interface — Top-anchored cascade preventing collision */
+  .cascade-front {
+    position: absolute; right: -8px; top: 48px; width: 52%; min-width: 340px;
+    background: rgba(13, 22, 40, 0.96); border: 1px solid rgba(65, 200, 255, 0.35);
+    border-radius: 16px; padding: 18px; z-index: 10;
+    box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.9), 0 0 35px -10px rgba(65, 200, 255, 0.35);
+    animation: cfFloat 6s ease-in-out infinite alternate;
+  }
+  @keyframes cfFloat { 0% { transform: translateY(0); } 100% { transform: translateY(-6px); } }
+
+  .cf-pill {
+    font: 600 9px var(--f-mono); letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--color-sky); background: rgba(65, 200, 255, 0.1);
+    border: 1px solid rgba(65, 200, 255, 0.25); padding: 3px 8px; border-radius: 999px;
+    display: inline-block; margin-bottom: 8px;
+  }
+  .cf-title { font: 600 15px var(--f-ui); color: #fff; margin-bottom: 6px; }
+  .cf-meta {
+    display: flex; gap: 10px; align-items: center; font: 400 11px var(--f-ui); color: var(--ink-2); margin-bottom: 12px;
+  }
+  .cf-avatar { width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, #41C8FF, #9D8BFF); }
+
+  .cf-days { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 10px; }
+  .cf-day {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    padding: 6px 0; border-radius: 7px; background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(151, 166, 199, 0.1);
+    font: 600 8px var(--f-mono); letter-spacing: 0.1em; color: var(--ink-3);
+  }
+  .cf-day b { font: 700 13px var(--f-mono); color: var(--ink); display: block; margin-top: 1px; }
+  .cf-day.active { background: rgba(65, 200, 255, 0.1); border-color: rgba(65, 200, 255, 0.45); }
+  .cf-day.active, .cf-day.active b { color: var(--color-sky); }
+
+  .cf-slots { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+  .cf-slot {
+    padding: 7px 10px; border-radius: 7px; background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(151, 166, 199, 0.1); font: 500 11px var(--f-mono); color: var(--ink-2);
+  }
+  .cf-slot.booked {
+    background: rgba(65, 200, 255, 0.08); border-color: rgba(65, 200, 255, 0.4);
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 0 16px -4px rgba(65, 200, 255, 0.25);
+  }
+  .sl-time { font-weight: 700; color: #fff; }
+  .sl-badge {
+    font: 700 8px var(--f-mono); letter-spacing: 0.1em; padding: 2px 6px;
+    border-radius: 4px; background: var(--color-sky); color: #05080F;
+  }
+
+  .cf-confirm {
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+    border-radius: 7px; background: rgba(61, 214, 140, 0.07);
+    border: 1px solid rgba(61, 214, 140, 0.2);
+  }
+  .cf-confirm span { font: 400 11px var(--f-ui); color: var(--ink-2); }
+  .cf-confirm strong { font-weight: 600; color: #fff; }
+
+  .stage-glare {
+    position: absolute; inset: 0; z-index: 6; pointer-events: none;
+    background: radial-gradient(460px at calc(var(--gx, 0.5) * 100%) calc(var(--gy, 0.35) * 100%),
+      rgba(255, 255, 255, 0.09), transparent 62%);
+    opacity: var(--ga, 0); transition: opacity 0.35s;
+  }
+
+  /* Scroll hint */
+  .hero-hint {
+    position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 11px;
+    font: 500 10px var(--f-mono); letter-spacing: 0.26em;
+    text-transform: uppercase; color: var(--ink-3); z-index: 2;
+  }
+  .rail {
+    width: 1px; height: 44px; background: var(--line);
+    position: relative; overflow: hidden;
+  }
+  .rail::after {
+    content: ''; position: absolute; top: -14px; left: -0.5px;
+    width: 2px; height: 14px; background: var(--ink-2);
+    animation: drop 2.2s cubic-bezier(0.4, 0, 0.4, 1) infinite;
+  }
+  @keyframes drop {
+    0%   { top: -14px; opacity: 0; }
+    15%  { opacity: 1; }
+    70%  { opacity: 1; }
+    100% { top: 44px; opacity: 0; }
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 880px) {
+    .stage-par { margin-top: 56px; padding-bottom: 24px; }
+    .stage-frame { min-height: auto; }
+    .cascade-back { width: 100%; }
+    .cascade-front {
+      position: relative; right: auto; top: auto; bottom: auto; width: 100%;
+      min-width: 0; margin-top: 24px;
+    }
+    .dash-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    .hero-hint { display: none; }
+    .cta-row .btn { width: 100%; max-width: 380px; margin-inline: auto; }
+  }
+
+  /* ═══ POINTER GATING ═══ */
+  @media (hover: none), (pointer: coarse) {
+    .cursor-spot, .cursor-grid { display: none; }
+    .stage-frame { transform: none !important; }
+    .cascade-front { animation: none !important; }
+  }
+
+  /* ═══ REDUCED MOTION ═══ */
+  @media (prefers-reduced-motion: reduce) {
+    [data-rise], .h1 .w i, .h1 .w-end i::after {
+      animation: none !important; opacity: 1 !important;
+      transform: none !important; transition: none !important;
+    }
+    .cursor-spot, .cursor-grid { display: none; }
+    .orb i, .hero-pts span { animation: none !important; }
+    .cascade-front { animation: none !important; }
+  }
+</style>
+
+<script>
+  /**
+   * Hero cursor interaction — vanilla, rAF-throttled.
+   * Writes CSS custom properties; all animation is CSS (WD-010).
+   */
+  (() => {
+    const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const FINE = matchMedia('(hover:hover) and (pointer:fine)').matches;
+    const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+
+    const hero = document.getElementById('hero');
+    if (!hero || !FINE || RM) return;
+
+    let raf = 0;
+    hero.addEventListener('pointermove', (e: PointerEvent) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const nx = clamp(e.clientX / innerWidth, 0, 1);
+        const ny = clamp(e.clientY / innerHeight, 0, 1);
+        hero.style.setProperty('--mx', nx.toFixed(3));
+        hero.style.setProperty('--my', ny.toFixed(3));
+        hero.style.setProperty('--px', ((nx - 0.5) * 2).toFixed(3));
+        hero.style.setProperty('--py', ((ny - 0.5) * 2).toFixed(3));
+        hero.style.setProperty('--ha', '1');
+      });
+    });
+    hero.addEventListener('pointerleave', () => {
+      hero.style.setProperty('--ha', '0');
+      hero.style.setProperty('--px', '0');
+      hero.style.setProperty('--py', '0');
+    });
+
+    // Stage tilt + glare
+    const par = document.querySelector('.stage-par') as HTMLElement;
+    const frame = document.querySelector('[data-frame]') as HTMLElement;
+    if (par && frame) {
+      let sraf = 0;
+      let fr: DOMRect | null = null;
+      const cache = () => { fr = par.getBoundingClientRect(); };
+      cache();
+      addEventListener('scroll', () => { if (!sraf) sraf = requestAnimationFrame(() => { sraf = 0; cache(); }); }, { passive: true });
+      addEventListener('resize', cache, { passive: true });
+
+      par.addEventListener('pointermove', (e: PointerEvent) => {
+        if (sraf) return;
+        sraf = requestAnimationFrame(() => {
+          sraf = 0;
+          if (!fr) cache();
+          const nx = clamp((e.clientX - fr!.left) / fr!.width, 0, 1);
+          const ny = clamp((e.clientY - fr!.top) / fr!.height, 0, 1);
+          frame.style.setProperty('--gx', nx.toFixed(3));
+          frame.style.setProperty('--gy', ny.toFixed(3));
+          frame.style.setProperty('--ga', '1');
+        });
+      });
+      par.addEventListener('pointerleave', () => {
+        frame.style.setProperty('--ga', '0');
+      });
+    }
+  })();
+</script>

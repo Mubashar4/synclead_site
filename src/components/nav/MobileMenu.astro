@@ -1,0 +1,62 @@
+---
+/**
+ * MobileMenu.astro — Full-screen overlay menu for mobile.
+ * Design system v2 (WD-032 / WD-033).
+ */
+interface Props {
+  id?: string;
+}
+
+const { id = 'mmenu' } = Astro.props;
+---
+
+<div class="mmenu" id={id} role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="mmenu-in">
+    <a class="mm-link" href="/#infrastructure">Infrastructure</a>
+    <a class="mm-link" href="/#campaigns-scheduling">Core Loop</a>
+    <a class="mm-link" href="/#ai">AI Intent</a>
+    <a class="mm-link" href="/roadmap">Roadmap</a>
+    <a class="mm-link" href="/pricing">Pricing</a>
+    <a class="mm-link" href="mailto:contact@synclead.io">Contact</a>
+    <a class="btn btn-white btn-lg" href="https://app.synclead.io/signup" target="_blank" rel="noopener">
+      Get Started
+    </a>
+  </div>
+</div>
+
+<style>
+  .mmenu {
+    position: fixed; inset: 0; z-index: 49;
+    background: rgba(4, 7, 14, 0.97);
+    backdrop-filter: blur(16px);
+    display: grid; place-items: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.35s, visibility 0.35s;
+  }
+  .mmenu.open { opacity: 1; visibility: visible; }
+
+  .mmenu-in {
+    display: flex; flex-direction: column; gap: 8px;
+    width: min(84vw, 420px);
+  }
+
+  .mm-link {
+    font: 600 26px var(--f-ui); color: var(--ink);
+    text-decoration: none; padding: 12px 4px;
+    border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(14px);
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+  .mmenu.open .mm-link { opacity: 1; transform: none; }
+  .mmenu.open .mm-link:nth-child(2) { transition-delay: 0.06s; }
+  .mmenu.open .mm-link:nth-child(3) { transition-delay: 0.12s; }
+  .mmenu.open .mm-link:nth-child(4) { transition-delay: 0.18s; }
+  .mmenu.open .mm-link:nth-child(5) { transition-delay: 0.24s; }
+
+  .mmenu .btn {
+    margin-top: 22px; opacity: 0; transform: translateY(14px);
+    transition: opacity 0.4s var(--ease) 0.3s, transform 0.4s var(--ease) 0.3s,
+                box-shadow 0.25s, background 0.2s;
+  }
+  .mmenu.open .btn { opacity: 1; transform: none; }
+</style>

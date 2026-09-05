@@ -1,0 +1,188 @@
+---
+/**
+ * careers.astro — Careers & Engineering Opportunities (/careers).
+ * Architecture: Dark Cinema Design System v2 (WD-032 / WD-038).
+ */
+import PageLayout from '@/layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Careers — SyncLead"
+  description="Join the SyncLead team. We are building mission-critical outbound infrastructure and accepting general engineering and GTM applications."
+>
+  <!-- Ambient top glow -->
+  <div class="relative overflow-hidden bg-bg-0 pt-32 sm:pt-40 pb-16 border-b border-white/[0.06]">
+    <div
+      class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[720px] h-[380px] bg-[radial-gradient(ellipse_at_center,_rgba(65,200,255,0.08)_0%,_transparent_70%)] blur-2xl"
+      aria-hidden="true"
+    ></div>
+
+    <div class="container max-w-5xl relative z-10">
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs font-mono tracking-wider text-ink-3 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-ink transition-colors">HOME</a>
+        <span class="text-white/20">/</span>
+        <span class="text-sky">CAREERS</span>
+      </nav>
+
+      <!-- Eyebrow -->
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium tracking-wide bg-sky/10 border border-sky/30 text-sky">
+          <span class="w-1.5 h-1.5 rounded-full bg-ok shadow-[0_0_8px_#3DD68C]"></span>
+          WE ARE HIRING
+        </span>
+        <span class="text-xs font-mono uppercase tracking-widest text-ink-3">
+          LONDON HQ &middot; REMOTE-FIRST
+        </span>
+      </div>
+
+      <!-- Heading & Standfirst -->
+      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-white mt-4 font-ui">
+        Build Mission-Critical Outbound Infrastructure.
+      </h1>
+      <p class="text-base sm:text-lg text-ink-2 mt-4 max-w-3xl leading-relaxed">
+        SyncLead is replacing fractured outbound stacks with high-leverage delivery and meeting-native infrastructure. We are assembling a focused, high-conviction team across engineering and technical go-to-market.
+      </p>
+
+      <!-- Meta strip -->
+      <div class="flex flex-wrap items-center gap-y-3 gap-x-6 mt-8 pt-6 border-t border-white/[0.08] text-xs font-mono text-ink-3">
+        <div><span class="text-ink-2">LOCATION:</span> <span class="text-white">UK / GLOBAL REMOTE</span></div>
+        <div class="hidden sm:block text-white/20">&bull;</div>
+        <div><span class="text-ink-2">ENGINEERING CULTURE:</span> <span class="text-white">HIGH AUTONOMY &middot; RAPID DEPLOY</span></div>
+        <div class="hidden sm:block text-white/20">&bull;</div>
+        <div><span class="text-ink-2">DIRECT CONTACT:</span> <a href="mailto:careers@synclead.io" class="text-sky hover:underline">careers@synclead.io</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Engineering Principles & Open Focus Areas -->
+  <section class="bg-bg-0 py-16 lg:py-20">
+    <div class="container max-w-5xl">
+      
+      <!-- Philosophy Section -->
+      <div class="mb-16">
+        <p class="text-xs font-mono uppercase tracking-widest text-sky mb-2">Our Operating Model</p>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white font-ui">How We Build</h2>
+        
+        <div class="grid sm:grid-cols-3 gap-6 mt-8">
+          <div class="p-6 rounded-xl border border-white/[0.08] bg-bg-1/80 backdrop-blur-sm shadow-lg">
+            <span class="font-mono text-xs text-sky block mb-2 font-semibold">01</span>
+            <h3 class="text-white font-semibold text-base font-ui mb-2">High Leverage, Low Headcount</h3>
+            <p class="text-xs text-ink-2 leading-relaxed">
+              We favor compact teams of senior systems thinkers over sprawling hierarchies. Every engineer shapes the production runtime directly.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-xl border border-white/[0.08] bg-bg-1/80 backdrop-blur-sm shadow-lg">
+            <span class="font-mono text-xs text-sky block mb-2 font-semibold">02</span>
+            <h3 class="text-white font-semibold text-base font-ui mb-2">Zero-Tolerance Deliverability</h3>
+            <p class="text-xs text-ink-2 leading-relaxed">
+              When customers migrate their outreach engines to SyncLead, their revenue depends on our mailbox bridging, health heuristics, and DNS resilience.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-xl border border-white/[0.08] bg-bg-1/80 backdrop-blur-sm shadow-lg">
+            <span class="font-mono text-xs text-sky block mb-2 font-semibold">03</span>
+            <h3 class="text-white font-semibold text-base font-ui mb-2">Direct Feedback Loops</h3>
+            <p class="text-xs text-ink-2 leading-relaxed">
+              Engineers interact directly with founding customers and sales leaders. Insights translate to code in days, not quarterly committee cycles.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Application Focus Areas -->
+      <div>
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          <div>
+            <p class="text-xs font-mono uppercase tracking-widest text-sky mb-2">General Inquiries</p>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white font-ui">Open Disciplines</h2>
+          </div>
+          <span class="text-xs font-mono text-ink-3">ACCEPTING APPLICANTS WORLDWIDE</span>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Discipline 1 -->
+          <div class="p-6 rounded-xl border border-white/[0.08] bg-bg-1 hover:border-sky/40 transition-colors shadow-md">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-3">
+                  <h3 class="text-lg font-bold text-white font-ui">Backend & Cloud Systems Engineering</h3>
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky/10 border border-sky/30 text-sky">ENGINEERING</span>
+                </div>
+                <p class="text-xs sm:text-sm text-ink-2 mt-2 leading-relaxed">
+                  Focus on high-throughput email scheduling, OAuth 2.0 account bridging (Microsoft Graph & Google Workspace APIs), deliverability telemetry, and database optimizations.
+                </p>
+              </div>
+              <a
+                href="mailto:careers@synclead.io?subject=Application:%20Backend%20%26%20Cloud%20Systems%20Engineering"
+                class="shrink-0 px-4 py-2 rounded-lg bg-white/[0.05] hover:bg-sky/20 border border-white/[0.1] hover:border-sky/40 text-xs font-mono text-sky transition-colors text-center"
+              >
+                Apply via Email &rarr;
+              </a>
+            </div>
+          </div>
+
+          <!-- Discipline 2 -->
+          <div class="p-6 rounded-xl border border-white/[0.08] bg-bg-1 hover:border-sky/40 transition-colors shadow-md">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-3">
+                  <h3 class="text-lg font-bold text-white font-ui">Frontend Architecture & Design Engineering</h3>
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky/10 border border-sky/30 text-sky">ENGINEERING</span>
+                </div>
+                <p class="text-xs sm:text-sm text-ink-2 mt-2 leading-relaxed">
+                  Focus on responsive UI craft, high-performance dashboards, real-time analytics data feeds, and intuitive calendar/inbox user experiences.
+                </p>
+              </div>
+              <a
+                href="mailto:careers@synclead.io?subject=Application:%20Frontend%20Architecture%20%26%20Design%20Engineering"
+                class="shrink-0 px-4 py-2 rounded-lg bg-white/[0.05] hover:bg-sky/20 border border-white/[0.1] hover:border-sky/40 text-xs font-mono text-sky transition-colors text-center"
+              >
+                Apply via Email &rarr;
+              </a>
+            </div>
+          </div>
+
+          <!-- Discipline 3 -->
+          <div class="p-6 rounded-xl border border-white/[0.08] bg-bg-1 hover:border-sky/40 transition-colors shadow-md">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-3">
+                  <h3 class="text-lg font-bold text-white font-ui">Technical GTM & Outbound Architecture</h3>
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-violet-400/10 border border-violet-400/30 text-violet-300">GTM</span>
+                </div>
+                <p class="text-xs sm:text-sm text-ink-2 mt-2 leading-relaxed">
+                  Work directly with founding sales leaders to audit domain health, calibrate deliverability algorithms, and guide migration off legacy cold email platforms.
+                </p>
+              </div>
+              <a
+                href="mailto:careers@synclead.io?subject=Application:%20Technical%20GTM%20%26%20Outbound%20Architecture"
+                class="shrink-0 px-4 py-2 rounded-lg bg-white/[0.05] hover:bg-sky/20 border border-white/[0.1] hover:border-sky/40 text-xs font-mono text-sky transition-colors text-center"
+              >
+                Apply via Email &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- General Application Callout Card -->
+        <div class="mt-12 p-8 rounded-2xl bg-bg-2 border border-white/[0.08] text-center max-w-2xl mx-auto shadow-xl">
+          <span class="w-2.5 h-2.5 rounded-full bg-sky inline-block mb-3 shadow-[0_0_10px_#41C8FF]"></span>
+          <h3 class="text-xl font-bold text-white font-ui">Don't see your specific discipline?</h3>
+          <p class="text-xs sm:text-sm text-ink-2 mt-2 leading-relaxed">
+            We are always interested in meeting exceptional operators and developers. Send your GitHub, portfolio, or a summary of your proudest system build directly to our team.
+          </p>
+          <a
+            href="mailto:careers@synclead.io?subject=General%20Application%20—%20SyncLead"
+            class="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-xl bg-sky text-dark-950 hover:bg-sky-2 font-semibold text-xs font-mono transition-all shadow-lg hover:shadow-sky/20"
+          >
+            <span>Send Introduction to careers@synclead.io</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</PageLayout>

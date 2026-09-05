@@ -1,0 +1,119 @@
+---
+/**
+ * CTASection.astro — Final conversion band (The Final Push).
+ * WD-033:
+ * H2: "Stop duct-taping your pipeline."
+ * Primary CTA Button: "Get Started" per WD-034.
+ */
+---
+
+<section class="cta seam" id="cta">
+  <div class="cursor-spot" aria-hidden="true"></div>
+  <div class="cursor-grid" aria-hidden="true"></div>
+  <div class="container cta-in">
+    <h2 class="h2" data-reveal>Stop duct-taping your <em>pipeline.</em></h2>
+    <p class="lead" data-reveal data-d="1">Replace disconnected tools with enterprise multi-IP deliverability, automated no-show recovery, and guaranteed calendar bookings.</p>
+
+    <div class="cta-row" data-reveal data-d="2">
+      <a class="btn btn-white btn-lg" href="https://app.synclead.io/signup" target="_blank" rel="noopener">
+        Get Started
+      </a>
+      <a class="btn btn-ghost btn-lg" href="mailto:contact@synclead.io?subject=Architecture%20Consultation">
+        Book Architecture Call
+      </a>
+    </div>
+
+    <div class="cta-strip" data-reveal data-d="3">
+      <span>Instant platform access</span>
+      <span>No credit card required</span>
+      <span>Zero vendor lock-in</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative; overflow: hidden; background: var(--bg-0);
+    padding: clamp(96px, 11vw, 150px) 0; text-align: center;
+  }
+  .cta::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 820px; height: 460px; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(65, 200, 255, 0.12), transparent);
+    pointer-events: none;
+  }
+  .cta .cursor-spot, .cta .cursor-grid { position: absolute; }
+  .cta-in { position: relative; z-index: 2; }
+
+  .cta .h2 { color: #fff; max-width: 760px; margin: 0 auto; }
+  .cta .h2 em { color: var(--color-sky); }
+  .cta .lead { color: var(--ink-2); margin-inline: auto; max-width: 620px; margin-top: 18px; }
+
+  .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 44px; }
+
+  .cta-strip {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 26px;
+    margin-top: 44px; font: 500 10.5px var(--f-mono); letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .cta-strip span + span::before { content: '·'; margin-right: 26px; color: #39445C; }
+  .cta-strip span { white-space: nowrap; }
+
+  @media (max-width: 720px) {
+    .cta-row .btn { width: 100%; max-width: 380px; margin-inline: auto; }
+  }
+
+  /* Interaction layers from global space */
+  .cursor-spot {
+    background: radial-gradient(600px at calc(var(--mx, 0.5) * 100%) calc(var(--my, 0.42) * 100%), rgba(65, 200, 255, 0.09), transparent 68%);
+    opacity: var(--ha, 0); transition: opacity 0.5s;
+    inset: 0; pointer-events: none;
+  }
+  .cursor-grid {
+    background-image: linear-gradient(rgba(151, 166, 199, 0.08) 1px, transparent 1px),
+                       linear-gradient(90deg, rgba(151, 166, 199, 0.08) 1px, transparent 1px);
+    background-size: 54px 54px;
+    -webkit-mask-image: radial-gradient(340px at calc(var(--mx, 0.5) * 100%) calc(var(--my, 0.42) * 100%), #000, transparent 72%);
+    mask-image: radial-gradient(340px at calc(var(--mx, 0.5) * 100%) calc(var(--my, 0.42) * 100%), #000, transparent 72%);
+    opacity: var(--ha, 0); transition: opacity 0.5s;
+    inset: 0; pointer-events: none;
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .cursor-spot, .cursor-grid { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cursor-spot, .cursor-grid { display: none; }
+  }
+</style>
+
+<script>
+  /**
+   * CTA cursor interaction — vanilla, rAF-throttled.
+   */
+  (() => {
+    const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const FINE = matchMedia('(hover:hover) and (pointer:fine)').matches;
+    const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
+
+    const cta = document.getElementById('cta');
+    if (!cta || !FINE || RM) return;
+
+    let raf = 0;
+    cta.addEventListener('pointermove', (e: PointerEvent) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const rect = cta.getBoundingClientRect();
+        const nx = clamp((e.clientX - rect.left) / rect.width, 0, 1);
+        const ny = clamp((e.clientY - rect.top) / rect.height, 0, 1);
+        cta.style.setProperty('--mx', nx.toFixed(3));
+        cta.style.setProperty('--my', ny.toFixed(3));
+        cta.style.setProperty('--ha', '1');
+      });
+    });
+    cta.addEventListener('pointerleave', () => {
+      cta.style.setProperty('--ha', '0');
+    });
+  })();
+</script>

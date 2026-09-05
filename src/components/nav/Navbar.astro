@@ -1,0 +1,122 @@
+---
+/**
+ * Navbar.astro — Fixed top navigation, transparent → solid on scroll.
+ * Design system v2 (WD-032). Uses Logo.astro for brand mark rendering (WD-012).
+ * Nav links use anchor-based navigation for single-page home.
+ * CTA: "Get Started" per WD-034.
+ */
+import Logo from '@/components/ui/Logo.astro';
+import MobileMenu from '@/components/nav/MobileMenu.astro';
+
+const links = [
+  { label: 'Infrastructure', href: '/#infrastructure' },
+  { label: 'Core Loop', href: '/#campaigns-scheduling' },
+  { label: 'AI Intent', href: '/#ai' },
+  { label: 'Roadmap', href: '/roadmap' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Contact', href: 'mailto:contact@synclead.io' },
+];
+---
+
+<header class="nav" id="nav">
+  <div class="container nav-in">
+    <Logo variant="full" surface="dark" height={28} href="/" />
+
+    <nav class="nav-links" aria-label="Main">
+      {links.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+
+    <a class="btn btn-white btn-sm nav-cta" href="https://app.synclead.io/signup" target="_blank" rel="noopener">
+      Get Started
+    </a>
+
+    <button class="nav-burger" id="burger" aria-expanded="false" aria-controls="mmenu" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<MobileMenu id="mmenu" />
+
+<style>
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+  }
+  .nav .nav-in {
+    display: flex; align-items: center; gap: 36px; height: 76px;
+  }
+  .nav.solid {
+    background: rgba(5, 8, 15, 0.82);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-links {
+    display: flex; gap: 28px; margin-left: auto;
+  }
+  .nav-links a {
+    position: relative; color: var(--ink-2); text-decoration: none;
+    font: 500 14px var(--f-ui); padding: 6px 2px; transition: color 0.2s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0;
+    height: 1.5px; background: var(--color-sky);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s var(--ease);
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .nav-burger {
+    display: none; flex-direction: column; gap: 6px;
+    width: 42px; height: 42px;
+    border: 1px solid var(--line-2); border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.03);
+    align-items: center; justify-content: center;
+    margin-left: auto;
+  }
+  .nav-burger span {
+    width: 18px; height: 1.8px; background: var(--ink);
+    transition: transform 0.3s var(--ease);
+  }
+  .nav-burger.on span:first-child { transform: translateY(3.9px) rotate(45deg); }
+  .nav-burger.on span:last-child  { transform: translateY(-3.9px) rotate(-45deg); }
+
+  @media (max-width: 880px) {
+    .nav-links, .nav-cta { display: none; }
+    .nav-burger { display: flex; }
+  }
+</style>
+
+<script>
+  (() => {
+    'use strict';
+    // Nav solid on scroll
+    const nav = document.getElementById('nav');
+    if (!nav) return;
+    const onScroll = () => nav.classList.toggle('solid', scrollY > 10);
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Mobile menu toggle
+    const burger = document.getElementById('burger') as HTMLButtonElement;
+    const mmenu = document.getElementById('mmenu');
+    if (!burger || !mmenu) return;
+
+    const setMenu = (open: boolean) => {
+      mmenu.classList.toggle('open', open);
+      burger.classList.toggle('on', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+
+    burger.addEventListener('click', () => setMenu(!mmenu.classList.contains('open')));
+    mmenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+    addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mmenu.classList.contains('open')) setMenu(false);
+    });
+  })();
+</script>

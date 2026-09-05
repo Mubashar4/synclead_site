@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synclead — Outreach that books meetings</title>
+<meta name="description" content="Multi-IP sending, cold outreach and no-show recovery in one platform. SyncLead keeps your domains warm and turns replies into booked meetings.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M22 2 11 13M22 2 15 22 11 13 2 9Z' fill='none' stroke='%2341C8FF' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+<!-- Astro build: replace with @fontsource/instrument-sans, @fontsource/instrument-serif, @fontsource/jetbrains-mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════ TOKENS → src/styles/tokens.css ═══════════ */
+:root{
+  --bg-0:#05080F; --bg-1:#0A0F1D; --bg-2:#0E1626; --bg-3:#141D33;
+  --line:rgba(151,166,199,.14); --line-2:rgba(151,166,199,.24);
+  --ink:#E8EDF7; --ink-2:#9AA6BE; --ink-3:#5F6B85;
+  --sky:#41C8FF; --sky-2:#7FD9FF; --sky-ink:#0E86C8;      /* booked */
+  --violet:#9D8BFF; --violet-2:#B7A8FF; --violet-ink:#6C58E8; /* sent */
+  --ok:#3DD68C; --warn:#F5B74E; --err:#F0618C;
+  --paper:#F4F7FB; --line-l:#E2E9F3;
+  --ink-l:#0D1626; --ink-l-2:#525E77; --ink-l-3:#8B96AD;
+  --f-ui:'Instrument Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --f-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --ease:cubic-bezier(.2,.7,.2,1); --ease-x: cubic-bezier(.16,1,.3,1);
+  --loop:9s;
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* ═══════════ BASE → global.css ═══════════ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+body{background:var(--bg-0);color:var(--ink);font-family:var(--f-ui);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:rgba(65,200,255,.3);color:#fff}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+img,svg{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--sky);outline-offset:3px;border-radius:4px}
+.skip{position:fixed;top:-60px;left:16px;z-index:99;background:var(--sky);color:#04121E;padding:10px 16px;border-radius:10px;font:600 14px var(--f-ui);text-decoration:none;transition:top .2s}
+.skip:focus{top:16px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.container{max-width:1200px;margin:0 auto;padding-inline:clamp(20px,4vw,44px)}
+.sec{padding:clamp(88px,10vw,132px) 0;position:relative}
+.sec-dark{background:var(--bg-1)}
+.sec-light{background:#fff}
+.sec-white{background:#fff}
+.sec-paper{background:var(--paper)}
+.seam{position:relative}
+.seam::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 8%,rgba(65,200,255,.3) 50%,transparent 92%)}
+/* reveal system → BaseLayout observer (WD-011) */
+[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+[data-reveal].in{opacity:1;transform:none}
+[data-d="1"]{transition-delay:.08s}[data-d="2"]{transition-delay:.16s}[data-d="3"]{transition-delay:.24s}
+/* type system: Sans (UI) · Serif italic (one emphasis word per headline) · Mono (machine voice) */
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font:600 11px var(--f-mono);letter-spacing:.26em;text-transform:uppercase}
+.eyebrow::before{content:'';width:26px;height:1px;background:currentColor;opacity:.55}
+.sec-dark .eyebrow{color:var(--sky)}.sec-light .eyebrow,.sec-white .eyebrow,.sec-paper .eyebrow{color:var(--sky-ink)}
+.h2{font:700 clamp(30px,3.8vw,46px)/1.16 var(--f-ui);letter-spacing:-.022em}
+.h2 em,.h1 .w-em i{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing:0;font-size:1.06em}
+.sec-dark .h2{color:var(--ink)}.sec-dark .h2 em{color:var(--sky)}
+.sec-light .h2,.sec-white .h2,.sec-paper .h2{color:var(--ink-l)}.sec-light .h2 em,.sec-white .h2 em,.sec-paper .h2 em{color:var(--sky-ink)}
+.lead{font:400 clamp(16px,1.5vw,18px)/1.68 var(--f-ui);max-width:640px;margin-top:18px}
+.sec-dark .lead{color:var(--ink-2)}.sec-light .lead,.sec-white .lead,.sec-paper .lead{color:var(--ink-l-2)}
+.sec-head{max-width:760px;margin:0 auto clamp(48px,6vw,76px);text-align:center}
+.sec-head .h2{margin-top:18px}.sec-head .lead{margin-inline:auto}
+/* buttons — .btn-base polish (WD-028 pattern) */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 15.5px var(--f-ui);letter-spacing:-.01em;border-radius:12px;border:1px solid transparent;padding:15px 26px;text-decoration:none;cursor:pointer;transition:transform .18s ease,box-shadow .25s ease,background .2s,border-color .2s,color .2s}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn svg{flex:none}
+.btn-white{background:#F1F5FB;color:#0A0F1D}
+.btn-white:hover{background:#fff;transform:translateY(-2px);box-shadow:0 18px 44px -18px rgba(0,0,0,.65)}
+.btn-ghost{background:rgba(255,255,255,.02);border-color:rgba(233,237,246,.22);color:var(--ink)}
+.btn-ghost:hover{border-color:rgba(233,237,246,.45);background:rgba(255,255,255,.05);transform:translateY(-2px)}
+.btn-ghost svg{width:17px;height:17px;stroke:var(--sky)}
+.btn-dark{background:#0D1626;color:#fff}
+.btn-dark:hover{background:#182342;transform:translateY(-2px);box-shadow:0 16px 36px -14px rgba(13,22,38,.5)}
+.btn-outline{border-color:rgba(13,22,38,.32);color:var(--ink-l);background:transparent}
+.btn-outline:hover{background:#0D1626;color:#fff;border-color:#0D1626;transform:translateY(-2px)}
+.btn-sm{padding:10px 18px;font-size:13.5px;border-radius:10px}
+.btn-lg{padding:17px 30px;font-size:16.5px}
+.lnk{display:inline-flex;align-items:center;gap:8px;font:600 14.5px var(--f-ui);text-decoration:none}
+.sec-light .lnk,.sec-white .lnk{color:var(--sky-ink)}.sec-dark .lnk{color:var(--sky)}
+.lnk svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s var(--ease)}
+.lnk:hover svg{transform:translateX(4px)}
+/* ═══════════ NAV → src/components/nav/Navbar.astro + MobileMenu.astro ═══════════ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,border-color .3s,backdrop-filter .3s}
+.nav .nav-in{display:flex;align-items:center;gap:36px;height:76px}
+.nav.solid{background:rgba(5,8,15,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+.plane{transition:transform .35s var(--ease)}
+.contrail{stroke:#5F6B85;stroke-width:1.2;stroke-dasharray:2 3;opacity:0;transition:opacity .35s}
+.logo:hover .plane{transform:translate(2px,-2px) rotate(-6deg)}
+.logo:hover .contrail{opacity:.8}
+.wordmark{font:700 13.5px var(--f-ui);letter-spacing:.24em;text-transform:uppercase;color:var(--ink)}
+.nav-links{display:flex;gap:28px;margin-left:auto}
+.nav-links a{position:relative;color:var(--ink-2);text-decoration:none;font:500 14px var(--f-ui);padding:6px 2px;transition:color .2s}
+.nav-links a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.5px;background:var(--sky);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-burger{display:none;flex-direction:column;gap:6px;width:42px;height:42px;border:1px solid var(--line-2);border-radius:10px;background:rgba(255,255,255,.03);align-items:center;justify-content:center;margin-left:auto}
+.nav-burger span{width:18px;height:1.8px;background:var(--ink);transition:transform .3s var(--ease)}
+.nav-burger.on span:first-child{transform:translateY(3.9px) rotate(45deg)}
+.nav-burger.on span:last-child{transform:translateY(-3.9px) rotate(-45deg)}
+.mmenu{position:fixed;inset:0;z-index:49;background:rgba(4,7,14,.97);backdrop-filter:blur(16px);display:grid;place-items:center;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.mmenu.open{opacity:1;visibility:visible}
+.mmenu-in{display:flex;flex-direction:column;gap:8px;width:min(84vw,420px)}
+.mm-link{font:600 26px var(--f-ui);color:var(--ink);text-decoration:none;padding:12px 4px;border-bottom:1px solid var(--line);opacity:0;transform:translateY(14px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+.mmenu.open .mm-link{opacity:1;transform:none}
+.mmenu.open .mm-link:nth-child(2){transition-delay:.06s}.mmenu.open .mm-link:nth-child(3){transition-delay:.12s}.mmenu.open .mm-link:nth-child(4){transition-delay:.18s}
+.mmenu .btn{margin-top:22px;opacity:0;transform:translateY(14px);transition:opacity .4s var(--ease) .24s,transform .4s var(--ease) .24s,box-shadow .25s,background .2s}
+.mmenu.open .btn{opacity:1;transform:none}
+/* ═══════════ HERO → src/components/hero/HeroSection.astro ═══════════ */
+.hero{position:relative;overflow:hidden;min-height:100svh;
+  background:radial-gradient(1100px 700px at 72% -12%,rgba(22,35,70,.95),transparent 60%),
+             radial-gradient(900px 620px at 6% 108%,rgba(16,28,58,.85),transparent 60%),var(--bg-0)}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(151,166,199,.11) 1px,transparent 1.3px);background-size:30px 30px;-webkit-mask-image:radial-gradient(ellipse 75% 62% at 50% 36%,#000 22%,transparent 74%);mask-image:radial-gradient(ellipse 75% 62% at 50% 36%,#000 22%,transparent 74%)}
+.orb{position:absolute;border-radius:50%;transform:translate(calc(var(--px,0)*22px),calc(var(--py,0)*14px))}
+.orb i{display:block;width:100%;height:100%;border-radius:50%;filter:blur(90px);animation:oDrift 16s ease-in-out infinite alternate}
+.orb.o1{width:520px;height:420px;top:-130px;left:-150px}.orb.o1 i{background:rgba(108,88,232,.20)}
+.orb.o2{width:560px;height:440px;right:-170px;bottom:-140px}.orb.o2 i{background:rgba(65,200,255,.13);animation-delay:-8s}
+@keyframes oDrift{from{transform:scale(.94);opacity:.75}to{transform:scale(1.1);opacity:1}}
+.hero-pts{position:absolute;inset:0;transform:translate(calc(var(--px,0)*-14px),calc(var(--py,0)*-9px))}
+.hero-pts span{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(65,200,255,.5);animation:ptFloat 9s ease-in-out infinite alternate}
+.hero-pts span:nth-child(1){left:14%;top:32%;animation-delay:0s}
+.hero-pts span:nth-child(2){left:26%;top:64%;animation-delay:-2s;background:rgba(157,139,255,.45)}
+.hero-pts span:nth-child(3){left:58%;top:20%;animation-delay:-4s}
+.hero-pts span:nth-child(4){left:76%;top:48%;animation-delay:-1.4s;background:rgba(157,139,255,.45)}
+.hero-pts span:nth-child(5){left:88%;top:72%;animation-delay:-6s}
+.hero-pts span:nth-child(6){left:44%;top:82%;animation-delay:-3.2s}
+@keyframes ptFloat{from{transform:translateY(-14px);opacity:.15}to{transform:translateY(14px);opacity:.55}}
+.cursor-spot,.cursor-grid{position:absolute;inset:0;pointer-events:none;opacity:var(--ha,0);transition:opacity .5s}
+.cursor-spot{background:radial-gradient(600px at calc(var(--mx,.5)*100%) calc(var(--my,.42)*100%),rgba(65,200,255,.09),transparent 68%)}
+.cursor-grid{background-image:linear-gradient(rgba(151,166,199,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(151,166,199,.08) 1px,transparent 1px);background-size:54px 54px;-webkit-mask-image:radial-gradient(340px at calc(var(--mx,.5)*100%) calc(var(--my,.42)*100%),#000,transparent 72%);mask-image:radial-gradient(340px at calc(var(--mx,.5)*100%) calc(var(--my,.42)*100%),#000,transparent 72%)}
+.noise{position:absolute;inset:0;background-image:var(--noise);opacity:.05;pointer-events:none}
+.hero-in{position:relative;z-index:2;max-width:880px;margin:0 auto;padding:132px 24px 0;text-align:center}
+[data-rise]{opacity:0;animation:rise .85s var(--ease) forwards}
+[data-rise="1"]{animation-delay:.45s}[data-rise="2"]{animation-delay:.58s}[data-rise="3"]{animation-delay:.72s}[data-rise="4"]{animation-delay:.86s}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.pill-live{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(233,237,246,.14);font:500 11px var(--f-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2)}
+.pill-live .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:beat 2.6s ease infinite}
+@keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(61,214,140,.45)}55%{box-shadow:0 0 0 6px rgba(61,214,140,0)}}
+.h1{margin-top:30px;font:700 clamp(40px,6.4vw,76px)/1.06 var(--f-ui);letter-spacing:-.032em;color:#fff}
+.h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.1em;margin-bottom:-.1em}
+.h1 .w i{display:inline-block;font-style:normal;transform:translateY(112%);animation:wUp .7s var(--ease) forwards}
+.h1 .w:nth-child(1) i{animation-delay:.14s}.h1 .w:nth-child(2) i{animation-delay:.21s}
+.h1 .w:nth-child(3) i{animation-delay:.28s}.h1 .w:nth-child(4) i{animation-delay:.35s}
+.h1 .w:nth-child(5) i{animation-delay:.42s}.h1 .w:nth-child(6) i{animation-delay:.49s}
+.h1 .w:nth-child(7) i{animation-delay:.56s}
+@keyframes wUp{to{transform:none}}
+.h1 .w-em i{font-family:var(--f-serif);font-weight:400;font-style:italic;color:var(--sky);letter-spacing:0;font-size:1.06em}
+.h1 .w-end i{position:relative}
+.h1 .w-end i::after{content:'';position:absolute;left:-.02em;right:-.02em;bottom:.02em;height:.048em;min-height:3px;border-radius:99px;background:linear-gradient(90deg,var(--sky),var(--sky-2));transform:scaleX(0);transform-origin:left;animation:uDraw .55s var(--ease) 1.2s forwards}
+@keyframes uDraw{to{transform:scaleX(1)}}
+.hero .lead{margin:24px auto 0;color:var(--ink-2)}
+.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:38px}
+.trust{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
+.tp{display:inline-flex;align-items:center;gap:9px;padding:9px 15px;border-radius:999px;background:rgba(255,255,255,.03);border:1px solid rgba(233,237,246,.12);font:500 12.5px var(--f-ui);color:var(--ink-2)}
+.tp svg{width:15px;height:15px;flex:none}
+.hero-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:11px;font:500 10px var(--f-mono);letter-spacing:.26em;text-transform:uppercase;color:var(--ink-3);z-index:2}
+.rail{width:1px;height:44px;background:var(--line);position:relative;overflow:hidden}
+.rail::after{content:'';position:absolute;top:-14px;left:-.5px;width:2px;height:14px;background:var(--ink-2);animation:drop 2.2s cubic-bezier(.4,0,.4,1) infinite}
+@keyframes drop{0%{top:-14px;opacity:0}15%{opacity:1}70%{opacity:1}100%{top:44px;opacity:0}}
+/* ═══════════ THE BOOKING LOOP v2 → src/components/hero/HeroBookingLoop.astro ═══════
+   LINEAR: one dashed route (fully visible from t=0), one token, three stations.
+   A station only animates when the token reaches its node; actions fire in
+   strict cause-order. THE 9s CLOCK — every animation shares --loop, and the
+   % stops below are a CONTRACT (change one → re-check the rest):
+   0–4    token materialises at the launch pad (2%)
+   4–15   travel → node 1 · SEQUENCE
+   15–30  PHASE 1 — Sent chips pop @18 (step 01) and @24 (step 02)
+   30–40  travel → node 2 · INBOX
+   40–56  PHASE 2 — reply card @42–47, auto-stop note @46,
+          step 03 Queued→Stopped + strike @48–52
+   56–69  travel → node 3 · the envelope MORPHS into the calendar @57–67 (slows @62)
+   69–74  descent — the token docks into the THU 14:30 slot
+   70–85  PHASE 3 — slot fills @71–74, check draws @74–80, Booked pill @78,
+          confirmation row rises @80–85
+   85–96  hold end state · 96–100 global fade → loop                              */
+.stage-par{position:relative;z-index:2;max-width:980px;margin:64px auto 0;padding:0 20px;perspective:1400px}
+.stage{position:relative}
+.stage-frame{position:relative;border-radius:18px;overflow:hidden;background:rgba(10,15,29,.92);border:1px solid rgba(151,166,199,.16);box-shadow:0 40px 100px -40px rgba(0,0,0,.8),0 0 90px -46px rgba(65,200,255,.5);transform:rotateX(calc(var(--ry,0)*1deg)) rotateY(calc(var(--rx,0)*1deg));transition:transform .5s var(--ease)}
+.stage:not(.in) *{animation-play-state:paused!important}
+.chrome{display:flex;align-items:center;gap:14px;height:44px;padding:0 16px;background:rgba(6,11,21,.85);border-bottom:1px solid rgba(151,166,199,.12)}
+.chrome .dots{display:flex;gap:7px}
+.chrome .dots i{width:10px;height:10px;border-radius:50%;background:rgba(233,237,246,.14)}
+.chrome .url{flex:1;max-width:330px;margin:0 auto;height:26px;border-radius:8px;background:rgba(151,166,199,.08);display:flex;align-items:center;justify-content:center;gap:7px;font:500 11px var(--f-mono);letter-spacing:.06em;color:var(--ink-3)}
+.chrome .url svg{width:11px;height:11px;stroke:var(--ink-3)}
+.chrome-r{display:flex;gap:7px;align-items:center;font:600 9.5px var(--f-mono);letter-spacing:.2em;color:var(--ok)}
+.chrome-r i{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:beat 2.6s ease infinite}
+.stage-body{position:relative;padding:16px 18px 18px}
+/* — the route — */
+.flight{position:relative;height:64px;margin-bottom:10px}
+.flight svg{position:absolute;inset:0;width:100%;height:100%}
+.fline-base{fill:none;stroke:rgba(151,166,199,.16);stroke-width:1.6;stroke-dasharray:.012 .022;stroke-linecap:round}
+.fline-glow{fill:none;stroke:url(#flG);stroke-width:6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;animation:fgline var(--loop) linear infinite}
+.fline-draw{fill:none;stroke:url(#flG);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;animation:fline var(--loop) linear infinite}
+@keyframes fline{
+  0%,4%{opacity:0;stroke-dashoffset:1}
+  6%,94%{opacity:1}
+  15%,30%{stroke-dashoffset:.854}
+  40%,56%{stroke-dashoffset:.5}
+  62%{stroke-dashoffset:.396}
+  69%,94%{stroke-dashoffset:.146}
+  97%{opacity:0;stroke-dashoffset:.146}
+  100%{opacity:0;stroke-dashoffset:1}
+}
+@keyframes fgline{
+  0%,4%{opacity:0;stroke-dashoffset:1}
+  6%,94%{opacity:.2}
+  15%,30%{stroke-dashoffset:.854}
+  40%,56%{stroke-dashoffset:.5}
+  62%{stroke-dashoffset:.396}
+  69%,94%{stroke-dashoffset:.146}
+  97%{opacity:0;stroke-dashoffset:.146}
+  100%{opacity:0;stroke-dashoffset:1}
+}
+/* — the stations on the route — */
+.fnode{position:absolute;top:32px;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:var(--bg-0);border:1.6px solid rgba(151,166,199,.35);z-index:2}
+.fnode::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1.5px solid rgba(65,200,255,.8);opacity:0;transform:scale(.4)}
+.fnode.fn1{left:16%}.fnode.fn2{left:50%}.fnode.fn3{left:84%}
+.fn1{animation:fnA var(--loop) linear infinite}
+.fn2{animation:fnB var(--loop) linear infinite}
+.fn3{animation:fnC var(--loop) linear infinite}
+@keyframes fnA{0%,14%{border-color:rgba(151,166,199,.35);box-shadow:none}16%,92%{border-color:var(--sky);box-shadow:0 0 12px rgba(65,200,255,.5)}96%,100%{border-color:rgba(151,166,199,.35);box-shadow:none}}
+@keyframes fnB{0%,38%{border-color:rgba(151,166,199,.35);box-shadow:none}40%,92%{border-color:var(--sky);box-shadow:0 0 12px rgba(65,200,255,.5)}96%,100%{border-color:rgba(151,166,199,.35);box-shadow:none}}
+@keyframes fnC{0%,67%{border-color:rgba(151,166,199,.35);box-shadow:none}69%,92%{border-color:var(--sky);box-shadow:0 0 12px rgba(65,200,255,.5)}96%,100%{border-color:rgba(151,166,199,.35);box-shadow:none}}
+.fn1::after{animation:pingA var(--loop) var(--ease) infinite}
+.fn2::after{animation:pingB var(--loop) var(--ease) infinite}
+.fn3::after{animation:pingC var(--loop) var(--ease) infinite}
+@keyframes pingA{0%,14%{opacity:0;transform:scale(.4)}19%{opacity:.9;transform:scale(1.15)}25%,100%{opacity:0;transform:scale(1.7)}}
+@keyframes pingB{0%,39%{opacity:0;transform:scale(.4)}45%{opacity:.9;transform:scale(1.15)}51%,100%{opacity:0;transform:scale(1.7)}}
+@keyframes pingC{0%,68%{opacity:0;transform:scale(.4)}74%{opacity:.9;transform:scale(1.15)}80%,100%{opacity:0;transform:scale(1.7)}}
+/* — the token: envelope that becomes the booking — */
+.ftoken{position:absolute;left:2%;top:32px;width:46px;height:46px;z-index:4;opacity:0;pointer-events:none;animation:tfly var(--loop) linear infinite}
+@keyframes tfly{
+  0%{left:2%;top:32px;opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(.7)}
+  4%{left:4%;opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(.85)}
+  15%,30%{left:16%;top:32px;transform:translate(-50%,-50%) rotate(-6deg) scale(1)}
+  40%,56%{left:50%;top:32px;transform:translate(-50%,-50%) rotate(3deg) scale(1)}
+  62%{left:60%;top:28px;transform:translate(-50%,-50%) rotate(0deg) scale(1)}
+  66%{left:74%;top:22px;transform:translate(-50%,-50%) rotate(0deg) scale(1)}
+  69%{left:84%;top:40px;transform:translate(-50%,-50%) rotate(0deg) scale(1)}
+  74%{left:89.5%;top:173px;opacity:1;transform:translate(-50%,-50%) rotate(0deg) scale(.5)}
+  76%,100%{left:89.5%;top:176px;opacity:0;transform:translate(-50%,-50%) rotate(0deg) scale(.2)}
+}
+.ftoken .bob{position:absolute;inset:0;animation:tbob 2.8s ease-in-out infinite}
+@keyframes tbob{0%,100%{transform:translateY(-2.5px)}50%{transform:translateY(2.5px)}}
+.ftoken .halo{position:absolute;inset:-9px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.14),rgba(65,200,255,.08) 45%,transparent 72%)}
+.ftoken .tkflash{position:absolute;inset:3px;border-radius:50%;background:radial-gradient(circle,#fff,rgba(255,255,255,0) 70%);opacity:0;transform:scale(.4);animation:tkflash var(--loop) var(--ease) infinite}
+@keyframes tkflash{0%,58%{opacity:0;transform:scale(.4)}61%{opacity:.9;transform:scale(1.1)}66%,100%{opacity:0;transform:scale(1.4)}}
+.tk-env,.tk-cal{position:absolute;inset:0;margin:auto;width:30px;height:30px;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tk-env{stroke:var(--violet-2);animation:tkenv var(--loop) linear infinite}
+@keyframes tkenv{0%,56%{opacity:1;transform:scale(1)}62%,100%{opacity:0;transform:scale(.72)}}
+.tk-cal{stroke:var(--sky);opacity:0;animation:tkcal var(--loop) var(--ease) infinite}
+@keyframes tkcal{0%,59%{opacity:0;transform:scale(.55)}64%{opacity:1;transform:scale(1.12)}67%,100%{opacity:1;transform:scale(1)}}
+.tk-cal .chk{stroke-dasharray:1;stroke-dashoffset:1;animation:tkchk var(--loop) ease infinite}
+@keyframes tkchk{0%,62%{stroke-dashoffset:1}68%,100%{stroke-dashoffset:0}}
+/* — the three stations (platform panels) — */
+.stations{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.station{position:relative;background:rgba(13,19,35,.6);border:1px solid rgba(151,166,199,.12);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-height:236px}
+.shead{display:flex;justify-content:space-between;align-items:center;height:12px;font:600 9.5px var(--f-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+.shead .sl{display:flex;align-items:center;gap:8px}
+.sdot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+.shead .sr{color:var(--ink-3);letter-spacing:.12em;font-weight:500}
+.stx1 .shead{animation:sheadA var(--loop) linear infinite}
+.stx2 .shead{animation:sheadB var(--loop) linear infinite}
+.stx3 .shead{animation:sheadC var(--loop) linear infinite}
+@keyframes sheadA{0%,13%{color:var(--ink-3)}16%,92%{color:var(--sky)}96%,100%{color:var(--ink-3)}}
+@keyframes sheadB{0%,38%{color:var(--ink-3)}41%,92%{color:var(--sky)}96%,100%{color:var(--ink-3)}}
+@keyframes sheadC{0%,67%{color:var(--ink-3)}70%,92%{color:var(--sky)}96%,100%{color:var(--ink-3)}}
+/* station 1 · sequence rows */
+.srow{display:flex;align-items:center;gap:10px;padding:8px 11px;border-radius:9px;background:rgba(255,255,255,.025);border:1px solid rgba(151,166,199,.08)}
+.srow .n{font:600 10px var(--f-mono);color:var(--ink-3);letter-spacing:.06em;flex:none}
+.srow .t{position:relative;flex:1;min-width:0;font:500 12.5px var(--f-ui);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.schip{font:600 8.5px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:6px;white-space:nowrap;flex:none}
+.schip.queued{background:rgba(151,166,199,.07);color:var(--ink-3);border:1px solid rgba(151,166,199,.16)}
+.schip.sent{background:#121A2E;color:var(--violet-2);border:1px solid rgba(157,139,255,.4)}
+.schip.stopped{background:#1D1A12;color:var(--warn);border:1px solid rgba(245,183,78,.4)}
+.schip.replied{background:#0E1B2E;color:var(--sky-2);border:1px solid rgba(65,200,255,.4)}
+.qwrap{position:relative;display:inline-flex;flex:none}
+.qwrap .pop{position:absolute;inset:0}
+.sc-a{animation:chipA var(--loop) var(--ease) infinite}
+.sc-b{animation:chipB var(--loop) var(--ease) infinite}
+@keyframes chipA{0%,15%{opacity:0;transform:translateY(5px) scale(.85)}19%,92%{opacity:1;transform:none}96%,100%{opacity:0;transform:translateY(4px) scale(.9)}}
+@keyframes chipB{0%,21%{opacity:0;transform:translateY(5px) scale(.85)}25%,92%{opacity:1;transform:none}96%,100%{opacity:0;transform:translateY(4px) scale(.9)}}
+.qd{animation:qfade var(--loop) linear infinite}
+@keyframes qfade{0%,47%{opacity:1}52%,96%{opacity:0}100%{opacity:1}}
+.sdp{animation:sdp var(--loop) var(--ease) infinite}
+@keyframes sdp{0%,48%{opacity:0;transform:scale(.7)}52%,92%{opacity:1;transform:scale(1)}96%,100%{opacity:0;transform:scale(.8)}}
+.strike{position:absolute;left:0;right:0;top:52%;height:1.5px;background:rgba(245,183,78,.75);transform:scaleX(0);transform-origin:left}
+.srow3 .strike{animation:strikeGo var(--loop) var(--ease) infinite}
+@keyframes strikeGo{0%,47%{transform:scaleX(0)}52%,92%{transform:scaleX(1)}96%,100%{transform:scaleX(0)}}
+.srow3{animation:rowdim var(--loop) linear infinite}
+@keyframes rowdim{0%,47%{opacity:1}52%,92%{opacity:.55}96%,100%{opacity:1}}
+.sfoot{margin-top:auto;display:flex;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px solid rgba(151,166,199,.08);font:600 8.5px var(--f-mono);letter-spacing:.16em;color:var(--ink-3)}
+/* station 2 · the reply */
+.rslot{position:relative;height:64px}
+.rghost{position:absolute;inset:0;display:grid;place-items:center;border:1px dashed rgba(151,166,199,.18);border-radius:10px;font:500 9px var(--f-mono);letter-spacing:.22em;color:var(--ink-3);text-transform:uppercase;animation:rgo var(--loop) linear infinite}
+@keyframes rgo{0%,40%{opacity:1}46%,93%{opacity:0}97%,100%{opacity:1}}
+.reply{position:absolute;inset:0;display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;background:rgba(65,200,255,.06);border:1px solid rgba(65,200,255,.28);opacity:0;transform:translateY(12px) scale(.97);animation:replyin var(--loop) var(--ease) infinite}
+@keyframes replyin{0%,41%{opacity:0;transform:translateY(12px) scale(.97)}47%,92%{opacity:1;transform:none}96%,100%{opacity:0;transform:translateY(8px) scale(.98)}}
+.rava{width:9px;height:9px;border-radius:50%;background:var(--sky);box-shadow:0 0 10px rgba(65,200,255,.8);flex:none}
+.rtxt{flex:1;min-width:0}
+.rtxt strong{display:block;font:600 13px var(--f-ui);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rtxt .rsub{display:block;font:500 8.5px var(--f-mono);letter-spacing:.16em;color:var(--ink-3);margin-top:3px}
+.rnote{display:flex;align-items:center;gap:8px;font:500 10px var(--f-mono);letter-spacing:.06em;color:var(--ink-2);opacity:0;animation:rnotein var(--loop) var(--ease) infinite}
+.rnote svg{width:13px;height:13px;flex:none;fill:none;stroke:var(--warn);stroke-width:2;stroke-linecap:round}
+@keyframes rnotein{0%,45%{opacity:0;transform:translateY(6px)}50%,92%{opacity:1;transform:none}96%,100%{opacity:0}}
+/* station 3 · the landing */
+.wk{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.day{display:flex;flex-direction:column;gap:5px}
+.day b{font:600 8.5px var(--f-mono);letter-spacing:.14em;color:var(--ink-3);text-align:center;height:10px;line-height:10px}
+.cell{height:22px;border-radius:6px;border:1px dashed rgba(151,166,199,.16)}
+.tgt{position:relative;height:48px;border-radius:8px;border:1.5px dashed rgba(65,200,255,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.tgt .tt{font:600 9px var(--f-mono);letter-spacing:.1em;color:var(--ink-2)}
+.tchk{width:13px;height:13px}
+.tchk path{fill:none;stroke:var(--sky);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:tchk var(--loop) ease infinite}
+@keyframes tchk{0%,74%{stroke-dashoffset:1}80%,92%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:1}}
+.tfill{position:absolute;inset:-1.5px;border-radius:8px;border:1.5px solid var(--sky);background:rgba(65,200,255,.13);opacity:0;animation:tfill var(--loop) var(--ease) infinite}
+@keyframes tfill{0%,70%{opacity:0}74%,92%{opacity:1}96%,100%{opacity:0}}
+.tring{position:absolute;inset:-6px;border-radius:11px;border:1.5px solid rgba(65,200,255,.8);opacity:0;transform:scale(.6);animation:tring var(--loop) var(--ease) infinite}
+@keyframes tring{0%,70%{opacity:0;transform:scale(.6)}73%{opacity:.9;transform:scale(1.05)}78%,100%{opacity:0;transform:scale(1.5)}}
+.tpill{position:absolute;top:-9px;right:-6px;font:600 8.5px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;background:var(--sky);color:#04121E;padding:3px 7px;border-radius:6px;opacity:0;transform:scale(.5);animation:tpill var(--loop) var(--ease) infinite}
+@keyframes tpill{0%,77%{opacity:0;transform:scale(.5)}80%{opacity:1;transform:scale(1.15)}82%,92%{opacity:1;transform:scale(1)}96%,100%{opacity:0;transform:scale(.6)}}
+.confirm{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;background:rgba(65,200,255,.06);border:1px solid rgba(65,200,255,.28);opacity:0;animation:confirmgo var(--loop) var(--ease) infinite}
+@keyframes confirmgo{0%,79%{opacity:0;transform:translateY(10px) scale(.97)}85%,92%{opacity:1;transform:none}96%,100%{opacity:0;transform:translateY(6px) scale(.98)}}
+.cic{width:30px;height:30px;border-radius:8px;background:rgba(65,200,255,.14);display:grid;place-items:center;flex:none}
+.cic svg{width:15px;height:15px;fill:none;stroke:var(--sky);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ctxt{flex:1;min-width:0}
+.ctxt strong{display:block;font:600 12.5px var(--f-ui);color:var(--ink)}
+.ctxt span{display:block;font:500 8.5px var(--f-mono);letter-spacing:.14em;color:var(--ink-3);margin-top:2px}
+.stage-glare{position:absolute;inset:0;z-index:6;pointer-events:none;background:radial-gradient(460px at calc(var(--gx,.5)*100%) calc(var(--gy,.35)*100%),rgba(255,255,255,.09),transparent 62%);opacity:var(--ga,0);transition:opacity .35s}
+.stage-cap{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:22px;font:500 10.5px var(--f-mono);letter-spacing:.2em;text-transform:uppercase}
+.stage-cap span{color:var(--ink-3)}
+.stage-cap i{width:4px;height:4px;border-radius:50%;background:rgba(151,166,199,.3)}
+[data-cap="1"]{animation:capA var(--loop) linear infinite}
+[data-cap="2"]{animation:capB var(--loop) linear infinite}
+[data-cap="3"]{animation:capC var(--loop) linear infinite}
+@keyframes capA{0%,13%{color:var(--ink-3)}16%,93%{color:var(--sky)}96%,100%{color:var(--ink-3)}}
+@keyframes capB{0%,38%{color:var(--ink-3)}41%,93%{color:var(--sky)}96%,100%{color:var(--ink-3)}}
+@keyframes capC{0%,67%{color:var(--ink-3)}70%,93%{color:var(--sky)}96%,100%{color:var(--ink-3)}}
+/* ═══════════ INTEGRATIONS → LogoBar.astro ═══════════ */
+.sec-int{background:#fff;padding:78px 0 90px;border-bottom:1px solid var(--line-l)}
+.sec-int .eyebrow{color:var(--sky-ink)}
+.int-note{max-width:580px;margin:16px auto 44px;text-align:center;font:400 16.5px/1.65 var(--f-ui);color:var(--ink-l-2)}
+.int-note strong{color:var(--ink-l);font-weight:600}
+.int-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;max-width:1020px;margin:0 auto}
+.int-tile{background:#F7FAFD;border:1px solid var(--line-l);border-radius:14px;padding:22px 12px 18px;text-align:center;transition:transform .25s var(--ease),border-color .25s,box-shadow .25s}
+.int-tile:hover{transform:translateY(-4px);border-color:rgba(14,134,200,.45);box-shadow:0 14px 34px -18px rgba(13,22,38,.28)}
+.int-m{width:42px;height:42px;margin:0 auto 13px;border-radius:11px;background:#0D1626;color:#E8EDF7;display:grid;place-items:center;font:600 11.5px var(--f-mono)}
+.int-tile h3{font:600 14.5px var(--f-ui);color:var(--ink-l)}
+.int-tile p{font:500 9.5px var(--f-mono);letter-spacing:.12em;color:var(--ink-l-3);text-transform:uppercase;margin-top:6px}
+/* ═══════════ MECHANISMS → MetricsBand.astro ═══════════ */
+.route{position:relative;height:2px;margin:60px 0 40px;background:rgba(151,166,199,.12)}
+.route::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--violet),var(--sky));transform:scaleX(0);transform-origin:left;transition:transform 1.5s var(--ease-x)}
+.route.in::before{transform:scaleX(1)}
+.route .nd{position:absolute;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:var(--bg-1);border:2px solid var(--sky);opacity:0;transform:scale(.4);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.route.in .nd{opacity:1;transform:scale(1)}
+.route .nd:nth-of-type(1){left:calc(16.66% - 6px);transition-delay:.25s}
+.route .nd:nth-of-type(2){left:calc(50% - 6px);transition-delay:.7s}
+.route .nd:nth-of-type(3){left:calc(83.33% - 6px);transition-delay:1.15s}
+.mech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.mcard{background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:16px;padding:30px 28px;transition:transform .3s var(--ease),border-color .3s,background .3s}
+.mcard:hover{transform:translateY(-4px);border-color:rgba(65,200,255,.3);background:rgba(255,255,255,.04)}
+.mnum{font:600 12px var(--f-mono);letter-spacing:.2em;color:var(--sky)}
+.mcard h3{font:600 20px var(--f-ui);color:var(--ink);margin-top:14px;letter-spacing:-.015em}
+.mcard p{font:400 15px/1.68 var(--f-ui);color:var(--ink-2);margin-top:12px}
+.mtag{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+.mtag span{font:600 9px var(--f-mono);letter-spacing:.14em;color:var(--ink-3);border:1px solid var(--line);border-radius:6px;padding:4px 8px;text-transform:uppercase}
+/* ═══════════ FEATURE SHOWCASE → FeatureShowcase.astro ═══════════ */
+.feat{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:clamp(44px,6vw,88px);align-items:center}
+.feat.rev .feat-t{order:2}
+.feat-t .h2{margin-top:16px}
+.feat-t .lead{margin-top:14px;max-width:560px}
+.blt{list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:13px}
+.blt li{display:flex;gap:13px;align-items:flex-start;font:400 15.5px/1.55 var(--f-ui)}
+.sec-light .blt li,.sec-white .blt li{color:var(--ink-l-2)}
+.sec-dark .blt li{color:var(--ink-2)}
+.blt .ic{flex:none;width:22px;height:22px;border-radius:50%;background:var(--sky);display:grid;place-items:center;margin-top:1px}
+.blt .ic svg{width:11px;height:11px;stroke:#06121F;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.feat-t .lnk{margin-top:30px}
+.bframe{border-radius:18px;overflow:hidden;background:#0C1322;border:1px solid rgba(151,166,199,.15);box-shadow:0 34px 80px -36px rgba(13,22,38,.55)}
+.sec-dark .bframe{background:#0E1626}
+.pnl{position:relative;padding:18px;display:flex;flex-direction:column;gap:10px}
+.prow{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;background:rgba(255,255,255,.025);border:1px solid rgba(151,166,199,.08)}
+.prow .pnum{font:600 10px var(--f-mono);color:var(--ink-3)}
+.prow .ptxt{flex:1;min-width:0}
+.prow .ptxt strong{display:block;font:600 13px var(--f-ui);color:var(--ink)}
+.prow .ptxt span{display:block;font:500 11px var(--f-mono);color:var(--ink-3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pchip{font:600 8.5px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:6px;background:rgba(151,166,199,.1);color:var(--ink-2);border:1px solid rgba(151,166,199,.16);white-space:nowrap}
+.pchip.okc{background:rgba(61,214,140,.1);color:var(--ok);border-color:rgba(61,214,140,.28)}
+.spin{position:relative;display:inline-grid;overflow:hidden;height:1.3em;vertical-align:bottom}
+.spin i{grid-area:1/1;font-style:normal;color:var(--sky);white-space:nowrap;opacity:0;transform:translateY(70%);animation:spinW 7.5s var(--ease) infinite}
+.spin i:nth-child(2){animation-delay:2.5s}.spin i:nth-child(3){animation-delay:5s}
+@keyframes spinW{0%{opacity:0;transform:translateY(70%)}4%,28%{opacity:1;transform:none}33%,100%{opacity:0;transform:translateY(-70%)}}
+.pbar{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:8px}
+.pbar-l,.pbar-r{font:600 8.5px var(--f-mono);letter-spacing:.14em;color:var(--ink-3);white-space:nowrap}
+.pbar-track{position:relative;flex:1;height:8px;border-radius:99px;background:rgba(151,166,199,.12);overflow:hidden}
+.pbar-fill{position:absolute;top:0;bottom:0;left:18%;width:56%;border-radius:99px;background:linear-gradient(90deg,rgba(157,139,255,.5),rgba(65,200,255,.65))}
+.pbar-dot{position:absolute;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(255,255,255,.7);animation:pbarDot 9s linear infinite}
+@keyframes pbarDot{0%{left:18%}100%{left:74%}}
+.prow-dns{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:9px;background:rgba(255,255,255,.02);border:1px solid rgba(151,166,199,.08)}
+.prow-dns .k{font:600 10px var(--f-mono);letter-spacing:.16em;color:var(--ink-2);width:54px;flex:none}
+.prow-dns .v{flex:1;font:400 11px var(--f-mono);color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow-dns .st{flex:none;width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px rgba(61,214,140,.55);animation:beat 3s ease infinite}
+.prow-dns:nth-of-type(3) .st{animation-delay:.5s}
+.prow-dns:nth-of-type(4) .st{animation-delay:1s}
+.prow-dns:nth-of-type(5) .st{animation-delay:1.5s}
+.scan{position:absolute;left:0;right:0;top:-15%;height:34%;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(65,200,255,.06) 45%,rgba(65,200,255,.15) 50%,rgba(65,200,255,.06) 55%,transparent);animation:scanY 6s ease-in-out infinite}
+@keyframes scanY{0%{top:-18%;opacity:0}10%{opacity:1}55%{top:96%;opacity:1}62%,100%{top:96%;opacity:0}}
+.cal-wk{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:2px 0}
+.sw-col{display:flex;flex-direction:column;gap:6px}
+.sw-col b{font:600 9px var(--f-mono);color:var(--ink-3);letter-spacing:.14em;text-align:center}
+.sw{height:26px;border-radius:7px;border:1px dashed rgba(151,166,199,.16)}
+.sw.on{border:1.5px dashed rgba(65,200,255,.45);animation:swPulse 3.2s ease infinite}
+@keyframes swPulse{0%,100%{background:rgba(65,200,255,.03);border-color:rgba(65,200,255,.35)}50%{background:rgba(65,200,255,.12);border-color:rgba(65,200,255,.8)}}
+.sw.bk{border-style:solid;border-color:rgba(61,214,140,.4);background:rgba(61,214,140,.08);display:grid;place-items:center}
+.sw.bk svg{width:10px;height:10px;stroke:var(--ok);fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.prow-rr{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;background:rgba(255,255,255,.02);border:1px solid rgba(151,166,199,.08)}
+.avas{display:flex}
+.avas i{width:22px;height:22px;border-radius:50%;border:2px solid #0E1626}
+.avas i:nth-child(1){background:linear-gradient(135deg,#41C8FF,#1E6FD9)}
+.avas i:nth-child(2){background:linear-gradient(135deg,#9D8BFF,#6C58E8);margin-left:-7px}
+.avas i:nth-child(3){background:linear-gradient(135deg,#3DD68C,#0E9DE5);margin-left:-7px}
+.prow-rr span{font:600 9.5px var(--f-mono);letter-spacing:.14em;color:var(--ink-3)}
+.prow-rr .pchip{margin-left:auto}
+.prow-ns{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:9px;background:rgba(65,200,255,.05);border:1px solid rgba(65,200,255,.2)}
+.prow-ns svg{flex:none;width:18px;height:18px;stroke:var(--sky);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.prow-ns .ptxt strong{display:block;font:600 13px var(--f-ui);color:var(--ink)}
+.prow-ns .ptxt span{display:block;font:500 10.5px var(--f-mono);color:var(--ink-3);margin-top:1px}
+.prow-ns .pchip{margin-left:auto;background:rgba(65,200,255,.12);color:var(--sky-2);border-color:rgba(65,200,255,.3)}
+.pnl-f{display:flex;justify-content:space-between;gap:10px;font:600 8.5px var(--f-mono);letter-spacing:.16em;color:var(--ink-3);padding-top:10px;border-top:1px solid rgba(151,166,199,.08);margin-top:auto;flex-wrap:wrap}
+/* ═══════════ AI → AIInsightsSection.astro (violet hour) ═══════════ */
+.sec-ai{position:relative;overflow:hidden;background:#0B0E24}
+.sec-ai::before{content:'';position:absolute;top:-260px;left:50%;transform:translateX(-50%);width:900px;height:520px;border-radius:50%;background:radial-gradient(closest-side,rgba(108,88,232,.24),transparent);pointer-events:none}
+.sec-ai::after{content:'';position:absolute;bottom:-220px;right:-160px;width:560px;height:420px;border-radius:50%;background:radial-gradient(closest-side,rgba(65,200,255,.12),transparent);pointer-events:none}
+.sec-ai .eyebrow{color:var(--violet-2)}
+.sec-ai .h2{color:var(--ink)}
+.sec-ai .h2 em{color:var(--violet-2)}
+.sec-ai .lead{color:var(--ink-2)}
+.ai-pill{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:rgba(157,139,255,.1);border:1px solid rgba(157,139,255,.3);font:600 10.5px var(--f-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--violet-2)}
+.ai-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px;text-align:left}
+.ai-card{background:#fff;border-radius:16px;padding:30px 28px;box-shadow:0 24px 60px -30px rgba(0,0,0,.5);transition:transform .3s var(--ease)}
+.ai-card:hover{transform:translateY(-5px)}
+.ai-ic{width:44px;height:44px;border-radius:12px;background:rgba(108,88,232,.1);display:grid;place-items:center}
+.ai-ic svg{width:20px;height:20px;stroke:var(--violet-ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ai-card h3{font:600 19px var(--f-ui);color:var(--ink-l);margin-top:18px}
+.ai-card p{font:400 15px/1.65 var(--f-ui);color:var(--ink-l-2);margin-top:10px}
+.ai-soon{display:inline-block;margin-top:22px;font:600 9.5px var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--violet-ink);border:1px solid rgba(108,88,232,.4);border-radius:6px;padding:5px 10px}
+/* ═══════════ FOUNDING TEAMS → FoundingTeams.astro ═══════════ */
+.ft-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px}
+.ft-card{background:#fff;border:1px solid var(--line-l);border-radius:16px;padding:30px 28px;box-shadow:0 2px 6px rgba(13,22,38,.04);transition:transform .3s var(--ease),box-shadow .3s,border-color .3s}
+.ft-card:hover{transform:translateY(-4px);box-shadow:0 2px 4px rgba(13,22,38,.04),0 16px 44px -10px rgba(13,22,38,.16);border-color:rgba(14,134,200,.4)}
+.ft-ic{width:34px;height:34px;border-radius:50%;background:var(--sky);display:grid;place-items:center}
+.ft-ic svg{width:15px;height:15px;stroke:#06121F;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ft-card h3{font:600 18.5px var(--f-ui);color:var(--ink-l);margin-top:18px;letter-spacing:-.015em}
+.ft-card p{font:400 15px/1.65 var(--f-ui);color:var(--ink-l-2);margin-top:10px}
+.ft-cta{margin-top:52px;text-align:center}
+.ft-cta .sub{font:400 14.5px/1.6 var(--f-ui);color:var(--ink-l-3);margin-top:18px}
+/* ═══════════ PRICING → PricingSection.astro ═══════════ */
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.plan{position:relative;background:#fff;border:1px solid var(--line-l);border-radius:18px;padding:32px 28px;display:flex;flex-direction:column;box-shadow:0 2px 6px rgba(13,22,38,.04);transition:transform .3s var(--ease),box-shadow .3s}
+.plan:hover{transform:translateY(-4px);box-shadow:0 2px 4px rgba(13,22,38,.04),0 16px 44px -10px rgba(13,22,38,.16)}
+.plan h3{font:600 19px var(--f-ui);color:var(--ink-l)}
+.plan .sub{font:400 13.5px var(--f-ui);color:var(--ink-l-3);margin-top:4px}
+.price{display:flex;align-items:baseline;gap:3px;margin-top:22px;font:600 46px/1 var(--f-mono);color:var(--ink-l);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.price .cur{font-size:22px;color:var(--ink-l-3);font-weight:500}
+.price .per{font:500 13px var(--f-mono);color:var(--ink-l-3);margin-left:4px}
+.plan ul{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:12px;flex:1}
+.plan li{display:flex;gap:11px;align-items:flex-start;font:400 14.5px/1.5 var(--f-ui);color:var(--ink-l-2)}
+.plan .ck{flex:none;width:19px;height:19px;border-radius:50%;background:rgba(65,200,255,.14);border:1px solid rgba(65,200,255,.35);display:grid;place-items:center;margin-top:1px}
+.plan .ck svg{width:9px;height:9px;stroke:var(--sky-ink);fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+.plan .btn{margin-top:28px}
+.plan-pro{background:#0D1626;border-color:rgba(65,200,255,.35);box-shadow:0 30px 80px -30px rgba(13,22,38,.6);color:#fff}
+.plan-pro:hover{box-shadow:0 30px 90px -28px rgba(13,22,38,.7),0 0 60px -30px rgba(65,200,255,.5)}
+.plan-pro h3{color:#fff}
+.plan-pro .sub{color:var(--ink-2)}
+.plan-pro .price{color:#fff}.plan-pro .price .cur,.plan-pro .price .per{color:var(--ink-2)}
+.plan-pro li{color:var(--ink-2)}
+.plan-pro .ck{background:rgba(65,200,255,.15);border-color:rgba(65,200,255,.4)}
+.plan-pro .ck svg{stroke:var(--sky)}
+.pop-pill{position:absolute;top:-13px;left:50%;transform:translateX(-50%);font:600 9.5px var(--f-mono);letter-spacing:.18em;text-transform:uppercase;background:linear-gradient(90deg,var(--violet),var(--sky));color:#04121E;padding:6px 12px;border-radius:99px;white-space:nowrap}
+@media(min-width:768px){.plan-pro{margin-top:-18px;margin-bottom:18px}}
+.risk{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:980px;margin:44px auto 0}
+.rk{background:#fff;border:1px solid var(--line-l);border-radius:14px;padding:22px 22px;display:flex;gap:14px;align-items:flex-start}
+.rk svg{flex:none;width:20px;height:20px;stroke:var(--sky-ink);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+.rk strong{display:block;font:600 14.5px var(--f-ui);color:var(--ink-l)}
+.rk span{display:block;font:400 13.5px/1.55 var(--f-ui);color:var(--ink-l-2);margin-top:4px}
+.plan-note{text-align:center;font:400 14px var(--f-ui);color:var(--ink-l-3);margin-top:36px}
+/* ═══════════ CTA BAND → CTASection.astro ═══════════ */
+.cta{position:relative;overflow:hidden;background:var(--bg-0);padding:clamp(96px,11vw,150px) 0;text-align:center}
+.cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:820px;height:460px;border-radius:50%;background:radial-gradient(closest-side,rgba(65,200,255,.1),transparent);pointer-events:none}
+.cta .cursor-spot,.cta .cursor-grid{position:absolute}
+.cta-in{position:relative;z-index:2}
+.cta .h2{color:#fff;max-width:720px;margin:0 auto}
+.cta .h2 em{color:var(--sky)}
+.cta .lead{color:var(--ink-2);margin-inline:auto}
+.cta-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 26px;margin-top:44px;font:500 10.5px var(--f-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+.cta-strip span+span::before{content:'·';margin-right:26px;color:#39445C}
+.cta-strip span{white-space:nowrap}
+/* ═══════════ FOOTER DECK → footer/FooterDeck.astro (trajectory engine) ═══════════ */
+footer{background:#04070D;position:relative}
+.deck{position:relative;height:clamp(240px,32vh,330px);overflow:hidden}
+.deck::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(151,166,199,.09) 1px,transparent 1.3px);background-size:26px 26px;-webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.3));mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.3))}
+.deck::after{content:'';position:absolute;inset:0;background-image:var(--noise);opacity:.05;pointer-events:none}
+#trajSvg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#ghostPath{stroke:url(#grad);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-dasharray:.1 8;opacity:.3;animation:routeDrift 26s linear infinite}
+#glowA,#glowB,#corePath{fill:none;stroke:url(#grad);stroke-linecap:round;opacity:0}
+#glowA{stroke-width:7}#glowB{stroke-width:3.2}#corePath{stroke-width:1.8}
+@keyframes routeDrift{to{stroke-dashoffset:-160}}
+#trajSvg text{font-family:var(--f-mono);font-size:9.5px;font-weight:500;letter-spacing:.16em;fill:#5A677E}
+.wp .mk{fill:#04070D;stroke:#4E596E;stroke-width:1.3;transition:stroke .5s}
+.wp .mk-x{fill:none}
+.wp text{transition:fill .5s}
+.wp.lit .mk{stroke:var(--sky)}
+.wp[data-role="start"].lit .mk{stroke:var(--violet)}
+.wp.lit text{fill:#B6BFD3}
+.slogan-wrap{position:absolute;bottom:30px;left:50%;transform:translate(-50%,16px);width:min(92%,700px);text-align:center;opacity:0;transition:opacity .9s ease,transform .9s var(--ease);z-index:2}
+.deck.in .slogan-wrap{opacity:1;transform:translate(-50%,0)}
+.promise{font:500 10px var(--f-mono);letter-spacing:.3em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px}
+.slogan{font:italic 400 clamp(21px,3.2vw,34px)/1.35 var(--f-serif);color:var(--ink)}
+.key{position:relative;color:#7E889C;transition:color .5s ease;white-space:nowrap}
+.key::after{content:'';position:absolute;left:0;right:0;bottom:-.1em;height:1.5px;background-color:currentColor;transform:scaleX(0);transform-origin:left center;transition:transform .55s var(--ease) .1s}
+.key.sent.lit{color:var(--violet)}
+.key.meet.lit{color:var(--sky)}
+.key.lit::after{transform:scaleX(1)}
+.replay{position:absolute;right:26px;bottom:22px;display:flex;align-items:center;gap:10px;background:none;border:0;color:var(--ink-3);z-index:2}
+.rbtn{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;transition:border-color .25s,color .25s}
+.rbtn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .6s var(--ease)}
+.rlab{font:500 10px var(--f-mono);letter-spacing:.2em;text-transform:uppercase;transition:color .25s}
+.replay:hover .rbtn{border-color:var(--line-2);color:var(--ink-2)}
+.replay:hover .rlab{color:var(--ink-2)}
+.replay:hover .rbtn svg{transform:rotate(-300deg)}
+/* footer columns → footer/Footer.astro */
+.cols{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:56px;padding-top:64px;padding-bottom:56px}
+.brand .logo{margin-bottom:20px}
+.brand>p{font:400 14.5px/1.7 var(--f-ui);color:var(--ink-2);max-width:300px;margin-bottom:26px}
+.socials{display:flex;gap:12px}
+.soc{width:36px;height:36px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;color:var(--ink-3);transition:color .25s,border-color .25s,transform .25s}
+.soc:hover{color:var(--ink);border-color:var(--line-2);transform:translateY(-2px)}
+.soc svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+.col h3{font:500 10.5px var(--f-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin:0 0 18px}
+.col ul{list-style:none}
+.col a{display:block;color:var(--ink-2);text-decoration:none;font:400 14.5px var(--f-ui);padding:6.5px 0;position:relative;transition:color .22s,transform .28s var(--ease)}
+.col a::after{content:'';position:absolute;left:0;bottom:6px;width:100%;height:1px;background:var(--sky);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.col a:hover{color:#fff;transform:translateX(4px)}
+.col a:hover::after{transform:scaleX(1)}
+.legal-bar{display:flex;align-items:center;justify-content:space-between;gap:14px 30px;flex-wrap:wrap;border-top:1px solid var(--line);padding:26px 0 34px;font:400 12.5px/1.6 var(--f-ui);color:var(--ink-3)}
+.legal-bar a{color:var(--ink-2);text-decoration:none}
+.legal-bar a:hover{color:var(--sky)}
+.reg{font:500 11px var(--f-mono);letter-spacing:.04em}
+.status{display:inline-flex;align-items:center;gap:9px;font:500 10.5px var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
+.status .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:beat 2.6s ease infinite}
+/* ═══════════ RESPONSIVE ═══════════ */
+@media(max-width:1020px){
+  .int-grid{grid-template-columns:repeat(3,1fr)}
+  .mech-grid,.ai-grid,.ft-grid{grid-template-columns:1fr 1fr}
+  .risk{grid-template-columns:1fr}
+}
+@media(max-width:880px){
+  .nav-links,.nav .nav-cta{display:none}
+  .nav-burger{display:flex}
+  .feat{grid-template-columns:1fr;gap:40px}
+  .feat.rev .feat-t{order:0}
+  .plan-grid{grid-template-columns:1fr;max-width:460px;margin-inline:auto}
+}
+@media(max-width:720px){
+  .flight{display:none}
+  .stations{grid-template-columns:1fr}
+  .station{min-height:0}
+  .stage-body{padding:14px}
+  .hero-hint{display:none}
+  .mech-grid,.ai-grid,.ft-grid,.int-grid{grid-template-columns:1fr}
+  .cols{grid-template-columns:1fr 1fr;gap:40px}
+  .brand{grid-column:1/-1}
+  .cta-row .btn{width:100%;max-width:380px;margin-inline:auto}
+  .deck{height:250px}
+  .slogan-wrap{bottom:44px}
+  .replay{right:14px;bottom:14px}
+  .rlab{display:none}
+  .stage-cap{gap:8px;font-size:9.5px}
+  .route{display:none}
+}
+@media(max-width:560px){
+  .cols{grid-template-columns:1fr}
+  .legal-bar{flex-direction:column;align-items:flex-start}
+}
+/* ═══════════ REDUCED MOTION (gated twice — CSS + JS, WD-010) ═══════════ */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  [data-reveal],[data-rise],.h1 .w i,.h1 .w-end i::after{animation:none!important;opacity:1!important;transform:none!important;transition:none!important}
+  .stage-body *,.stage-cap span,.stage-cap i{animation:none!important}
+  /* the loop renders its booked end-state — outcome, not ambiguity */
+  .ftoken{display:none}
+  .fnode{border-color:var(--sky)}
+  .fnode::after{opacity:0}
+  .fline-draw{opacity:.35;stroke-dashoffset:0}
+  .fline-glow{opacity:0;stroke-dashoffset:0}
+  .shead{color:var(--sky)!important}
+  .sc-a,.sc-b,.sdp{opacity:1;transform:none}
+  .qd{opacity:0}
+  .srow3{opacity:.55}
+  .srow3 .strike{transform:scaleX(1)}
+  .rghost{opacity:0}
+  .reply,.rnote{opacity:1;transform:none}
+  .tfill{opacity:1}
+  .tchk path{stroke-dashoffset:0}
+  .tpill{opacity:1;transform:none}
+  .confirm{opacity:1;transform:none}
+  .stage-cap span{color:var(--sky)}
+  .cursor-spot,.cursor-grid{display:none}
+  .orb i,.hero-pts span,.pbar-dot,.scan,.sw.on,.spin i{animation:none!important}
+}
+@media(hover:none),(pointer:coarse){
+  .cursor-spot,.cursor-grid{display:none}
+  .stage-frame{transform:none!important}
+}
+</style>
+<noscript><style>
+[data-reveal]{opacity:1;transform:none}
+.stage *{animation:none!important}
+.ftoken{display:none}
+.fnode{border-color:var(--sky)}
+.fline-draw{opacity:.35;stroke-dashoffset:0}
+.fline-glow{opacity:0;stroke-dashoffset:0}
+.shead{color:var(--sky)!important}
+.sc-a,.sc-b,.sdp{opacity:1;transform:none}
+.qd{opacity:0}
+.srow3{opacity:.55}
+.srow3 .strike{transform:scaleX(1)}
+.rghost{opacity:0}
+.reply,.rnote{opacity:1;transform:none}
+.tfill{opacity:1}
+.tchk path{stroke-dashoffset:0}
+.tpill{opacity:1;transform:none}
+.confirm{opacity:1;transform:none}
+.stage-cap span{color:var(--sky)}
+</style></noscript>
+</head>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ═══ NAV → src/components/nav/Navbar.astro ═══ -->
+<header class="nav" id="nav">
+  <div class="container nav-in">
+    <a class="logo" href="#top" aria-label="Synclead — back to top">
+      <svg class="plane" viewBox="-17 1 39 22" width="30" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:var(--sky)">
+        <path class="contrail" d="M1 13 C -5 14 -9 10 -15 11"/>
+        <path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 Z"/>
+      </svg>
+      <span class="wordmark">Synclead</span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#campaigns">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#founding-teams">About</a>
+      <a href="mailto:contact@synclead.io">Contact</a>
+    </nav>
+    <a class="btn btn-white btn-sm nav-cta" href="https://app.synclead.io/signup" target="_blank" rel="noopener">Audit Your Stack</a>
+    <button class="nav-burger" id="burger" aria-expanded="false" aria-controls="mmenu" aria-label="Open menu"><span></span><span></span></button>
+  </div>
+</header>
+<div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="mmenu-in">
+    <a class="mm-link" href="#campaigns">Features</a>
+    <a class="mm-link" href="#pricing">Pricing</a>
+    <a class="mm-link" href="#founding-teams">About</a>
+    <a class="mm-link" href="mailto:contact@synclead.io">Contact</a>
+    <a class="btn btn-white btn-lg" href="https://app.synclead.io/signup" target="_blank" rel="noopener">Audit Your Stack</a>
+  </div>
+</div>
+
+<main id="main">
+<!-- ═══ HERO → src/components/hero/HeroSection.astro + HeroBookingLoop.astro ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-dots"></div>
+    <div class="orb o1"><i></i></div>
+    <div class="orb o2"><i></i></div>
+    <div class="hero-pts"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="cursor-spot"></div>
+    <div class="cursor-grid"></div>
+    <div class="noise"></div>
+  </div>
+
+  <div class="hero-in">
+    <p data-rise><span class="pill-live"><span class="dot"></span>Onboarding founding teams</span></p>
+    <h1 class="h1">
+      <span class="w"><i>Your</i></span> <span class="w"><i>domains</i></span> <span class="w"><i>and</i></span>
+      <span class="w"><i>your</i></span> <span class="w w-em"><i>calendar</i></span> <span class="w"><i>deserve</i></span>
+      <span class="w w-end"><i>better.</i></span>
+    </h1>
+    <p class="lead" data-rise="1">Connect your inboxes, protect your sending domains, and keep every send clean — so the replies you earn land as booked meetings, not bounces.</p>
+    <div class="cta-row" data-rise="2">
+      <a class="btn btn-white btn-lg" href="https://app.synclead.io/signup" target="_blank" rel="noopener">Build a Sequence (Free for 14 Days)</a>
+      <a class="btn btn-ghost btn-lg" href="mailto:contact@synclead.io?subject=Walkthrough%20request">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2.5"/><path d="M3.5 10h17M8 2.8V7M16 2.8V7M8.6 15.2l2.3 2.3 4.4-4.6"/></svg>
+        Book a 20-Min Walkthrough
+      </a>
+    </div>
+    <div class="trust" data-rise="3">
+      <span class="tp">
+        <svg viewBox="0 0 18 18" aria-hidden="true"><rect width="8" height="8" fill="#F25022"/><rect x="10" width="8" height="8" fill="#7FBA00"/><rect y="10" width="8" height="8" fill="#00A4EF"/><rect x="10" y="10" width="8" height="8" fill="#FFB900"/></svg>
+        Microsoft Partner
+      </span>
+      <span class="tp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7FD9FF" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10.5h18"/></svg>
+        Billing secured by Stripe
+      </span>
+      <span class="tp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7FD9FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4M8.2 14.5l2.2 2.2 4-4.2"/></svg>
+        14-day trial · cancel in one click
+      </span>
+    </div>
+  </div>
+
+  <!-- ═══ THE BOOKING LOOP v2 — linear: route → token → three stations ═══ -->
+  <div class="stage-par">
+    <div class="stage" data-reveal>
+      <div class="stage-frame" data-frame>
+        <div class="chrome">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="url"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>app.synclead.io/sequences</span>
+          <span class="chrome-r"><i></i>LIVE</span>
+        </div>
+        <div class="stage-body">
+          <p class="sr-only">The product loop, left to right: the sequence sends steps one and two; the prospect replies, and step three stops automatically; the calendar slot on Thursday at 14:30 fills and the meeting is confirmed.</p>
+
+          <!-- the route: dashed base (always visible), gradient trail drawn behind the token -->
+          <div class="flight" aria-hidden="true">
+            <svg viewBox="0 0 100 64" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="flG" gradientUnits="userSpaceOnUse" x1="2" y1="32" x2="98" y2="32">
+                  <stop offset="0" stop-color="#9D8BFF"/><stop offset=".55" stop-color="#7FA0FF"/><stop offset="1" stop-color="#41C8FF"/>
+                </linearGradient>
+              </defs>
+              <path class="fline-base" d="M2 32 H98" pathLength="1"/>
+              <path class="fline-glow" d="M2 32 H98" pathLength="1"/>
+              <path class="fline-draw" d="M2 32 H98" pathLength="1"/>
+            </svg>
+            <span class="fnode fn1"></span>
+            <span class="fnode fn2"></span>
+            <span class="fnode fn3"></span>
+            <!-- the token: envelope (sent · violet) → calendar check (booked · sky) -->
+            <div class="ftoken">
+              <div class="bob">
+                <span class="halo"></span>
+                <span class="tkflash"></span>
+                <svg class="tk-env" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M4.5 7.5l7.5 5.5 7.5-5.5"/></svg>
+                <svg class="tk-cal" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><path d="M3.5 9h17M8 2.8V6.5M16 2.8V6.5"/><path class="chk" d="M8.3 14.6l2.6 2.6 4.6-5" pathLength="1"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- the three stations: a panel only animates when the token reaches its node -->
+          <div class="stations">
+            <div class="station stx1">
+              <div class="shead"><span class="sl"><i class="sdot"></i>01 · Sequence</span><span class="sr">Q3 · Outbound</span></div>
+              <div class="srow"><span class="n">01</span><span class="t">Intro email</span><span class="qwrap"><span class="schip queued">Queued</span><span class="schip sent pop sc-a">Sent</span></span></div>
+              <div class="srow"><span class="n">02</span><span class="t">Case study proof</span><span class="qwrap"><span class="schip queued">Queued</span><span class="schip sent pop sc-b">Sent</span></span></div>
+              <div class="srow srow3"><span class="n">03</span><span class="t">Break-up note<i class="strike" aria-hidden="true"></i></span><span class="qwrap"><span class="schip queued qd">Queued</span><span class="schip stopped pop sdp">Stopped</span></span></div>
+              <div class="sfoot"><span>24 prospects</span><span>Window 09–17</span></div>
+            </div>
+
+            <div class="station stx2">
+              <div class="shead"><span class="sl"><i class="sdot"></i>02 · Inbox</span><span class="sr">Unified</span></div>
+              <div class="rslot">
+                <div class="rghost">Awaiting reply</div>
+                <div class="reply">
+                  <span class="rava"></span>
+                  <span class="rtxt"><strong>“Thursday works.”</strong><span class="rsub">Prospect · acme.com</span></span>
+                  <span class="schip replied">Replied</span>
+                </div>
+              </div>
+              <p class="rnote"><svg viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="2"/></svg>Reply detected · step 03 stopped</p>
+              <div class="sfoot"><span>Reply rules on</span><span>No-show armed</span></div>
+            </div>
+
+            <div class="station stx3">
+              <div class="shead"><span class="sl"><i class="sdot"></i>03 · Calendar</span><span class="sr">This week</span></div>
+              <div class="wk">
+                <div class="day"><b>MON</b><span class="cell"></span><span class="cell"></span></div>
+                <div class="day"><b>TUE</b><span class="cell"></span><span class="cell"></span></div>
+                <div class="day"><b>WED</b><span class="cell"></span><span class="cell"></span></div>
+                <div class="day"><b>THU</b><span class="cell"></span>
+                  <span class="tgt"><i class="tfill" aria-hidden="true"></i><i class="tring" aria-hidden="true"></i><span class="tt">14:30</span><svg class="tchk" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 12.5l4 4 7.5-8" pathLength="1"/></svg><span class="tpill">Booked</span></span>
+                </div>
+                <div class="day"><b>FRI</b><span class="cell"></span><span class="cell"></span></div>
+              </div>
+              <div class="confirm">
+                <span class="cic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+                <span class="ctxt"><strong>Demo · 20 min</strong><span>Thu 14:30 · Round-robin</span></span>
+                <span class="schip replied">Confirmed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stage-glare" aria-hidden="true"></div>
+      </div>
+      <div class="stage-cap" aria-hidden="true">
+        <span data-cap="1">Step sends</span><i></i><span data-cap="2">Prospect replies</span><i></i><span data-cap="3">Meeting booked</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-hint" aria-hidden="true"><span>Scroll</span><span class="rail"></span></div>
+</section>
+
+<!-- ═══ INTEGRATIONS → src/components/sections/LogoBar.astro ═══ -->
+<section class="sec-int" id="integrations">
+  <div class="container">
+    <p class="eyebrow" data-reveal style="display:flex;justify-content:center">The stack you already run</p>
+    <p class="int-note" data-reveal>Every mailbox and calendar connects over <strong>OAuth</strong> — SyncLead never asks for or stores your email password.</p>
+    <div class="int-grid">
+      <div class="int-tile" data-reveal><span class="int-m">M365</span><h3>Microsoft 365</h3><p>Graph mail + calendar</p></div>
+      <div class="int-tile" data-reveal data-d="1"><span class="int-m">GW</span><h3>Google Workspace</h3><p>Gmail + calendar</p></div>
+      <div class="int-tile" data-reveal data-d="2"><span class="int-m">HS</span><h3>HubSpot</h3><p>Contacts &amp; deals</p></div>
+      <div class="int-tile" data-reveal data-d="3"><span class="int-m">ST</span><h3>Stripe</h3><p>Billing &amp; payments</p></div>
+      <div class="int-tile" data-reveal data-d="3"><span class="int-m">IMAP</span><h3>SMTP / IMAP</h3><p>Any provider</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MECHANISMS → src/components/sections/MetricsBand.astro ═══ -->
+<section class="sec sec-dark seam" id="how">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow" style="display:flex;justify-content:center">How it works</p>
+      <h2 class="h2">Three mechanisms doing the work your reps do <em>manually.</em></h2>
+    </div>
+    <div class="route" data-reveal aria-hidden="true"><span class="nd"></span><span class="nd"></span><span class="nd"></span></div>
+    <div class="mech-grid">
+      <article class="mcard" data-reveal>
+        <span class="mnum">01</span>
+        <h3>Sending spread across multiple IPs</h3>
+        <p>Volume rotates across a pool of sending accounts with per-account daily caps, so no single domain absorbs the whole campaign.</p>
+        <div class="mtag"><span>Pools</span><span>Rotation</span><span>Daily caps</span></div>
+      </article>
+      <article class="mcard" data-reveal data-d="1">
+        <span class="mnum">02</span>
+        <h3>SPF, DKIM, DMARC and MX watched continuously</h3>
+        <p>SyncLead re-checks the DNS records behind every connected mailbox and alerts you when one drifts — before deliverability drops.</p>
+        <div class="mtag"><span>SPF</span><span>DKIM</span><span>DMARC</span><span>MX</span></div>
+      </article>
+      <article class="mcard" data-reveal data-d="2">
+        <span class="mnum">03</span>
+        <h3>Replies and no-shows handled automatically</h3>
+        <p>A reply stops the sequence and lands in a unified inbox. A no-show triggers a recovery sequence that works to rebook the slot.</p>
+        <div class="mtag"><span>Replies</span><span>No-shows</span><span>Rebooks</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CAMPAIGNS → FeatureShowcase (id="campaigns") ═══ -->
+<section class="sec sec-light" id="campaigns">
+  <div class="container feat">
+    <div class="feat-t" data-reveal>
+      <p class="eyebrow">Campaigns</p>
+      <h2 class="h2">Sequences that write themselves into <em>replies</em></h2>
+      <p class="lead">Build multi-step cold email sequences in minutes. Mix spintax and A/B variants to keep every send unique, then let the scheduler drip follow-ups at exactly the right time — and stop the moment a prospect replies.</p>
+      <ul class="blt">
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Multi-step sequences with unlimited follow-up stages and smart exit rules</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Built-in spintax and A/B variants that rotate automatically per send</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Send-window scheduling with per-timezone delivery and quiet hours</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Reply detection instantly pauses the sequence and alerts the owner</li>
+      </ul>
+      <a class="lnk" href="https://app.synclead.io/signup" target="_blank" rel="noopener">Explore campaigns <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div data-reveal data-d="1">
+      <div class="bframe">
+        <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url">app.synclead.io/campaigns</span><span class="chrome-r"><i></i>A/B</span></div>
+        <div class="pnl">
+          <div class="prow"><span class="pnum">01</span><span class="ptxt"><strong>Intro email</strong><span>Subject: <span class="spin"><i>quick question</i><i>genuine ask</i><i>30 seconds?</i></span></span></span><span class="pchip">Send 9:12</span></div>
+          <div class="prow"><span class="pnum">02</span><span class="ptxt"><strong>Follow-up · case study</strong><span>Variant B · rotating per send</span></span><span class="pchip">Send 11:40</span></div>
+          <div class="prow"><span class="pnum">03</span><span class="ptxt"><strong>Break-up note</strong><span>Exits on reply or booking</span></span><span class="pchip">Queued</span></div>
+          <div class="pbar"><span class="pbar-l">Send window</span><span class="pbar-track"><i class="pbar-fill"></i><i class="pbar-dot"></i></span><span class="pbar-r">09–17 · TZ local</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DELIVERABILITY → FeatureShowcase (id="deliverability", dark, reversed) ═══ -->
+<section class="sec sec-dark seam" id="deliverability">
+  <div class="container feat rev">
+    <div class="feat-t" data-reveal>
+      <p class="eyebrow">Email account health</p>
+      <h2 class="h2">Stop playing Russian roulette with <em>primary domains.</em></h2>
+      <p class="lead">SyncLead spreads volume across multiple sending IPs and watches every DNS record for you — SPF, DKIM, DMARC, MX — with per-account daily limits that keep domains warm and reputation intact.</p>
+      <ul class="blt">
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Multi-IP sending pools with automatic rotation and per-account daily caps</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Continuous SPF / DKIM / DMARC / MX monitoring with instant alerts</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Domain health scoring and warm-up guidance before campaigns launch</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Bounce and spam-trap classification that protects your sender score</li>
+      </ul>
+      <a class="lnk" href="https://app.synclead.io/signup" target="_blank" rel="noopener">See the health dashboard <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div data-reveal data-d="1">
+      <div class="bframe">
+        <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url">app.synclead.io/health</span><span class="chrome-r"><i></i>OK</span></div>
+        <div class="pnl">
+          <span class="scan" aria-hidden="true"></span>
+          <div class="prow-dns"><span class="k">SPF</span><span class="v">v=spf1 include:_spf.synclead.io ~all</span><span class="st"></span></div>
+          <div class="prow-dns"><span class="k">DKIM</span><span class="v">2048-bit · selector s1 · aligned</span><span class="st"></span></div>
+          <div class="prow-dns"><span class="k">DMARC</span><span class="v">p=quarantine · rua reports on</span><span class="st"></span></div>
+          <div class="prow-dns"><span class="k">MX</span><span class="v">routed · provider resolved</span><span class="st"></span></div>
+          <div class="pnl-f"><span>Domain acme.com</span><span>All records verified</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SCHEDULING → FeatureShowcase (id="scheduling", light) ═══ -->
+<section class="sec sec-light" id="scheduling">
+  <div class="container feat">
+    <div class="feat-t" data-reveal>
+      <p class="eyebrow">Scheduling</p>
+      <h2 class="h2">If they reply, it <em>books</em>. If they ghost, it <em>recovers.</em></h2>
+      <p class="lead">Google and Microsoft calendar sync keeps your availability honest, while no-show automation follows up when prospects ghost — so every slot you offer turns into pipeline, not no-shows.</p>
+      <ul class="blt">
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Two-way Google Calendar and Microsoft 365 availability sync</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Round-robin and pooled availability across the whole SDR team</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Automatic reminder, reschedule and no-show recovery sequences</li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Every meeting logged back to the campaign and unified inbox</li>
+      </ul>
+      <a class="lnk" href="https://app.synclead.io/signup" target="_blank" rel="noopener">Explore scheduling <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div data-reveal data-d="1">
+      <div class="bframe">
+        <div class="chrome"><span class="dots"><i></i><i></i><i></i></span><span class="url">app.synclead.io/scheduling</span><span class="chrome-r"><i></i>Synced</span></div>
+        <div class="pnl">
+          <div class="cal-wk">
+            <div class="sw-col"><b>MON</b><span class="sw on"></span><span class="sw"></span></div>
+            <div class="sw-col"><b>TUE</b><span class="sw"></span><span class="sw on"></span></div>
+            <div class="sw-col"><b>WED</b><span class="sw"></span><span class="sw"></span></div>
+            <div class="sw-col"><b>THU</b><span class="sw bk"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span><span class="sw on"></span></div>
+            <div class="sw-col"><b>FRI</b><span class="sw"></span><span class="sw on"></span></div>
+          </div>
+          <div class="prow-rr"><span class="avas"><i></i><i></i><i></i></span><span>3 reps · pooled availability</span><span class="pchip">Round-robin</span></div>
+          <div class="prow-ns">
+            <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+            <span class="ptxt"><strong>No-show recovery</strong><span>Rebooks the slot automatically</span></span>
+            <span class="pchip">On</span>
+          </div>
+          <div class="pnl-f"><span>Google + Microsoft</span><span>Quiet hours on</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AI → src/components/sections/AIInsightsSection.astro ═══ -->
+<section class="sec sec-ai" id="ai">
+  <div class="container sec-head">
+    <p data-reveal><span class="ai-pill">Coming soon</span></p>
+    <h2 class="h2" data-reveal data-d="1">AI that answers while <em>you sleep</em></h2>
+    <p class="lead" data-reveal data-d="2">SyncLead's upcoming AI engine will draft contextual replies, qualify intent, and hand warm conversations straight to your calendar. Join the waitlist and be first in line.</p>
+    <div class="ai-grid">
+      <div class="ai-card" data-reveal>
+        <span class="ai-ic"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z"/><path d="M19 15l.9 2.6L22.5 18l-2.6.9L19 21.5l-.9-2.6L15.5 18l2.6-.9Z"/></svg></span>
+        <h3>AI Auto-Replies</h3>
+        <p>Context-aware responses written in your voice, sent the moment a prospect engages.</p>
+        <span class="ai-soon">Coming soon</span>
+      </div>
+      <div class="ai-card" data-reveal data-d="1">
+        <span class="ai-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4"/></svg></span>
+        <h3>Intent Scoring</h3>
+        <p>Every reply classified by buying intent so SDRs work the hottest leads first.</p>
+        <span class="ai-soon">Coming soon</span>
+      </div>
+      <div class="ai-card" data-reveal data-d="2">
+        <span class="ai-ic"><svg viewBox="0 0 24 24"><path d="M4 8h13l-3.5-3.5M20 16H7l3.5 3.5"/></svg></span>
+        <h3>Smart Handoff</h3>
+        <p>Qualified conversations routed to the right AE with full campaign context attached.</p>
+        <span class="ai-soon">Coming soon</span>
+      </div>
+    </div>
+    <div data-reveal data-d="2" style="margin-top:44px">
+      <a class="btn btn-dark btn-lg" href="mailto:contact@synclead.io?subject=AI%20waitlist">Join the AI Waitlist</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOUNDING TEAMS → src/components/sections/FoundingTeams.astro ═══ -->
+<section class="sec sec-white" id="founding-teams">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow" style="display:flex;justify-content:center">Founding teams</p>
+      <h2 class="h2">Let us rebuild your <em>outbound.</em></h2>
+      <p class="lead" style="max-width:672px">We are exclusively onboarding serious outbound engines — from solo founders scaling their first campaigns to GTM teams replacing fractured stacks. Skip the support queues. You get a direct Slack channel with our engineering team, a white-glove migration of your current sequences, and your pricing locked in forever. If you treat outbound like a science, we are a fit.</p>
+    </div>
+    <div class="ft-grid">
+      <div class="ft-card" data-reveal>
+        <span class="ft-ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        <h3>Direct line to the people building it</h3>
+        <p>You talk to the team writing the code, not a support tier. You tell us what your outbound engine is missing, and we build it directly into the platform.</p>
+      </div>
+      <div class="ft-card" data-reveal data-d="1">
+        <span class="ft-ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        <h3>Locked founding price</h3>
+        <p>Your rate is fixed for as long as you stay subscribed, including after public pricing rises.</p>
+      </div>
+      <div class="ft-card" data-reveal data-d="2">
+        <span class="ft-ic"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+        <h3>Migration done with you</h3>
+        <p>We help move your existing sequences, sending accounts and DNS setup across, on a call, at no cost.</p>
+      </div>
+    </div>
+    <div class="ft-cta" data-reveal>
+      <a class="btn btn-dark btn-lg" href="#contact">Audit Our Outbound Stack</a>
+      <p class="sub">Tell us what your current stack looks like. If we are not the right fit to scale your volume, we will tell you directly on the call.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING → src/components/sections/PricingSection.astro ═══ -->
+<section class="sec sec-paper" id="pricing">
+  <div class="container">
+    <div class="sec-head" data-reveal>
+      <p class="eyebrow" style="display:flex;justify-content:center">Pricing</p>
+      <h2 class="h2">Simple pricing that scales with your <em>pipeline.</em></h2>
+      <p class="lead">Start free for 14 days. Upgrade when the meetings start landing.</p>
+    </div>
+    <div class="plan-grid">
+      <div class="plan" data-reveal>
+        <h3>Starter</h3><p class="sub">For solo SDRs getting started</p>
+        <p class="price"><span class="cur">$</span>49<span class="per">/mo</span></p>
+        <ul>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>3 sending accounts · 1,000 emails/mo</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Campaign sequences with spintax</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Google &amp; Microsoft calendar sync</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Unified inbox</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Core analytics</li>
+        </ul>
+        <a class="btn btn-outline" href="https://app.synclead.io/signup" target="_blank" rel="noopener">Start 14-Day Trial</a>
+      </div>
+      <div class="plan plan-pro" data-reveal data-d="1">
+        <span class="pop-pill">Most popular</span>
+        <h3>Pro</h3><p class="sub">For growing GTM teams</p>
+        <p class="price"><span class="cur">$</span>149<span class="per">/mo</span></p>
+        <ul>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>10 sending accounts · 10,000 emails/mo</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Multi-IP sending pools with rotation</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>DNS / SPF / DKIM / DMARC health monitoring</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>No-show recovery automation</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Round-robin scheduling · advanced analytics</li>
+        </ul>
+        <a class="btn btn-white" href="https://app.synclead.io/signup" target="_blank" rel="noopener">Start 14-Day Trial</a>
+      </div>
+      <div class="plan" data-reveal data-d="2">
+        <h3>Enterprise</h3><p class="sub">For outbound at scale</p>
+        <p class="price"><span class="cur">Custom</span></p>
+        <ul>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Unlimited sending accounts &amp; custom volume</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Dedicated IP pools</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Role-based access and audit logging</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Priority support &amp; onboarding</li>
+          <li><span class="ck"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>Custom deliverability reviews</li>
+        </ul>
+        <a class="btn btn-outline" href="mailto:contact@synclead.io?subject=Enterprise">Contact Sales</a>
+      </div>
+    </div>
+    <div class="risk">
+      <div class="rk" data-reveal><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10.5h18"/></svg><span><strong>Payments handled by Stripe.</strong><span>Card details go straight to Stripe — they never touch SyncLead servers.</span></span></div>
+      <div class="rk" data-reveal data-d="1"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span><strong>Cancel in one click.</strong><span>Self-serve from billing settings. No retention call, no notice period.</span></span></div>
+      <div class="rk" data-reveal data-d="2"><svg viewBox="0 0 24 24"><path d="M12 14V4M7 9l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg><span><strong>Export your data any time.</strong><span>Contacts, campaigns and reply history stay yours to take with you.</span></span></div>
+    </div>
+    <p class="plan-note" data-reveal>All plans include calendar integration, unified inbox and unlimited campaigns. Prices per workspace, billed monthly.</p>
+  </div>
+</section>
+
+<!-- ═══ CTA BAND → src/components/sections/CTASection.astro ═══ -->
+<section class="cta seam" id="contact">
+  <div class="cursor-spot" aria-hidden="true"></div>
+  <div class="cursor-grid" aria-hidden="true"></div>
+  <div class="container cta-in">
+    <h2 class="h2" data-reveal>Stop counting sends.<br>Start counting <em>meetings.</em></h2>
+    <p class="lead" data-reveal data-d="1">Connect a mailbox, import a list, and have your first sequence live today. Free for 14 days — cancel in one click.</p>
+    <div class="cta-row" data-reveal data-d="2">
+      <a class="btn btn-white btn-lg" href="https://app.synclead.io/signup" target="_blank" rel="noopener">Build a Sequence (Free for 14 Days)</a>
+      <a class="btn btn-ghost btn-lg" href="mailto:contact@synclead.io?subject=Walkthrough%20request">Book a 20-Min Walkthrough</a>
+    </div>
+    <div class="cta-strip" data-reveal data-d="3">
+      <span>Onboarding founding teams</span><span>Billing secured by Stripe</span><span>Export your data any time</span>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ═══ FOOTER → src/components/footer/Footer.astro + FooterDeck.astro ═══ -->
+<footer id="footer">
+  <div class="deck" id="deck">
+    <svg id="trajSvg" role="img" aria-label="An envelope launches from the bottom left, trails a gradient line from violet to blue, becomes a booked calendar with a checkmark at the peak of the arc, and exits the right edge.">
+      <defs>
+        <linearGradient id="grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0">
+          <stop offset="0" stop-color="#9D8BFF"/><stop offset=".45" stop-color="#7FA0FF"/><stop offset="1" stop-color="#41C8FF"/>
+        </linearGradient>
+        <radialGradient id="haloG"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+      </defs>
+      <path id="ghostPath"/><g id="particles"></g>
+      <path id="glowA"/><path id="glowB"/><path id="corePath"/>
+      <g id="waypoints"></g>
+      <g id="head" style="opacity:0">
+        <circle r="22" fill="#fff" fill-opacity=".08"/>
+        <circle id="headDot" r="9" fill="#9D8BFF" fill-opacity=".45"/>
+        <circle r="3.2" fill="#fff" fill-opacity=".9"/>
+      </g>
+      <g id="icon" style="opacity:0">
+        <circle r="30" fill="url(#haloG)"/>
+        <g id="iconRot" fill="none" stroke="#9D8BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <g id="iconScale">
+            <path id="iBody" d="M-17,-12 L17,-12 L17,12 L-17,12 Z" fill="#04070D" fill-opacity=".85"/>
+            <path id="iFlap" d="M-17,-12 L0,3 L17,-12"/>
+            <g id="iCalX" opacity="0"><path d="M-13,-7 L13,-7"/><path d="M-5,-12 L-5,-3"/><path d="M5,-12 L5,-3"/></g>
+          </g>
+        </g>
+      </g>
+      <g id="fx"></g>
+    </svg>
+    <div class="slogan-wrap">
+      <p class="promise">The Synclead promise</p>
+      <h2 class="slogan">For revenue teams that measure success in
+        <span class="key meet" id="wMeet">meetings</span>, not
+        <span class="key sent" id="wSent">sent&nbsp;counts</span>.
+      </h2>
+    </div>
+    <button class="replay" id="replay" aria-label="Replay the trajectory animation">
+      <span class="rbtn"><svg viewBox="0 0 24 24"><path d="M3 3v5h5"/><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/></svg></span>
+      <span class="rlab">Replay trajectory</span>
+    </button>
+  </div>
+
+  <div class="container cols">
+    <div class="brand" data-reveal>
+      <a class="logo" href="#top" aria-label="Synclead — back to top">
+        <svg class="plane" viewBox="-17 1 39 22" width="30" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:var(--sky)">
+          <path class="contrail" d="M1 13 C -5 14 -9 10 -15 11"/>
+          <path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 Z"/>
+        </svg>
+        <span class="wordmark">Synclead</span>
+      </a>
+      <p>Meeting-native outreach. Keep your domains warm, your sending clean, and your pipeline booked solid.</p>
+      <div class="socials">
+        <a class="soc" href="#" aria-label="Synclead on X"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></svg></a>
+        <a class="soc" href="#" aria-label="Synclead on LinkedIn"><svg viewBox="0 0 24 24" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.7v5.8M8 7.4v.1M12 10.7v5.8M12 13.2c0-1.4 2.6-1.5 2.6 0v3.3"/></svg></a>
+      </div>
+    </div>
+    <div class="col" data-reveal data-d="1">
+      <h3>Product</h3>
+      <ul>
+        <li><a href="#campaigns">Sequences</a></li>
+        <li><a href="#deliverability">Deliverability</a></li>
+        <li><a href="#scheduling">Scheduling</a></li>
+        <li><a href="#integrations">Integrations</a></li>
+        <li><a href="#ai">AI Waitlist</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </div>
+    <div class="col" data-reveal data-d="2">
+      <h3>Company</h3>
+      <ul>
+        <li><a href="#founding-teams">Founding Teams</a></li>
+        <li><a href="mailto:contact@synclead.io">Contact</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Kit</a></li>
+      </ul>
+    </div>
+    <div class="col" data-reveal data-d="3">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Data Processing</a></li>
+        <li><a href="#">Security</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container legal-bar" data-reveal>
+    <p class="reg">SYNCLEAD LTD · Company No. 15903993 · 20 Wenlock Road, London, England, N1 7GU</p>
+    <p><a href="mailto:contact@synclead.io">contact@synclead.io</a> · <a href="mailto:privacy@synclead.io">privacy@synclead.io</a></p>
+    <p class="status"><span class="dot"></span>Onboarding founding teams</p>
+    <p>© 2026 Synclead Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+/* ═══ BaseLayout scripts: reveal observer (WD-011), nav, mobile menu, hero layers ═══ */
+(() => {
+'use strict';
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = matchMedia('(hover:hover) and (pointer:fine)').matches;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+
+/* reveal */
+const io = new IntersectionObserver(es=>{
+  for(const e of es) if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+},{threshold:.15, rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+if(RM) document.querySelectorAll('[data-reveal]').forEach(el=>el.classList.add('in'));
+
+/* nav solid on scroll */
+const nav=document.getElementById('nav');
+const onScroll=()=>nav.classList.toggle('solid',scrollY>10);
+addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+/* mobile menu */
+const burger=document.getElementById('burger'), mmenu=document.getElementById('mmenu');
+const setMenu=open=>{
+  mmenu.classList.toggle('open',open);
+  burger.classList.toggle('on',open);
+  burger.setAttribute('aria-expanded',String(open));
+  burger.setAttribute('aria-label',open?'Close menu':'Open menu');
+  document.body.style.overflow=open?'hidden':'';
+};
+burger.addEventListener('click',()=>setMenu(!mmenu.classList.contains('open')));
+mmenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+addEventListener('keydown',e=>{ if(e.key==='Escape'&&mmenu.classList.contains('open')) setMenu(false); });
+
+/* ── Hero cursor layer (WD-010 contract: one rAF-throttled listener, CSS does the work) ── */
+function attachCursor(section){
+  if(!section || !FINE || RM) return;
+  let raf=0;
+  section.addEventListener('pointermove',e=>{
+    if(raf) return; raf=requestAnimationFrame(()=>{ raf=0;
+      const nx=clamp(e.clientX/innerWidth,0,1), ny=clamp(e.clientY/innerHeight,0,1);
+      section.style.setProperty('--mx',nx.toFixed(3));
+      section.style.setProperty('--my',ny.toFixed(3));
+      section.style.setProperty('--px',((nx-.5)*2).toFixed(3));
+      section.style.setProperty('--py',((ny-.5)*2).toFixed(3));
+      section.style.setProperty('--ha','1');
+    });
+  });
+  section.addEventListener('pointerleave',()=>{
+    section.style.setProperty('--ha','0');
+    section.style.setProperty('--px','0'); section.style.setProperty('--py','0');
+  });
+}
+attachCursor(document.getElementById('hero'));
+attachCursor(document.getElementById('contact'));
+
+/* ── Stage tilt + glare (capped ±4°, WD-010) ── */
+const par=document.querySelector('.stage-par'), frame=document.querySelector('[data-frame]');
+if(par && frame && FINE && !RM){
+  let raf=0, fr=null;
+  const cache=()=>{ fr=par.getBoundingClientRect(); };
+  cache();
+  let sraf=0;
+  addEventListener('scroll',()=>{ if(sraf)return; sraf=requestAnimationFrame(()=>{sraf=0;cache();}); },{passive:true});
+  addEventListener('resize',()=>{cache();},{passive:true});
+  par.addEventListener('pointermove',e=>{
+    if(raf) return; raf=requestAnimationFrame(()=>{ raf=0;
+      if(!fr) cache();
+      const nx=clamp((e.clientX-fr.left)/fr.width,0,1), ny=clamp((e.clientY-fr.top)/fr.height,0,1);
+      frame.style.setProperty('--rx',((nx-.5)*8).toFixed(2));
+      frame.style.setProperty('--ry',((.5-ny)*8).toFixed(2));
+      frame.style.setProperty('--gx',nx.toFixed(3));
+      frame.style.setProperty('--gy',ny.toFixed(3));
+      frame.style.setProperty('--ga','1');
+      frame.style.transition='none';
+    });
+  });
+  par.addEventListener('pointerleave',()=>{
+    frame.style.transition='transform .5s cubic-bezier(.2,.7,.2,1)';
+    frame.style.setProperty('--rx','0'); frame.style.setProperty('--ry','0');
+    frame.style.setProperty('--ga','0');
+  });
+}
+
+/* ── Scroll parallax on hero content (subtle, gated) ── */
+if(!RM){
+  const heroIn=document.querySelector('.hero-in'), stagePar=document.querySelector('.stage-par');
+  let tick=false;
+  addEventListener('scroll',()=>{
+    if(tick) return; tick=true;
+    requestAnimationFrame(()=>{ tick=false;
+      const s=Math.min(scrollY,900);
+      if(heroIn){ heroIn.style.transform=`translateY(${(s*.08).toFixed(1)}px)`; heroIn.style.opacity=String((1 - s/900*.7).toFixed(3)); }
+      if(stagePar && s<900) stagePar.style.transform=`translateY(${(s*.04).toFixed(1)}px)`;
+    });
+  },{passive:true});
+}
+})();
+</script>
+
+<script>
+/* ═══ Footer trajectory engine → src/components/footer/FooterDeck.astro <script> ═══
+   Envelope launches bottom-left, trails a violet→sky gradient, morphs into a
+   calendar+check at the apex, coasts off right. The flap's 3 points interpolate
+   into the checkmark's 3 points — the flap literally becomes the tick. */
+(() => {
+'use strict';
+const $=s=>document.querySelector(s);
+const NS='http://www.w3.org/2000/svg';
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,k)=>a+(b-a)*k;
+const eoc=k=>1-Math.pow(1-k,3), eic=k=>k*k*k, eio=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+
+const deckEl=$('#deck'); if(!deckEl) return;
+const svgEl=$('#trajSvg'), ghostEl=$('#ghostPath'), glowA=$('#glowA'), glowB=$('#glowB'),
+  coreEl=$('#corePath'), gradEl=$('#grad'), partG=$('#particles'), fxG=$('#fx'), wpG=$('#waypoints'),
+  headEl=$('#head'), headDot=$('#headDot'), iconEl=$('#icon'), iconRot=$('#iconRot'),
+  iconScaleEl=$('#iconScale'), iBody=$('#iBody'), iFlap=$('#iFlap'), iCalX=$('#iCalX'),
+  wSent=$('#wSent'), wMeet=$('#wMeet'), replayBtn=$('#replay');
+
+/* sent violet -> flash white -> booked sky */
+const V=[157,139,255], Wt=[242,245,255], B=[65,200,255];
+const mixA=(a,b,k)=>[lerp(a[0],b[0],k),lerp(a[1],b[1],k),lerp(a[2],b[2],k)];
+const css=c=>`rgb(${c[0]|0},${c[1]|0},${c[2]|0})`;
+const iconColor=m=> m<=0?css(V) : m<.5?css(mixA(V,Wt,m*2)) : css(mixA(Wt,B,(m-.5)*2));
+const trailColor=s=>css(mixA(V,B,clamp(s,0,1)));
+
+const PRE=420, DUR=2950, SETTLE=1100;
+const CORE_O=.95, GA=.16, GB=.42;
+
+let Wp=0,Hp=0,S={},A={},E={},total=0,apexLen=0,apexFrac=.42,exitPt={x:0,y:0},scaleF=1;
+let running=false,raf=null,t0=0,prevNow=0,lastRun=0,autoTimer=null,visible=false,everRan=false;
+let litSent=false,litMeet=false,apexDone=false,apexT=0,lastDust=0;
+let wpEls={};
+
+/* particles (pooled, no filters) */
+const parts=[];
+for(let i=0;i<56;i++){
+  const c=document.createElementNS(NS,'circle');
+  c.setAttribute('r','0'); c.setAttribute('fill-opacity','0');
+  partG.appendChild(c);
+  parts.push({el:c,on:false,x:0,y:0,vx:0,vy:0,life:0,max:1,r0:1,col:'#fff'});
+}
+function spawnPart(x,y,col,vx,vy,life,r0){
+  const p=parts.find(q=>!q.on); if(!p)return;
+  p.on=true;p.x=x;p.y=y;p.vx=vx;p.vy=vy;p.life=0;p.max=life;p.r0=r0;p.col=col;
+}
+function updateParts(dt){
+  const s=dt/1000;
+  for(const p of parts){
+    if(!p.on)continue;
+    p.life+=dt;
+    if(p.life>=p.max){p.on=false;p.el.setAttribute('fill-opacity','0');continue;}
+    const k=p.life/p.max;
+    p.vy+=16*s; p.x+=p.vx*s; p.y+=p.vy*s;
+    p.el.setAttribute('cx',p.x.toFixed(1)); p.el.setAttribute('cy',p.y.toFixed(1));
+    p.el.setAttribute('r',Math.max(.2,p.r0*(1-k*.75)).toFixed(2));
+    p.el.setAttribute('fill',p.col);
+    p.el.setAttribute('fill-opacity',(0.6*(1-k)).toFixed(3));
+  }
+}
+/* apex rings */
+const fxs=[];
+function ringFx(x,y,col,maxR,dur,delay){
+  const el=document.createElementNS(NS,'circle'); fxG.appendChild(el);
+  fxs.push({el,x,y,col,maxR,dur,t:-delay});
+}
+function updateFx(dt){
+  for(let i=fxs.length-1;i>=0;i--){
+    const f=fxs[i]; f.t+=dt; if(f.t<0)continue;
+    const k=clamp(f.t/f.dur,0,1);
+    if(k>=1){f.el.remove();fxs.splice(i,1);continue;}
+    f.el.setAttribute('cx',f.x); f.el.setAttribute('cy',f.y);
+    f.el.setAttribute('r',(4+f.maxR*eoc(k)).toFixed(1));
+    f.el.setAttribute('fill','none');
+    f.el.setAttribute('stroke',f.col);
+    f.el.setAttribute('stroke-width',(2.2*(1-k)).toFixed(2));
+    f.el.setAttribute('stroke-opacity',(0.5*(1-k)).toFixed(3));
+  }
+}
+/* geometry */
+const ptAt=l=>coreEl.getPointAtLength(l);
+function angleAt(l){
+  const a=ptAt(Math.max(0,l-1.5)), b=ptAt(Math.min(total,l+1.5));
+  return Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI;
+}
+function build(){
+  Wp=deckEl.clientWidth; Hp=deckEl.clientHeight;
+  svgEl.setAttribute('viewBox',`0 0 ${Wp} ${Hp}`);
+  S={x:Math.max(42,Wp*.035), y:Hp-40};
+  A={x:Wp*.44, y:Math.max(56,Hp*.185)};
+  E={x:Wp+70, y:Hp*(Wp<640?.47:.52)};
+  const d=`M ${S.x} ${S.y} C ${S.x+Wp*.13} ${S.y-Hp*.75}, ${A.x-Wp*.17} ${A.y}, ${A.x} ${A.y} C ${A.x+Wp*.16} ${A.y}, ${E.x-Wp*.23} ${E.y-Hp*.15}, ${E.x} ${E.y}`;
+  [ghostEl,glowA,glowB,coreEl].forEach(p=>p.setAttribute('d',d));
+  gradEl.setAttribute('x1',S.x); gradEl.setAttribute('y1',S.y);
+  gradEl.setAttribute('x2',Wp);  gradEl.setAttribute('y2',E.y);
+  total=coreEl.getTotalLength();
+  let best=1e9;
+  for(let i=0;i<=220;i++){ const p=ptAt(i/220*total); if(p.y<best){best=p.y;apexLen=i/220*total;} }
+  apexFrac=apexLen/total;
+  exitPt={x:Wp-20,y:E.y};
+  for(let i=0;i<=220;i++){ const p=ptAt(i/220*total); if(p.x>=Wp-20){exitPt={x:Wp-20,y:p.y};break;} }
+  scaleF=clamp(Wp/1050,.66,1);
+  buildWaypoints();
+}
+function mkWp(x,y,role,label,lx,ly,anchor){
+  const g=document.createElementNS(NS,'g');
+  g.setAttribute('class','wp'); g.setAttribute('data-role',role);
+  g.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+  let mk='';
+  if(role==='start') mk='<rect class="mk" x="-3" y="-3" width="6" height="6" transform="rotate(45)"/>';
+  else if(role==='apex') mk='<circle class="mk" r="3.4"/>';
+  else mk='<path class="mk mk-x" d="M-6,-5 L-1,0 L-6,5 M2,-5 L7,0 L2,5"/>';
+  g.innerHTML=mk+`<text x="${(lx-x).toFixed(1)}" y="${(ly-y).toFixed(1)}" text-anchor="${anchor}">${label}</text>`;
+  wpG.appendChild(g); return g;
+}
+function buildWaypoints(){
+  wpG.innerHTML='';
+  wpEls={
+    start:mkWp(S.x,S.y,'start','SENT · INBOX',S.x+2,S.y+20,'start'),
+    apex: mkWp(A.x,A.y,'apex','BOOKED · MEETING',A.x,A.y-16,'middle'),
+    end:   mkWp(exitPt.x,exitPt.y,'end','SYNCED · CALENDAR',exitPt.x-8,exitPt.y-14,'end')
+  };
+}
+/* envelope <-> calendar morph: flap 3pts -> checkmark 3pts */
+function setIcon(x,y,ang,m,sc){
+  iconEl.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+  const rf=1-.85*eio(m);
+  iconRot.setAttribute('transform',`rotate(${(ang*rf).toFixed(2)})`);
+  iconScaleEl.setAttribute('transform',`scale(${sc.toFixed(3)})`);
+  const e=eio(m);
+  const x0=lerp(-17,-13,e), x1=lerp(17,13,e), yt=lerp(-12,-7,e);
+  iBody.setAttribute('d',`M${x0.toFixed(2)},${yt.toFixed(2)} L${x1.toFixed(2)},${yt.toFixed(2)} L${x1.toFixed(2)},12 L${x0.toFixed(2)},12 Z`);
+  iFlap.setAttribute('d',`M${lerp(-17,-6,e).toFixed(2)},${lerp(-12,1,e).toFixed(2)} L${lerp(0,-1,e).toFixed(2)},${lerp(3,7,e).toFixed(2)} L${lerp(17,8,e).toFixed(2)},${lerp(-12,-3,e).toFixed(2)}`);
+  iCalX.setAttribute('opacity',clamp((m-.55)/.45,0,1).toFixed(3));
+  iconRot.setAttribute('stroke',iconColor(m));
+}
+function setDash(len){
+  if(len<1)return;
+  const dd=`${len.toFixed(1)} ${(total-len+6).toFixed(1)}`;
+  coreEl.setAttribute('stroke-dasharray',dd);
+  glowA.setAttribute('stroke-dasharray',dd);
+  glowB.setAttribute('stroke-dasharray',dd);
+  coreEl.style.opacity=CORE_O; glowA.style.opacity=GA; glowB.style.opacity=GB;
+}
+function setHead(p,s){
+  headEl.setAttribute('transform',`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`);
+  headEl.style.opacity='1';
+  headDot.setAttribute('fill',trailColor(s));
+}
+function spawnDust(len,s,ang){
+  const p=ptAt(Math.max(0,len-8)), rad=ang*Math.PI/180, back=26+Math.random()*26;
+  spawnPart(p.x+(Math.random()*9-4.5), p.y+(Math.random()*9-4.5), trailColor(s),
+    -Math.cos(rad)*back+(Math.random()*44-22), -Math.sin(rad)*back+(Math.random()*44-22),
+    420+Math.random()*520, .7+Math.random()*1.6);
+}
+function apexFX(p){
+  ringFx(p.x,p.y,'#41C8FF',58,760,0);
+  ringFx(p.x,p.y,'#41C8FF',34,660,150);
+  for(let i=0;i<12;i++){
+    const a=Math.random()*6.283, v=50+Math.random()*90;
+    spawnPart(p.x,p.y,'#7FD9FF',Math.cos(a)*v,Math.sin(a)*v-18,480+Math.random()*420,.9+Math.random()*1.3);
+  }
+}
+/* speed minimum exactly at the apex (legible morph), accelerating coast off-screen */
+function speedMap(u){
+  const tA=.56, fA=apexFrac;
+  return u<tA ? fA*(1-Math.pow(1-u/tA,3)) : fA+(1-fA)*Math.pow((u-tA)/(1-tA),3);
+}
+function reset(){
+  const dd=`0 ${total+10}`;
+  [coreEl,glowA,glowB].forEach(p=>p.setAttribute('stroke-dasharray',dd));
+  coreEl.style.opacity='0'; glowA.style.opacity='0'; glowB.style.opacity='0';
+  headEl.style.opacity='0'; iconEl.style.opacity='0';
+  wSent.classList.remove('lit'); wMeet.classList.remove('lit');
+  Object.values(wpEls).forEach(g=>g.classList.remove('lit'));
+  litSent=litMeet=false; apexDone=false; apexT=0; lastDust=0;
+  parts.forEach(p=>{p.on=false;p.el.setAttribute('fill-opacity','0');});
+  fxG.innerHTML=''; fxs.length=0;
+}
+function stopLoop(){ if(raf)cancelAnimationFrame(raf); raf=null; prevNow=0; }
+function run(){
+  if(RM)return;
+  const now=performance.now();
+  if(now-lastRun<750)return;
+  lastRun=now;
+  clearTimeout(autoTimer); stopLoop();
+  reset();
+  running=true; t0=now; prevNow=0;
+  raf=requestAnimationFrame(frame);
+}
+function frame(now){
+  raf=requestAnimationFrame(frame);
+  const dt=Math.min(48,now-(prevNow||now)); prevNow=now;
+  const t=now-t0;
+  if(t<PRE){ /* anticipation: materialize + pull back */
+    const k=clamp(t/PRE,0,1), pull=eoc(clamp(k/.55,0,1));
+    setIcon(S.x-5*pull, S.y+5*pull, angleAt(1), 0, scaleF*(.86+.14*eoc(k)));
+    iconEl.style.opacity=clamp(k*2.2,0,1).toFixed(2);
+    if(t>160) wpEls.start&&wpEls.start.classList.add('lit');
+  }else if(t<PRE+DUR){ /* flight */
+    const u=clamp((t-PRE)/DUR,0,1), s=speedMap(u), len=s*total;
+    const p=ptAt(len), ang=angleAt(len);
+    const m=clamp((len-(apexLen-.055*total))/(.11*total),0,1);
+    let sc=scaleF;
+    if(apexT&&now-apexT<400){ const kk=(now-apexT)/400; sc*=1+.16*Math.sin(kk*Math.PI)*(1-kk*.4); }
+    setIcon(p.x,p.y,ang,m,sc);
+    setDash(len); setHead(p,s);
+    if(now-lastDust>26){ lastDust=now; spawnDust(len,s,ang); }
+    if(!litSent&&s>.16){ litSent=true; wSent.classList.add('lit'); }
+    if(!litMeet&&m>.8){ litMeet=true; wMeet.classList.add('lit'); wpEls.apex&&wpEls.apex.classList.add('lit'); }
+    if(!apexDone&&m>=1){ apexDone=true; apexT=now; apexFX(p); }
+    if(s>.88) wpEls.end&&wpEls.end.classList.add('lit');
+  }else if(t<PRE+DUR+SETTLE){ /* trail dissolves into the ghost route */
+    const k=clamp((t-PRE-DUR)/SETTLE,0,1), fo=1-eic(k);
+    coreEl.style.opacity=(CORE_O*fo).toFixed(3);
+    glowA.style.opacity=(GA*fo).toFixed(3);
+    glowB.style.opacity=(GB*fo).toFixed(3);
+    headEl.style.opacity='0'; iconEl.style.opacity='0';
+  }else{
+    stopLoop(); running=false;
+    coreEl.style.opacity='0'; glowA.style.opacity='0'; glowB.style.opacity='0';
+    autoTimer=setTimeout(()=>{ if(visible)run(); },5600);
+  }
+  updateParts(dt); updateFx(dt);
+}
+/* reduced motion: the story as one composed frame */
+function staticState(){
+  reset();
+  setIcon(A.x,A.y,0,1,scaleF);
+  iconEl.style.opacity='1';
+  wSent.classList.add('lit'); wMeet.classList.add('lit');
+  Object.values(wpEls).forEach(g=>g.classList.add('lit'));
+}
+replayBtn.addEventListener('click',e=>{e.stopPropagation();run();});
+deckEl.addEventListener('click',e=>{ if(e.target.closest('button,a'))return; run(); });
+
+new IntersectionObserver(es=>{
+  const en=es[0]; visible=en.isIntersecting;
+  if(visible){
+    deckEl.classList.add('in');
+    clearTimeout(autoTimer);
+    if(!everRan){ everRan=true; autoTimer=setTimeout(()=>{if(visible)run();},420); }
+    else if(!running){ autoTimer=setTimeout(()=>{if(visible&&!running)run();},900); }
+  }else{
+    clearTimeout(autoTimer);
+    if(running){ stopLoop(); running=false; reset(); }
+  }
+},{threshold:.3}).observe(deckEl);
+
+let rT;
+addEventListener('resize',()=>{
+  clearTimeout(rT);
+  rT=setTimeout(()=>{ build(); if(RM)staticState(); else if(running)run(); },160);
+});
+
+build();
+if(RM)staticState();
+})();
+</script>
+</body>
+</html>
