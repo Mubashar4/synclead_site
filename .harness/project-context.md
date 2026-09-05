@@ -72,15 +72,21 @@ SSR, API routes, Cloudflare Functions.
 synclead_site/
 ├── .harness/            memory-bank.md · project-context.md · site-spec.md
 │                        design-tokens.md · roles/role-code.md
-├── bin/                 founder-supplied source text for the 4 legal documents
-│                        (NOT build output — see memory-bank §4.16)
+├── .nvmrc               Pinned to Node 20 LTS (Cloudflare Pages build environment)
+├── README.md            Cloudflare Pages deploy manual & local developer runbook
+├── bin/                 generate-og-image.mjs + founder legal source files
 ├── public/
+│   ├── _headers         Cloudflare Pages security headers, immutable caching, CORS
+│   ├── _redirects       Cloudflare Pages edge redirects (/app, /login, /signup)
 │   ├── logo-icon.svg              icon mark
 │   ├── logo-full-on-dark.svg      icon + white wordmark  → dark surfaces
 │   ├── logo-full-on-light.svg     icon + black wordmark   → light surfaces
 │   ├── favicon-64.png             64px raster, apple-touch-icon
 │   ├── favicon.svg                SUPERSEDED placeholder, unreferenced
-│   ├── robots.txt
+│   ├── og-image.png               1200×630 OpenGraph / Twitter social card (WD-040)
+│   ├── robots.txt                 Fine-grained policy for Google & all LLM crawlers
+│   ├── llms.txt                   llmstxt.org specification summary for AI agents
+│   ├── llms-full.txt              Complete knowledge base for AI citations
 │   └── images/dashboard-{overview,campaigns,health,scheduling}.svg
 │                        abstract placeholders, 1600×1000 — not real UI
 └── src/
@@ -98,7 +104,7 @@ synclead_site/
     │   │                CampaignsSchedulingSection · AIInsightsSection
     │   │                PricingSection · CTASection
     │   └── footer/      Footer
-    └── pages/           index.astro
+    └── pages/           index.astro · 404.astro (Cloudflare Pages custom fallback)
                          terms.astro · privacy.astro
                          acceptable-use.astro · refund.astro
                          careers.astro · press.astro
@@ -133,7 +139,6 @@ policy and this file is resolved by the founder, not by editing either one. Thre
 | `features.astro` | Spec'd in site-spec §9.2 |
 | `about.astro` | ⚠️ Spec §9.4 is **do-not-build** — fabricated copy, see memory-bank §3.8 |
 | `contact.astro` | Spec'd in §9.5; form has no endpoint (WD-002) |
-| `og-image.png` | **Referenced by `BaseLayout` but absent** — social shares render imageless |
 | `blog/` (Blog engine & articles) | Planned for future release — layout architecture & `.prose-cinema` typography system pre-established in WD-036 |
 | `/security` | Not built. Footer link **removed** rather than left as `#` (WD-030); still wanted — memory-bank §3.6 |
 | `/data-processing` | Not built and not planned as a separate page — the content lives in Privacy Policy §5/§6/§9 |

@@ -21,6 +21,29 @@ binding. Section 2 (History) explains why the code looks the way it does — con
 Format: `WD-nnn` (Website Decision). Status is `Active`, `Superseded`, or `Reverted`.
 Never delete a record — mark it superseded and add the replacement.
 
+### WD-040 — Cloudflare Pages Production Architecture, LLM Crawler Optimization & Git Repository Initialization
+**Decision (founder directive, 2026-09-05)**:
+1. **Cloudflare Pages Production Compliance**:
+   - Locked Node runtime to Node 20 LTS via `.nvmrc`.
+   - Created `public/_headers` defining strict security headers (`X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `HSTS`), immutable cache rules for `/_astro/*` and `/fonts/*`, and explicit MIME types / open CORS for LLM files.
+   - Created `public/_redirects` handling edge redirection for `/app`, `/login`, `/signup`, and `/demo`.
+   - Created dedicated `src/pages/404.astro` outputting `dist/404.html` so Cloudflare Pages serves custom Dark Cinema branded 404 pages natively.
+2. **AI & LLM Crawler Optimization (OpenAI, Claude, Perplexity, etc.)**:
+   - Rebuilt `public/robots.txt` with explicit `Allow: /` rules for all modern AI crawler agents (`GPTBot`, `ChatGPT-User`, `OAI-SearchBot`, `ClaudeBot`, `Claude-Web`, `anthropic-ai`, `PerplexityBot`, `Google-Extended`, `Applebot-Extended`, `meta-externalagent`, `Bytespider`, `Cohere-ai`, `CCBot`) alongside conventional search engines (`Googlebot`, `Bingbot`).
+   - Authored official `public/llms.txt` according to the llmstxt.org specification summarizing platform architecture, capabilities, pricing, roadmap, and corporate facts.
+   - Authored comprehensive `public/llms-full.txt` deep-dive documentation enabling accurate generative search citations and hallucinations-free AI ingestion.
+3. **Structured Data & Social Media Cards**:
+   - Generated authentic 1200×630 `public/og-image.png` using sharp from official vector artwork (`logo-full-on-dark.svg`) matching `site-spec.md §2.3`.
+   - Upgraded `BaseLayout.astro` with absolute OpenGraph URLs, Twitter card tags (`@syncleadio`), link discovery for `/llms.txt`, and rich JSON-LD schemas (`Organization`, `WebSite`, `SoftwareApplication`).
+   - Added JSON-LD `FAQPage` schema to `pricing.astro` for search rich snippets and structured answers.
+4. **Git Repository Setup & GitHub Push**:
+   - Initialized standalone git repository inside `synclead_site/`.
+   - Configured `README.md` with one-click Cloudflare Pages deployment instructions and local development guide.
+   - Connected remote origin to `https://github.com/Mubashar4/synclead_site.git` and successfully pushed `main` branch.
+
+**Status**: Active.
+**Date**: 2026-09-05
+
 ### WD-039 — Pricing & Billing Architecture from Official Specification, Dedicated Pricing Page, Prioritized Roadmap Page & Global Navigation Wiring
 **Decision (founder directive, 2026-09-05)**:
 1. **Pricing & Mailbox Realignment (from `Pricing and Billing (13).pdf`)**:
@@ -470,7 +493,27 @@ Policy carries the same commitment with more authority. §3.4 remains open regar
 Newest first. Record **what was there, what replaced it, and why** — the "why" is the part that
 stops the change being undone by a later agent.
 
-### 2026-09-05 (latest) — Pricing & Billing Architecture, Dedicated Pricing Page, Roadmap Page & Global Navigation (WD-039)
+### 2026-09-05 (latest) — Cloudflare Pages Compliance, LLM Crawler Optimization & Git Repository Initialization (WD-040)
+
+Founder directive:
+1. **Cloudflare Pages Production Setup**:
+   - **What was there**: Unconfigured root without CF Pages configuration or edge error handling.
+   - **What replaced it**: Added `.nvmrc` (pinned to Node 20 LTS), `public/_headers` (security headers, immutable `/_astro/*` caching, open CORS for LLM endpoints), `public/_redirects` (edge redirects for app/login/signup), and `src/pages/404.astro` (branded Dark Cinema 404 page generating `dist/404.html`).
+   - **Why**: Cloudflare Pages requires edge header control, proper Node 20 runtime declaration, and a static `404.html` for edge routing compliance.
+2. **LLM & AI Crawler Optimization**:
+   - **What was there**: Basic 2-line `robots.txt` allowing generic crawlers; no structured LLM endpoints.
+   - **What replaced it**: Expanded `public/robots.txt` explicitly granting access to Googlebot, Bingbot, GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot, Claude-Web, anthropic-ai, PerplexityBot, Google-Extended, Applebot-Extended, meta-externalagent, Bytespider, and Cohere. Created `public/llms.txt` and `public/llms-full.txt` according to the llmstxt.org specification.
+   - **Why**: Maximize organic search discovery and guarantee accurate, hallucination-free ingestion by AI search engines and LLM agents (ChatGPT Search, Claude, Perplexity).
+3. **Structured Data & Social Cards**:
+   - **What was there**: Missing `public/og-image.png` (unfulfilled spec), minimal Organization schema in `BaseLayout.astro`.
+   - **What replaced it**: Rendered crisp 1200×630 `public/og-image.png` via sharp from official vector artwork. Added absolute OpenGraph tags, Twitter card tags, link discovery to `/llms.txt`, and rich `WebSite`, `SoftwareApplication`, and `FAQPage` JSON-LD schemas.
+   - **Why**: Ensure professional link previews on X/LinkedIn and enable Google Rich Results.
+4. **Git Repository Setup & Push**:
+   - **What was there**: Unversioned subfolder `synclead_site/` within parent API monorepo.
+   - **What replaced it**: Initialized independent git repository, authored comprehensive deployment `README.md`, configured remote `https://github.com/Mubashar4/synclead_site.git`, and pushed `main` branch.
+   - **Why**: Allows instant Git-integrated continuous deployment on Cloudflare Pages.
+
+### 2026-09-05 — Pricing & Billing Architecture, Dedicated Pricing Page, Roadmap Page & Global Navigation (WD-039)
 
 Founder directive:
 1. **Pricing & Mailbox Realignment (from `Pricing and Billing (13).pdf`)**:

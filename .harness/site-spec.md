@@ -138,24 +138,26 @@ Geometry: calendar sheet sitting inside an envelope, matching the actual logo ma
 
 ### 2.2 `public/robots.txt`
 
-```
-User-agent: *
-Allow: /
-
-Sitemap: https://synclead.io/sitemap-index.xml
-```
+Comprehensive crawler policy explicitly granting access to all standard search engines and modern AI/LLM crawlers (`GPTBot`, `ChatGPT-User`, `OAI-SearchBot`, `ClaudeBot`, `Claude-Web`, `anthropic-ai`, `PerplexityBot`, `Google-Extended`, `Applebot-Extended`, `meta-externalagent`, `Bytespider`, `Cohere-ai`, `CCBot`). References sitemaps and points to LLM knowledge standards (`/llms.txt`, `/llms-full.txt`).
 
 ### 2.3 `public/og-image.png`
 
-**Purpose**: Open Graph social card, 1200×630.
-
-⚠️ **NOT YET SHIPPED.** `BaseLayout` references `/og-image.png` but the file does not exist in `public/`. Social shares currently render without an image. Outstanding task.
-
-**Content spec (when produced)**: background `--gradient-hero` (dark navy); `logo-full-on-dark.svg` top-left at 96px height (real artwork — do not re-draw the mark); headline `Stop Losing Revenue to Burnt Domains and Calendar Drop-Offs.` 56px Inter 800 with the second line filled via `--gradient-text`; bottom-left tagline "Cold outreach, deliverability and no-show recovery in one platform" 28px grey-300; bottom-right badge "synclead.io" pill with navy bg + sky-blue border. Final artifact must be PNG, 1200×630, <300KB.
+**Purpose**: Open Graph and Twitter social card, 1200×630.
+**Status**: 🟢 **SHIPPED & GENERATED** (WD-040). 44.2 KB PNG generated from official vector mark `logo-full-on-dark.svg` and Dark Cinema gradient canvas. Renders crisp branded preview on X/Twitter, LinkedIn, Slack, WhatsApp, and Discord.
 
 ### 2.4 Real brand assets (`public/`)
 
 Shipped and wired. Full inventory, including the unresolved colour mismatch between the artwork and the token palette, is in [`design-tokens.md` §3B](design-tokens.md): `logo-icon.svg`, `logo-full-on-dark.svg`, `logo-full-on-light.svg`, `favicon-64.png`. The generated `favicon.svg` placeholder is superseded and unreferenced.
+
+### 2.5 Cloudflare Pages Edge Rules (`public/_headers` & `public/_redirects`)
+
+- `_headers`: Strict security headers (`X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, `HSTS`), immutable cache rules for `/_astro/*` (1 year), and open CORS (`Access-Control-Allow-Origin: *`) for `/llms.txt` and `/llms-full.txt`.
+- `_redirects`: Edge 302 redirects for `/app`, `/login`, `/signup` to `app.synclead.io`, and `/demo` to `/pricing`.
+
+### 2.6 LLM Knowledge Endpoints (`public/llms.txt` & `public/llms-full.txt`)
+
+- `llms.txt`: Standardized markdown file per the [llms.txt](https://llmstxt.org/) specification providing AI models with a concise summary of capabilities, verified pricing, roadmap, and corporate identity.
+- `llms-full.txt`: Comprehensive, deep technical documentation of all architecture modules, mailbox pacing heuristics, DNS quarantine engines, and credit economics.
 
 ---
 
