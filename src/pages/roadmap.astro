@@ -3,13 +3,15 @@
  * roadmap.astro — Official SyncLead Product Roadmap.
  * WD-039. High-leverage outbound engineering roadmap.
  *
- * Prioritized initiatives:
+ * Prioritized initiatives (WD-043):
  * 1. AI Auto Replies (Q3, 2026 · Staging / Active Rollout)
- * 2. Autonomous AI SDR Agents (Q4, 2026 · In Development)
- * 3. Autonomous Research Agents (Q1, 2027 · In Development)
- * 4. Full Agency Controls (Q1, 2027 · Planned)
- * 5. Mailbox Placement & Deliverability Suite (Q2, 2027 · Planned)
- * 6. SyncLead MCP (Model Context Protocol) (Q3, 2027 · Next-Gen Tooling)
+ * 2. SyncLead MCP Server (Q3/Q4, 2026 · In Development)
+ * 3. Full Agency Controls & Multi-Tenant Portals (Q4, 2026 · In Development)
+ * 4. Mailbox Placement & Deliverability Warmup Suite (Q4, 2026 · Planned)
+ * 5. Mobile App (Android first, iOS alongside) (Q4, 2026 · Architecture)
+ * 6. Native Meeting Notetaker & Call Intelligence (Late Q4, 2026 · In Design)
+ * 7. Autonomous AI SDR Agents (Q1, 2027 · Strategic Horizon / Scoping)
+ * 8. Deep Account & Prospect Research Agents (Q1, 2027 · Strategic Horizon / Scoping)
  *
  * Includes Shipped Infrastructure foundations to anchor product maturity.
  */
@@ -19,7 +21,7 @@ import CTASection from '@/components/sections/CTASection.astro';
 const roadmapItems = [
   {
     id: 'ai-auto-replies',
-    priority: 'P0 · IMMEDIATE CORE FOCUS',
+    priority: 'P0 · ACTIVE ROLLOUT',
     timeline: 'Q3, 2026',
     status: 'Staging',
     statusClass: 'status-staging',
@@ -36,49 +38,31 @@ const roadmapItems = [
     badge: 'COMING TO STAGING',
   },
   {
-    id: 'ai-agents',
+    id: 'synclead-mcp',
     priority: 'P1 · HIGH VELOCITY',
-    timeline: 'Q4, 2026',
+    timeline: 'Q3 / Early Q4, 2026',
     status: 'In Development',
     statusClass: 'status-dev',
-    title: 'Autonomous AI SDR Agents',
-    subtitle: 'Multi-turn autonomous agents managing end-to-end conversation flows',
+    title: 'SyncLead MCP (Model Context Protocol) Server',
+    subtitle: 'Native Model Context Protocol integration for Claude, Cursor, and agentic workflows',
     description:
-      'Autonomous outbound agents that go beyond one-off replies. Our AI agents handle multi-turn conversational exchanges, answer complex technical and qualification questions, resolve scheduling conflicts, and lock qualified discovery calls directly into rep calendars.',
+      'Standardized Model Context Protocol (MCP) server integration. Connect external AI agents, IDEs, and local workflows directly to SyncLead to query mailbox health, adjust sequence schedules, analyze reply intent, and trigger campaigns programmatically.',
     highlights: [
-      'Multi-turn conversational memory with objection history retention',
-      'BANT / MEDDIC qualification criteria evaluation before booking',
-      'Smart time-slot negotiation across pooled rep availability',
-      'Instant escalation routing to designated account executives on high-value signals',
+      'Standardized MCP tool declarations for deliverability, campaigns, and inbox',
+      'Secure tokenized MCP authentication with granular permission scopes',
+      'Enables Claude Desktop, Cursor, and local agents to act as outbound ops co-pilots',
+      'Real-time streaming telemetry and audit logging for all MCP-invoked actions',
     ],
     badge: 'ACTIVE SPRINT',
   },
   {
-    id: 'research-agents',
-    priority: 'P2 · CORE EXPANSION',
-    timeline: 'Q1, 2027',
+    id: 'agency-controls',
+    priority: 'P2 · SCALE ARCHITECTURE',
+    timeline: 'Q4, 2026',
     status: 'In Development',
     statusClass: 'status-dev',
-    title: 'Deep Account & Prospect Research Agents',
-    subtitle: 'Automated intelligence synthesis for hyper-relevant sequence hooks',
-    description:
-      'Eliminates generic spintax. Research agents autonomously crawl prospect company websites, executive LinkedIn activity, quarterly filings, and job postings to synthesize bespoke opening hooks that prove your team did the homework.',
-    highlights: [
-      'Real-time firmographic & technographic signal extraction',
-      'Verified executive trigger events (hiring, funding, stack migration)',
-      'Automated relevance scoring before sequence inclusion',
-      'Direct synchronization into contact custom fields and dynamic merge tags',
-    ],
-    badge: 'IN DESIGN',
-  },
-  {
-    id: 'agency-controls',
-    priority: 'P3 · SCALE ARCHITECTURE',
-    timeline: 'Q1, 2027',
-    status: 'Planned',
-    statusClass: 'status-planned',
     title: 'Full Agency Controls & Multi-Tenant Portals',
-    subtitle: 'Enterprise multi-workspace management for GTM agencies and consultants',
+    subtitle: 'Enterprise multi-workspace isolation & delegated billing for agencies',
     description:
       'Built specifically for outbound growth agencies managing multiple client stacks. Create isolated client workspaces, delegate campaign-level access to client reps, centralize master credit billing, and generate white-labeled performance reporting.',
     highlights: [
@@ -87,12 +71,12 @@ const roadmapItems = [
       'Client-level RBAC (read-only client reporting, rep execution tiers)',
       'White-labeled domain reporting exports and scheduled Slack summaries',
     ],
-    badge: 'PLANNED',
+    badge: 'SPRINT COMMITTED',
   },
   {
     id: 'mailbox-placement',
-    priority: 'P4 · DELIVERABILITY SUITE',
-    timeline: 'Q2, 2027',
+    priority: 'P3 · DELIVERABILITY SUITE',
+    timeline: 'Q4, 2026',
     status: 'Planned',
     statusClass: 'status-planned',
     title: 'Mailbox Placement & Deliverability Warmup Suite',
@@ -108,22 +92,76 @@ const roadmapItems = [
     badge: 'PLANNED',
   },
   {
-    id: 'synclead-mcp',
-    priority: 'P5 · NEXT-GEN INFRASTRUCTURE',
-    timeline: 'Q3, 2027',
+    id: 'mobile-app',
+    priority: 'P4 · MOBILE INTERFACE',
+    timeline: 'Q4, 2026',
     status: 'Planned',
     statusClass: 'status-planned',
-    title: 'SyncLead MCP (Model Context Protocol) Server',
-    subtitle: 'Native Model Context Protocol integration for Claude, Cursor, and custom LLM agents',
+    title: 'SyncLead Mobile Companion (Android First, iOS Next)',
+    subtitle: 'Real-time campaign telemetry, push alerts & one-tap lead review on mobile',
     description:
-      'Standardized Model Context Protocol (MCP) server integration. Connect external AI agents, IDEs, and local workflows directly to SyncLead to query mailbox health, adjust sequence schedules, analyze reply intent, and trigger campaigns programmatically.',
+      'Outbound command center in your pocket. Launching native Android first followed rapidly by iOS in the same deployment cycle. Monitor deliverability health, receive instant push notifications for positive replies, and pause or adjust campaigns on the move.',
     highlights: [
-      'Standardized MCP tool declarations for deliverability, campaigns, and inbox',
-      'Secure tokenized MCP authentication with granular permission scopes',
-      'Enables Claude Desktop and autonomous AI workflows to act as outbound ops co-pilots',
-      'Real-time streaming telemetry and audit logging for all MCP-invoked actions',
+      'Native Android deployment followed by iOS in identical sprint timeframe',
+      'Real-time push alerts for high-value prospect responses and calendar bookings',
+      'One-tap campaign pause, mailbox health inspection, and volume throttling',
+      'Biometric authentication with unified multi-workspace switching',
     ],
     badge: 'ARCHITECTURE',
+  },
+  {
+    id: 'meeting-notetaker',
+    priority: 'P5 · CONVERSATION INTELLIGENCE',
+    timeline: 'Late Q4, 2026',
+    status: 'Planned',
+    statusClass: 'status-planned',
+    title: 'Native Meeting Notetaker & Call Intelligence',
+    subtitle: 'Automated call recording, transcription & CRM sync (Fireflies, Fathom & Otter parity)',
+    description:
+      'Close the loop between meeting booking and revenue attribution. An intelligent meeting assistant that joins your scheduled calls, produces speaker-separated transcripts, synthesizes action items, and syncs summaries directly to your CRM without third-party tool friction.',
+    highlights: [
+      'Zero-friction meeting bot joining Google Meet, Microsoft Teams, and Zoom',
+      'Direct alternative or integrated sync with Fireflies, Fathom, and Otter.ai',
+      'Automated qualification scoring and objection extraction from live transcripts',
+      'Instant CRM sync appending action items directly to contact timelines',
+    ],
+    badge: 'IN DESIGN',
+  },
+  {
+    id: 'ai-agents',
+    priority: 'P6 · STRATEGIC HORIZON',
+    timeline: 'Q1, 2027',
+    status: 'Architectural Scoping',
+    statusClass: 'status-planning',
+    title: 'Autonomous AI SDR Agents',
+    subtitle: 'Multi-turn autonomous agents managing discovery qualification',
+    description:
+      'Autonomous outbound agents that go beyond one-off replies. Our AI agents handle multi-turn conversational exchanges, answer complex technical and qualification questions, resolve scheduling conflicts, and lock qualified discovery calls directly into rep calendars.',
+    highlights: [
+      'Multi-turn conversational memory with objection history retention',
+      'BANT / MEDDIC qualification criteria evaluation before booking',
+      'Smart time-slot negotiation across pooled rep availability',
+      'Instant escalation routing to designated account executives on high-value signals',
+    ],
+    badge: 'STRATEGIC PLANNING',
+  },
+  {
+    id: 'research-agents',
+    priority: 'P7 · STRATEGIC HORIZON',
+    timeline: 'Q1, 2027',
+    status: 'Architectural Scoping',
+    statusClass: 'status-planning',
+    title: 'Deep Account & Prospect Research Agents',
+    subtitle: 'Automated intelligence synthesis for hyper-relevant sequence hooks',
+    description:
+      'Eliminates generic spintax. Research agents autonomously crawl prospect company websites, executive LinkedIn activity, quarterly filings, and job postings to synthesize bespoke opening hooks that prove your team did the homework.',
+    highlights: [
+      'Real-time firmographic & technographic signal extraction',
+      'Verified executive trigger events (hiring, funding, stack migration)',
+      'Automated relevance scoring before sequence inclusion',
+      'Direct synchronization into contact custom fields and dynamic merge tags',
+    ],
+    badge: 'STRATEGIC PLANNING',
   },
 ];
 
@@ -158,7 +196,7 @@ const shippedFoundations = [
 
 <PageLayout
   title="Product Roadmap & Engineering Timeline — SyncLead"
-  description="Transparent engineering roadmap for SyncLead. From AI auto-replies and autonomous SDR agents to full agency controls and native Model Context Protocol (MCP) tooling."
+  description="Transparent engineering roadmap for SyncLead. Prioritized delivery from AI auto-replies, MCP servers, and agency controls to native mobile apps, meeting intelligence, and autonomous SDR agents."
 >
   <!-- Hero Section -->
   <section class="roadmap-hero">
@@ -173,7 +211,7 @@ const shippedFoundations = [
           <em>autonomous outbound infrastructure.</em>
         </h1>
         <p class="hero-lead">
-          We ship in the open. Explore our prioritized engineering pipeline from real-time AI reply automation and autonomous research agents to native Model Context Protocol (MCP) integrations.
+          We ship in the open. Explore our prioritized engineering pipeline from real-time AI reply automation, native MCP tooling, and multi-tenant agency controls to mobile companions and autonomous agents.
         </p>
 
         <div class="roadmap-stats">
@@ -183,11 +221,11 @@ const shippedFoundations = [
           </div>
           <div class="stat-pill">
             <span class="dot-active"></span>
-            <span>2 Features in Active Sprints</span>
+            <span>3 In Active Rollout & Sprints</span>
           </div>
           <div class="stat-pill">
             <span class="dot-future"></span>
-            <span>4 Major Architectures Scheduled</span>
+            <span>5 Architectures & Horizons Scheduled</span>
           </div>
         </div>
       </div>
@@ -491,6 +529,16 @@ const shippedFoundations = [
   }
   .status-planned .st-dot {
     background: var(--ink-3);
+  }
+
+  .status-planning {
+    background: rgba(151, 166, 199, 0.06);
+    border: 1px dashed rgba(151, 166, 199, 0.25);
+    color: var(--ink-2);
+  }
+  .status-planning .st-dot {
+    background: rgba(151, 166, 199, 0.6);
+    box-shadow: 0 0 4px rgba(151, 166, 199, 0.3);
   }
 
   /* Timeline Card */

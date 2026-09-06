@@ -1,56 +1,203 @@
 ---
 /**
- * 404.astro — Not Found page for Cloudflare Pages and direct 404 errors.
- * Architecture: Dark Cinema Design System v2 (WD-032).
+ * 404.astro — Custom Dark Cinema 404 Not Found Page.
+ * Architecture: Dark Cinema Design System v2 (WD-032 / WD-040 / WD-042).
+ * 
+ * Features:
+ * - High-impact Dark Cinema typographic hero with atmospheric radial flare
+ * - Interactive client-side Edge Routing & Telemetry Diagnostic Console
+ * - Verified Destination Grid linking to Home, Pricing, Roadmap, and Engineering Desk
+ * - Full responsive layout matching the design system
  */
 import PageLayout from '@/layouts/PageLayout.astro';
+
+const verifiedDestinations = [
+  {
+    title: 'Platform Infrastructure',
+    eyebrow: 'CORE ENGINE',
+    desc: 'Return to the homepage to explore multi-IP warmup pools, DNS health monitoring, and frictionless meeting scheduling.',
+    href: '/',
+    cta: 'Explore Platform',
+    icon: 'server',
+  },
+  {
+    title: 'Pricing & Capacity',
+    eyebrow: 'TRANSPARENT TIERS',
+    desc: 'Compare Pro ($149), Scale ($399), and Enterprise mailbox allocations with zero per-seat licensing penalties.',
+    href: '/pricing',
+    cta: 'View Pricing Matrix',
+    icon: 'pricing',
+  },
+  {
+    title: 'Product Roadmap',
+    eyebrow: 'ACTIVE SPRINTS',
+    desc: 'Track the deployment of AI auto-replies, autonomous SDR agents, and mailbox warmup diagnostics.',
+    href: '/roadmap',
+    cta: 'View Roadmap',
+    icon: 'roadmap',
+  },
+  {
+    title: 'Report Dropped Packet',
+    eyebrow: 'ENGINEERING DESK',
+    desc: 'Encountered a dead link or broken route? Notify our infrastructure engineering team directly.',
+    href: 'mailto:contact@synclead.io?subject=404%20Route%20Report',
+    cta: 'Contact Engineering',
+    icon: 'support',
+  },
+];
 ---
 
 <PageLayout
-  title="Page Not Found (404) — SyncLead"
-  description="The requested page could not be located on the SyncLead platform."
+  title="404 — Route Unresolved · SyncLead"
+  description="The requested route does not exist or has been relocated on the SyncLead platform."
   noindex={true}
 >
-  <div class="relative overflow-hidden bg-bg-0 pt-36 sm:pt-48 pb-24 border-b border-white/[0.06] min-h-[70vh] flex items-center">
+  <div class="relative overflow-hidden bg-bg-0 pt-32 sm:pt-40 pb-24 border-b border-white/[0.06]">
+    <!-- Ambient Background Lighting & Radial Flares -->
     <div
-      class="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[380px] bg-[radial-gradient(ellipse_at_center,_rgba(65,200,255,0.08)_0%,_transparent_70%)] blur-2xl"
+      class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[580px] bg-[radial-gradient(ellipse_at_center,_rgba(65,200,255,0.12)_0%,_rgba(157,139,255,0.04)_45%,_transparent_72%)] blur-3xl"
+      aria-hidden="true"
+    ></div>
+    
+    <!-- Subtle Grid Overlay -->
+    <div
+      class="pointer-events-none absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:44px_44px]"
       aria-hidden="true"
     ></div>
 
-    <div class="container max-w-3xl relative z-10 text-center mx-auto px-4">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium tracking-wider bg-sky/10 border border-sky/30 text-sky mb-6">
-        <span class="w-1.5 h-1.5 rounded-full bg-sky animate-pulse"></span>
-        HTTP 404 · RESOURCE UNRESOLVED
+    <div class="container max-w-4xl relative z-10 mx-auto px-4 text-center">
+      <!-- Telemetry Status Pill -->
+      <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-wider bg-warn/10 border border-warn/30 text-warn mb-8 shadow-sm shadow-warn/10">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-warn opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-warn"></span>
+        </span>
+        HTTP 404 · PACKET DROPPED
       </div>
 
-      <h1 class="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-4 font-ui">
-        Route not found
+      <!-- Hero 404 Mark -->
+      <div class="relative inline-block mb-3">
+        <div
+          class="font-mono text-8xl sm:text-9xl md:text-[150px] font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white/85 to-white/10 select-none leading-none drop-shadow-2xl"
+        >
+          404
+        </div>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 font-ui">
+        Route unresolved. <em class="font-serif italic font-normal text-gradient">Signal lost.</em>
       </h1>
 
       <p class="text-base sm:text-lg text-ink-2 max-w-xl mx-auto mb-10 leading-relaxed font-ui">
-        The destination you navigated to does not exist or has moved. Explore the verified pages below or return to the platform overview.
+        The destination you navigated to does not resolve to an active cluster, campaign, or documentation endpoint.
       </p>
 
-      <div class="flex flex-wrap items-center justify-center gap-4">
+      <!-- Edge Diagnostics Console Box -->
+      <div class="mb-14 text-left max-w-2xl mx-auto rounded-2xl border border-white/[0.08] bg-bg-1/80 backdrop-blur-md p-5 sm:p-6 shadow-2xl relative overflow-hidden group hover:border-white/[0.14] transition-colors">
+        <!-- Terminal Header -->
+        <div class="flex items-center justify-between border-b border-white/[0.06] pb-3 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-white/[0.15]"></span>
+            <span class="w-3 h-3 rounded-full bg-white/[0.15]"></span>
+            <span class="w-3 h-3 rounded-full bg-white/[0.15]"></span>
+            <span class="text-xs font-mono text-ink-3 ml-2">edge-diagnostics.synclead.io</span>
+          </div>
+          <span class="text-[11px] font-mono text-ok flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-ok animate-pulse"></span>
+            EDGE ACTIVE
+          </span>
+        </div>
+
+        <!-- Terminal Output -->
+        <div class="font-mono text-xs sm:text-[13px] space-y-2 text-ink-2 leading-relaxed">
+          <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+            <span class="text-ink-3 uppercase tracking-wider text-[11px] shrink-0 w-24">Target URI:</span>
+            <code id="target-path" class="text-sky font-medium break-all bg-sky/10 px-2 py-0.5 rounded border border-sky/20">/unresolved-destination</code>
+          </div>
+          <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+            <span class="text-ink-3 uppercase tracking-wider text-[11px] shrink-0 w-24">Status Code:</span>
+            <span class="text-err font-medium">404 (Not Found / NXDOMAIN)</span>
+          </div>
+          <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+            <span class="text-ink-3 uppercase tracking-wider text-[11px] shrink-0 w-24">Resolution:</span>
+            <span class="text-ink">Edge routing verified. Resource does not exist on this release version.</span>
+          </div>
+          <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 pt-1">
+            <span class="text-ink-3 uppercase tracking-wider text-[11px] shrink-0 w-24">Action:</span>
+            <span class="text-white">Follow verified navigation channels or return to the main dashboard.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verified Destinations Section -->
+      <div class="text-left mb-12">
+        <div class="flex items-center justify-between mb-6 pb-2 border-b border-white/[0.06]">
+          <h2 class="text-xs font-mono uppercase tracking-widest text-sky flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-sky"></span>
+            Verified Navigation Endpoints
+          </h2>
+          <span class="text-xs font-mono text-ink-3">HTTP 200 ROUTES</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {verifiedDestinations.map((dest) => (
+            <a
+              href={dest.href}
+              class="group block p-5 rounded-xl bg-bg-2/50 border border-white/[0.06] hover:border-sky/40 hover:bg-bg-2 transition-all duration-200"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] font-mono font-medium tracking-wider px-2 py-0.5 rounded bg-white/[0.04] text-ink-3 group-hover:text-sky group-hover:bg-sky/10 transition-colors">
+                  {dest.eyebrow}
+                </span>
+                <span class="text-ink-3 group-hover:text-sky group-hover:translate-x-0.5 transition-all text-sm">
+                  →
+                </span>
+              </div>
+              <h3 class="text-base font-bold text-white group-hover:text-sky transition-colors font-ui mb-1.5">
+                {dest.title}
+              </h3>
+              <p class="text-xs text-ink-2 leading-relaxed font-ui mb-3">
+                {dest.desc}
+              </p>
+              <div class="text-xs font-medium text-sky/80 group-hover:text-sky inline-flex items-center gap-1">
+                <span>{dest.cta}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-4 border-t border-white/[0.06]">
         <a
           href="/"
-          class="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-semibold tracking-wide bg-white text-navy hover:bg-slate-100 transition-colors shadow-lg shadow-white/10"
+          class="btn btn-white btn-lg inline-flex items-center gap-2 shadow-lg shadow-white/10"
         >
-          Return Home
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          Return to Safe Harbor
         </a>
         <a
           href="/pricing"
-          class="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-semibold tracking-wide bg-bg-2 border border-white/10 text-white hover:border-sky/40 hover:text-sky transition-colors"
+          class="inline-flex items-center justify-center px-6 py-3 rounded-btn text-sm font-semibold tracking-wide bg-bg-2 border border-white/10 text-white hover:border-sky/40 hover:text-sky transition-colors"
         >
-          View Pricing & Plans
-        </a>
-        <a
-          href="/roadmap"
-          class="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-semibold tracking-wide bg-bg-2 border border-white/10 text-white hover:border-sky/40 hover:text-sky transition-colors"
-        >
-          Engineering Roadmap
+          Review Pricing & Plans
         </a>
       </div>
     </div>
   </div>
 </PageLayout>
+
+<script>
+  // Populate diagnostic path dynamically on the client
+  (() => {
+    if (typeof window === 'undefined') return;
+    const pathEl = document.getElementById('target-path');
+    if (pathEl && window.location.pathname) {
+      pathEl.textContent = window.location.pathname;
+    }
+  })();
+</script>
